@@ -1,0 +1,40 @@
+
+// Actually Imported
+
+CTRE Phoenix
+https://maven.ctr-electronics.com/release/com/ctre/phoenix/Phoenix5-frc2023-latest.json
+
+Rev
+https://software-metadata.revrobotics.com/REVLib-2023.json
+
+PathPlanner
+https://3015rangerrobotics.github.io/pathplannerlib/PathplannerLib.json
+
+
+
+
+
+// Referenced
+
+Team 7890 (us) : 
+https://github.com/team7890?tab=repositories
+
+Team 364 : BaseFalconSwerve
+https://github.com/Team364/BaseFalconSwerve
+        Added CAN network to CANCoders and Falcons in SwerveModule.java lines: 32-44
+        Added CAN network to Pigeon2 gyro in Swerve.java lines : 27
+
+Team 117 BobcatRobotics Swerve code fixes/ changes
+https://github.com/BobcatRobotics/2023-ChargedUp-177/blob/e479b6d890483bbd83f4a73cd0b45efaf3c560c5/src/main/java/frc/robot/SwerveModule.java#L116
+
+
+
+
+
+Team 4829 : loopy-robot-code-2022
+https://github.com/TitaniumTigers4829/loopy-robot-code-2022
+        Mimiced how they coded PathPlanner for autos
+
+Pnuematics Refrence:
+https://frcteam3255.github.io/FRC-Java-Tutorial/programming/pneumatics.html
+
