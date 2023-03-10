@@ -12,6 +12,7 @@ public class CubeOuttake extends CommandBase {
 
   private final RollerHand_subsystem objRollerHand;
   private final boolean bDirection;
+  private double dSpeed_old;
 
   /** Creates a new ConeOuttake. */
   public CubeOuttake(RollerHand_subsystem objRollerHand_in, boolean bDirection_in) {
@@ -25,6 +26,7 @@ public class CubeOuttake extends CommandBase {
   @Override
   public void initialize() {
     objRollerHand.stopMotors();
+    dSpeed_old = objRollerHand.getSpeed();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

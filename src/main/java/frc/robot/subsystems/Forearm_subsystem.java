@@ -24,6 +24,7 @@ public class Forearm_subsystem extends SubsystemBase {
   private boolean bSoftStopActive;
   private boolean bHoldPosition;
   private double dHoldAngle;
+  private double dAngle;
 
   /** Creates a new Forearm_subsystem. */
   public Forearm_subsystem() {
@@ -35,13 +36,13 @@ public class Forearm_subsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    getForearmAngle();
+    dAngle = getForearmAngle();
     if (bSoftStopActive) {
       softStop();
       if (Math.abs(objForearmMotor.get()) < 0.03) {
         bSoftStopActive = false;
         bHoldPosition = true;
-        dHoldAngle = getForearmAngle();
+        dHoldAngle = dAngle;
       }
     }
 

@@ -11,6 +11,7 @@ import frc.robot.subsystems.RollerHand_subsystem;
 public class CubeIntake extends CommandBase {
 
   private final RollerHand_subsystem objRollerHand;
+  private double dSpeed_old;
 
   /** Creates a new ConeOuttake. */
   public CubeIntake(RollerHand_subsystem objRollerHand_in) {
@@ -23,6 +24,8 @@ public class CubeIntake extends CommandBase {
   @Override
   public void initialize() {
     objRollerHand.stopMotors();
+    dSpeed_old = objRollerHand.getSpeed();
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.

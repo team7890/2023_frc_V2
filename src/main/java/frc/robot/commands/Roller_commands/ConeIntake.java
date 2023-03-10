@@ -4,6 +4,7 @@
 
 package frc.robot.commands.Roller_commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.RollerHand_subsystem;
@@ -12,6 +13,9 @@ public class ConeIntake extends CommandBase {
 
   private final RollerHand_subsystem objRollerHand;
   private int iCount;
+  private double dSpeed_old;
+  private double dMaxCurrent;
+
 
   /** Creates a new ConeIntake. */
   public ConeIntake(RollerHand_subsystem objRollerHand_in) {
@@ -24,7 +28,9 @@ public class ConeIntake extends CommandBase {
   @Override
   public void initialize() {
     iCount = 0;
+    dMaxCurrent = 0.0;
     objRollerHand.stopMotors();
+    dSpeed_old = objRollerHand.getSpeed();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -35,11 +41,15 @@ public class ConeIntake extends CommandBase {
     }
     else {
       iCount = 0;
-      objRollerHand.intakeCone();
     }
-    if (iCount > 8) {
-      objRollerHand.stopMotors();
-    }
+    // dSpeed_old = objRollerHand.intakeCone(dSpeed_old);
+    objRollerHand.intakeConeTester();
+
+    // if (iCount > 8) {
+    //   objRollerHand.stopMotors();
+    // }
+    dMaxCurrent = Math.max(dMaxCurrent, objRollerHand.getMotor1Current());
+    SmartDashboard.putNumber("Max Roller Current", dMaxCurrent);
   }
 
   // Called once the command ends or is interrupted.

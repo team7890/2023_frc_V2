@@ -51,9 +51,9 @@ public class Wrist_subsystem extends SubsystemBase {
     // dOffsetLive = 0.0;
 
     // objAbsEncoder.setDistancePerRotation(Constants.Wrist.dDegreesPerRev);
-    SmartDashboard.putNumber("Test Encoder", 0.0);
-    SmartDashboard.putNumber("Test Offset", 0.0);
-    SmartDashboard.putNumber("Test DegRev", 0.0);
+    // SmartDashboard.putNumber("Test Encoder", 0.0);
+    // SmartDashboard.putNumber("Test Offset", 0.0);
+    // SmartDashboard.putNumber("Test DegRev", 0.0);
 
     // bInitLimitSwitch = false;
     // init in case start with one or the other limit switches engaged
@@ -77,7 +77,7 @@ public class Wrist_subsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    // getWristAngle();
+    getWristAngle();
     dAngle = getWristAngle();
     // bPos = !objPositiveSide.get();
     // bNeg = !objNegativeSide.get();
