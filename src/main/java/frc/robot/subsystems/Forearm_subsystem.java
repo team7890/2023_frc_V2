@@ -75,10 +75,10 @@ public class Forearm_subsystem extends SubsystemBase {
   public double softStop() {
     dSpeed = objForearmMotor.get();
     if (dSpeed > 0.0) {
-      dSpeed = Math.max(dSpeed - Constants.Arm.dSoftStopLimit, 0.0);
+      dSpeed = Math.max(dSpeed - Constants.Forearm.dSoftStopLimit, 0.0);
     }
     else {
-      dSpeed = Math.min(dSpeed + Constants.Arm.dSoftStopLimit, 0.0);
+      dSpeed = Math.min(dSpeed + Constants.Forearm.dSoftStopLimit, 0.0);
     }
     objForearmMotor.set(dSpeed);
     return Math.abs(dSpeed);

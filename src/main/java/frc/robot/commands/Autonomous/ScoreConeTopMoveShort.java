@@ -11,12 +11,12 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.Arm_subsystem;
 import frc.robot.subsystems.Forearm_subsystem;
 import frc.robot.subsystems.Wrist_subsystem;
-import frc.robot.subsystems.xGrabber_subsystem;
 import frc.robot.subsystems.Swerve_subsystem;
+import frc.robot.subsystems.RollerHand_subsystem;
 import frc.robot.commands.Button_commands.ScoreConeTop;
 import frc.robot.commands.Button_commands.StowArm;
 import frc.robot.commands.General_Movement_Commands.Swerve_auto;
-import frc.robot.commands.General_Movement_Commands.xGrabber_command;
+import frc.robot.commands.Roller_commands.ConeOuttake_command;
 
 
 
@@ -29,19 +29,18 @@ public class ScoreConeTopMoveShort extends SequentialCommandGroup {
   // private boolean bAllianceColor = DriverStation.getAlliance();
 
   /** Creates a new AutoScoreConeTopAndMove. */
-  public ScoreConeTopMoveShort(Arm_subsystem objArm, Forearm_subsystem objForearm, Wrist_subsystem objWrist, xGrabber_subsystem objGrabber, Swerve_subsystem objSwerve) {
+  public ScoreConeTopMoveShort(Arm_subsystem objArm, Forearm_subsystem objForearm, Wrist_subsystem objWrist, RollerHand_subsystem objRollerHand, Swerve_subsystem objSwerve) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ScoreConeTop(objArm, objForearm, objWrist).withTimeout(5.3),
-      new xGrabber_command(objGrabber).withTimeout(0.1),
+      new ScoreConeTop(objArm, objForearm, objWrist).withTimeout(4.0),
+      new ConeOuttake_command(objRollerHand).withTimeout(0.5),
       new ParallelCommandGroup(
         new Swerve_auto(objSwerve, 0.2, 0.0, 0.0, false),
         new StowArm(objArm, objForearm, objWrist)
       ).withTimeout(3.4),
       new Swerve_auto(objSwerve, 0.0, 0.0, 0.0, false).withTimeout(0.1),
-      new StowArm(objArm, objForearm, objWrist).withTimeout(1.5),
-      new xGrabber_command(objGrabber).withTimeout(0.1)
+      new StowArm(objArm, objForearm, objWrist).withTimeout(1.5)
     );
   }
 }

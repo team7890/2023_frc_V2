@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.RollerHand_subsystem;
 
-public class ConeIntake extends CommandBase {
+public class ConeIntake_command extends CommandBase {
 
   private final RollerHand_subsystem objRollerHand;
   private double dMaxCurrent;
@@ -20,7 +20,7 @@ public class ConeIntake extends CommandBase {
 
 
   /** Creates a new ConeIntake. */
-  public ConeIntake(RollerHand_subsystem objRollerHand_in) {
+  public ConeIntake_command(RollerHand_subsystem objRollerHand_in) {
     objRollerHand = objRollerHand_in;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(objRollerHand);

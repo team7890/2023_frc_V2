@@ -38,10 +38,11 @@ import frc.robot.commands.General_Movement_Commands.Arm_command;
 import frc.robot.commands.General_Movement_Commands.Forearm_command;
 import frc.robot.commands.General_Movement_Commands.Swerve_teleop;
 import frc.robot.commands.General_Movement_Commands.Wrist_command;
-import frc.robot.commands.Roller_commands.ConeIntake;
-import frc.robot.commands.Roller_commands.ConeOuttake;
-import frc.robot.commands.Roller_commands.CubeIntake;
-import frc.robot.commands.Roller_commands.CubeOuttake;
+import frc.robot.commands.Roller_commands.ConeIntake_command;
+import frc.robot.commands.Roller_commands.ConeOuttake_command;
+import frc.robot.commands.Roller_commands.CubeIntake_command;
+import frc.robot.commands.Roller_commands.CubeOuttake_command;
+import frc.robot.commands.SignalLights_commands.MakeLightsGo;
 import frc.robot.subsystems.*;
 //End of Swerve Imports
 
@@ -61,7 +62,6 @@ public class RobotContainer {
   private final Forearm_subsystem objForearm_subsystem = new Forearm_subsystem();
   private final Wrist_subsystem objWrist_subsystem = new Wrist_subsystem();
   private final SignalLights_subsystem objSignalLights_subsystem = new SignalLights_subsystem();
-  private final xGrabber_subsystem objGrabber_subsystem = new xGrabber_subsystem();
 
   private final RollerHand_subsystem objRollerHand = new RollerHand_subsystem();
 
@@ -98,9 +98,9 @@ public class RobotContainer {
   private final Swerve_subsystem objSwerve_subsystem = new Swerve_subsystem();
 
   SendableChooser<Command> m_chooser = new SendableChooser<>();
-  private final SequentialCommandGroup m_ScoreConeTopMoveShort = new ScoreConeTopMoveShort(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objGrabber_subsystem, objSwerve_subsystem);
-  private final SequentialCommandGroup m_ScoreConeTopMoveLong = new ScoreConeTopMoveLong(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objGrabber_subsystem, objSwerve_subsystem);
-  private final SequentialCommandGroup m_ScoreConeTopBalance = new ScoreConeTopBalance(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objGrabber_subsystem, objSwerve_subsystem);
+  private final SequentialCommandGroup m_ScoreConeTopMoveShort = new ScoreConeTopMoveShort(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
+  private final SequentialCommandGroup m_ScoreConeTopMoveLong = new ScoreConeTopMoveLong(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
+  private final SequentialCommandGroup m_ScoreConeTopBalance = new ScoreConeTopBalance(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -129,7 +129,7 @@ public class RobotContainer {
       )
     );
 
-
+    objSignalLights_subsystem.setDefaultCommand(new MakeLightsGo(objSignalLights_subsystem, () -> m_CoPilotController.getLeftY()));
     
     // Configure the trigger bindings
     configureBindings();
@@ -226,11 +226,11 @@ public class RobotContainer {
     m_DriverController.back().onTrue(new InstantCommand(objSwerve_subsystem::zeroGyro, objSwerve_subsystem));                                  //Amalan How do we do this with CommandXboxController?
 
 
-    m_DriverController.leftTrigger().whileTrue(new ConeIntake(objRollerHand));
-    m_DriverController.rightTrigger().whileTrue(new ConeOuttake(objRollerHand));
-    m_DriverController.a().whileTrue(new CubeIntake(objRollerHand));
-    m_DriverController.x().whileTrue(new CubeOuttake(objRollerHand, false));
-    m_DriverController.b().whileTrue(new CubeOuttake(objRollerHand, true));
+    m_DriverController.leftTrigger().whileTrue(new ConeIntake_command(objRollerHand));
+    m_DriverController.rightTrigger().whileTrue(new ConeOuttake_command(objRollerHand));
+    m_DriverController.a().whileTrue(new CubeIntake_command(objRollerHand));
+    m_DriverController.x().whileTrue(new CubeOuttake_command(objRollerHand, false));
+    m_DriverController.b().whileTrue(new CubeOuttake_command(objRollerHand, true));
 
 
     // try with xbox controller but commented out when got button box above working

@@ -8,6 +8,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 //Our Imports
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
+import java.util.IllegalFormatWidthException;
+
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,8 +24,12 @@ public class SignalLights_subsystem extends SubsystemBase {
   private AddressableLEDBuffer objLEDBufferPurple;
   private AddressableLEDBuffer objLEDBufferGreen;
   private AddressableLEDBuffer objLEDBufferOff;
+  private AddressableLEDBuffer objLEDBufferChase;
   private String sColor = "OFF";
   private int iLength = 100;
+  private int iStartPosition;   // varying start position for chasing lights
+  private int iLightPosition;   // position in the string to set light in loop with start position accounted for
+  private int iCount;           // use to slow down light motion based on speed input
 
   
   /** Creates a new SignalLights_subsystem. */
@@ -32,22 +39,57 @@ public class SignalLights_subsystem extends SubsystemBase {
     objLEDBufferPurple = new AddressableLEDBuffer(iLength);
     objLEDBufferGreen = new AddressableLEDBuffer(iLength);
     objLEDBufferOff = new AddressableLEDBuffer(iLength);
+    objLEDBufferChase = new AddressableLEDBuffer(iLength);
     objLED.setLength(objLEDBufferOff.getLength());
 
     for (var i = 0; i < objLEDBufferOff.getLength(); i++) {
       objLEDBufferYellow.setRGB(i, 30, 30, 0);
       objLEDBufferPurple.setRGB(i, 30, 0, 30);
-      objLEDBufferGreen.setRGB(i,0,255,0);
+      objLEDBufferGreen.setRGB(i, 0, 255, 0);
       objLEDBufferOff.setRGB(i, 0, 0, 0);
     }
     objLED.setData(objLEDBufferOff);
     objLED.start();
+    iStartPosition = 0;
+    iCount = 0;
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putString("LED Color", sColor);
+  }
+
+  public void chaseLights(double dSpeed) {
+    for (var iLoop = 0; iLoop < iLength / 2; iLoop++) {
+      final var iGreen = 255 * iLoop / 10;
+      iLightPosition = iStartPosition + iLoop;
+      if (iLightPosition > 49) iLightPosition = iLightPosition - 50;
+      if (iLoop < 10) {
+        objLEDBufferChase.setRGB(iLightPosition, 0, iGreen, 0);
+        objLEDBufferChase.setRGB(99 - iLightPosition, 0, iGreen, 0);
+      }
+      else {
+        objLEDBufferChase.setRGB(iLightPosition, 0, 0, 0);
+        objLEDBufferChase.setRGB(99 - iLightPosition, 0, 0, 0);
+      }
+    }
+    objLED.setData(objLEDBufferChase);
+    objLED.start();
+
+    // int iCountTarget = (int)(dSpeed * 10.0);
+    // if (Math.abs(dSpeed) > 0.05) {
+
+    // }
+
+    iStartPosition = iStartPosition + 1;
+    if (iStartPosition > 49) iStartPosition = 0;
+    if (iStartPosition < 0) iStartPosition = 49;
+  }
+
+  public void turnLightsOff() {
+    objLED.setData(objLEDBufferOff);
+    objLED.start();
   }
 
   public CommandBase changeLightColor() {

@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 
-public class CoolLedTricks_Subsystem extends SubsystemBase {
+public class xCoolLedTricks_Subsystem extends SubsystemBase {
   
   private AddressableLED objLED;
   private AddressableLEDBuffer objLEDBufferGreen;
@@ -25,7 +25,7 @@ public class CoolLedTricks_Subsystem extends SubsystemBase {
 
   
   /** Creates a new CoolLedTricks_Subsystem. */
-  public CoolLedTricks_Subsystem() {
+  public xCoolLedTricks_Subsystem() {
     objLED = new AddressableLED(4);
     objLEDBufferGreen = new AddressableLEDBuffer(16);
     // objLEDBufferPurple = new AddressableLEDBuffer(16);

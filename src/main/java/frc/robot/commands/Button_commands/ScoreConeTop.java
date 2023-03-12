@@ -7,6 +7,7 @@ package frc.robot.commands.Button_commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.Wrist_subsystem;
+import frc.robot.Constants;
 import frc.robot.subsystems.Arm_subsystem;
 import frc.robot.subsystems.Forearm_subsystem;
 
@@ -26,11 +27,12 @@ public class ScoreConeTop extends CommandBase {
   private double dWristCommand_old;
 
   private int iState;
+  private boolean bDone;
 
   // Final Target Positions
   double dArmTarget = 26.7;
-  double dForearmTarget = 11.5;
-  double dWristTarget = 61.0;
+  double dForearmTarget = 10.0;
+  double dWristTarget = 60.0;
 
   /** Creates a new ScoreCubeTop. */
   public ScoreConeTop(Arm_subsystem objArm_in, Forearm_subsystem objForearm_in, Wrist_subsystem objWrist_in) {
@@ -61,49 +63,31 @@ public class ScoreConeTop extends CommandBase {
 
     iState = 14;
     // if (objForearm.getForearmAngle() < 20.0) iState = 10;
-    // else if (objForearm.getForearmAngle() >= 20.0) iState = 22;
-    // else iState = 13;
+    bDone = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // if (objForearm.getForearmAngle() < 30.0) {
-    //   dArmCommand_old = objArm.moveArmToAngle(-5.0, dArmAngle_old, dArmCommand_old, 2.0);
-    //   dForearmCommand_old = objForearm.moveForearmToAngle(dForearmTarget, dForearmAngle_old, dForearmCommand_old, 3.0);
-    //   if (objWrist.getWristAngle() > 0.0) {
-    //     dWristCommand_old = objWrist.moveWristToAngle(35.0, dWristAngle_old, dWristCommand_old, 1.0);
-    //   }
-    //   else {
-    //     dWristCommand_old = objWrist.moveWristToAngle(-35.0, dWristAngle_old, dWristCommand_old, 1.0);
-    //   }
-    // }
-    // else {
-    //   dArmCommand_old = objArm.moveArmToAngle(dArmTarget, dArmAngle_old, dArmCommand_old, 2.0);
-    //   dForearmCommand_old = objForearm.moveForearmToAngle(dForearmTarget, dForearmAngle_old, dForearmCommand_old, 1.0);
-    //   dWristCommand_old = objWrist.moveWristToAngle(dWristTarget, dWristAngle_old, dWristCommand_old, 2.0);
-    // }
-    // dArmAngle_old = objArm.getArmAngle();
-    // dForearmAngle_old = objForearm.getForearmAngle();
-    // dWristAngle_old = objWrist.getWristAngle();
     switch (iState) {
       case 14:          // Move everything to "Pickup Verticle Cone" targets
         dArmCommand_old = objArm.moveArmToAngle(dArmTarget, dArmAngle_old, dArmCommand_old, 1.0);
         dForearmCommand_old = objForearm.moveForearmToAngle(dForearmTarget, dForearmAngle_old, dForearmCommand_old, 1.0);
         dWristCommand_old = objWrist.moveWristToAngle(dWristTarget, dWristAngle_old, dWristCommand_old, 1.0);
         // if all three joints are at correct angle then iState = 99;
-        if (Math.abs(objForearm.getForearmAngle() - dForearmTarget) < 1.0 && Math.abs(objArm.getArmAngle() - dArmTarget) < 1.0 && Math.abs(objWrist.getWristAngle() - dWristTarget) < 1.0) iState = 99;
+        if (Math.abs(objForearm.getForearmAngle() - dForearmTarget) < Constants.Forearm.dTolerance && Math.abs(objArm.getArmAngle() - dArmTarget) < Constants.Arm.dTolerance && Math.abs(objWrist.getWristAngle() - dWristTarget) < Constants.Wrist.dTolerance) iState = 99;
         break;
       case 99:
         objArm.softStop();
         objForearm.softStop();
         objWrist.softStop();
+        bDone = true;
         break;
     }
     dArmAngle_old = objArm.getArmAngle();
     dForearmAngle_old = objForearm.getForearmAngle();
     dWristAngle_old = objWrist.getWristAngle();
-    // System.out.println("ScoreConeTop3 - state: " + iState);     //For Testing
+    // System.out.println("ScoreConeTop - state: " + iState);     //For Testing
   }
 
   // Called once the command ends or is interrupted.
@@ -117,6 +101,6 @@ public class ScoreConeTop extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return bDone;
   }
 }

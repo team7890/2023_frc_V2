@@ -1,4 +1,4 @@
-package frc.robot.commands.Autonomous;
+package frc.robot.commands.PathPlanner;
 
 //Mimicing code found using link below
 //https://github.com/TitaniumTigers4829/loopy-robot-code-2022/blob/main/src/main/java/frc/robot/commands/autonomous/FollowTrajectoryPathPlanner.java

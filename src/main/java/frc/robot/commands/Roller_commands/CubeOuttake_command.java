@@ -8,14 +8,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.RollerHand_subsystem;
 
-public class CubeOuttake extends CommandBase {
+public class CubeOuttake_command extends CommandBase {
 
   private final RollerHand_subsystem objRollerHand;
   private final boolean bDirection;
   private double dSpeed_old;
 
   /** Creates a new ConeOuttake. */
-  public CubeOuttake(RollerHand_subsystem objRollerHand_in, boolean bDirection_in) {
+  public CubeOuttake_command(RollerHand_subsystem objRollerHand_in, boolean bDirection_in) {
     objRollerHand = objRollerHand_in;
     bDirection = bDirection_in;
     // Use addRequirements() here to declare subsystem dependencies.

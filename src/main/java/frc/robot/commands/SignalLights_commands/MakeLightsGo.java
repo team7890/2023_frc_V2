@@ -2,42 +2,42 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Roller_commands;
+package frc.robot.commands.SignalLights_commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import java.util.function.DoubleSupplier;
 
-import frc.robot.subsystems.RollerHand_subsystem;
+import frc.robot.subsystems.SignalLights_subsystem;
 
-public class CubeIntake extends CommandBase {
+public class MakeLightsGo extends CommandBase {
 
-  private final RollerHand_subsystem objRollerHand;
-  private double dSpeed_old;
+  private final SignalLights_subsystem objLights;
+  private DoubleSupplier dsSpeed;
 
-  /** Creates a new ConeOuttake. */
-  public CubeIntake(RollerHand_subsystem objRollerHand_in) {
-    objRollerHand = objRollerHand_in;
+  /** Creates a new MakeLightsGo. */
+  public MakeLightsGo(SignalLights_subsystem objLights_in, DoubleSupplier dsSpeed_in) {
+    objLights = objLights_in;
+    dsSpeed = dsSpeed_in;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(objRollerHand);
+    addRequirements(objLights);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    objRollerHand.stopMotors();
-    dSpeed_old = objRollerHand.getSpeed();
-
+    objLights.chaseLights(dsSpeed.getAsDouble());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    objRollerHand.intakeCube();
+    objLights.chaseLights(dsSpeed.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    objRollerHand.stopMotors();
+    objLights.turnLightsOff();
   }
 
   // Returns true when the command should end.

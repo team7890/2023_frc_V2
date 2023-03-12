@@ -8,13 +8,12 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.General_Movement_Commands.Arm_command;
 import frc.robot.commands.General_Movement_Commands.Forearm_command;
 import frc.robot.commands.General_Movement_Commands.Wrist_command;
-import frc.robot.commands.General_Movement_Commands.xGrabber_command;
+import frc.robot.subsystems.RollerHand_subsystem;
 // our Imports
 import frc.robot.subsystems.Arm_subsystem;
 import frc.robot.subsystems.Forearm_subsystem;
 import frc.robot.subsystems.Wrist_subsystem;
-import frc.robot.subsystems.xGrabber_subsystem;
-
+import frc.robot.commands.Roller_commands.ConeOuttake_command;
 
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -22,12 +21,12 @@ import frc.robot.subsystems.xGrabber_subsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutoScoreConeTop extends SequentialCommandGroup {
   /** Creates a new AutoScoreConeTop. */
-  public AutoScoreConeTop(Arm_subsystem objArm, Forearm_subsystem objForearm, Wrist_subsystem objWrist, xGrabber_subsystem objGrabber) {
+  public AutoScoreConeTop(Arm_subsystem objArm, Forearm_subsystem objForearm, Wrist_subsystem objWrist, RollerHand_subsystem objRollerHand) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       // new xScoreConeTop2(objArm, objForearm, objWrist).withTimeout(3.0),
-      new xGrabber_command(objGrabber)
+      new ConeOuttake_command(objRollerHand)
     );
 
 

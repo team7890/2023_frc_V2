@@ -8,13 +8,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.RollerHand_subsystem;
 
-public class ConeOuttake extends CommandBase {
+public class CubeIntake_command extends CommandBase {
 
   private final RollerHand_subsystem objRollerHand;
   private double dSpeed_old;
 
   /** Creates a new ConeOuttake. */
-  public ConeOuttake(RollerHand_subsystem objRollerHand_in) {
+  public CubeIntake_command(RollerHand_subsystem objRollerHand_in) {
     objRollerHand = objRollerHand_in;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(objRollerHand);
@@ -25,12 +25,13 @@ public class ConeOuttake extends CommandBase {
   public void initialize() {
     objRollerHand.stopMotors();
     dSpeed_old = objRollerHand.getSpeed();
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    objRollerHand.outtakeCone();
+    objRollerHand.intakeCube();
   }
 
   // Called once the command ends or is interrupted.
