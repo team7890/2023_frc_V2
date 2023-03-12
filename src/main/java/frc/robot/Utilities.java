@@ -13,7 +13,7 @@ public class Utilities {
     public static double correctAngle(double dEncoder_in, double dOffset_in, double dDegreesPerRev_in) {
         double dAngle;
         dAngle = dEncoder_in;
-        SmartDashboard.putNumber("value", dAngle);
+        // SmartDashboard.putNumber("value", dAngle);
         
         dAngle = (dAngle * dDegreesPerRev_in);   
         dAngle = dAngle - dOffset_in;       //makes the percents aligned with the table horizontally
@@ -21,7 +21,7 @@ public class Utilities {
         if ((dAngle % 360.0) < 0) {
           dAngle = dAngle + 360.0;
         }
-        SmartDashboard.putNumber("Angle", dAngle);
+        // SmartDashboard.putNumber("Angle", dAngle);
         return dAngle - 180.0;
     }
 

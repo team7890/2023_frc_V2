@@ -28,12 +28,16 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.autos.*;
 import frc.robot.command_groups.*;
-import frc.robot.commands.*;
+import frc.robot.commands.General_Movement_Commands.*;
 import frc.robot.commands.Autonomous.AutoScoreConeTop;
 import frc.robot.commands.Autonomous.ScoreConeTopMoveLong;
 import frc.robot.commands.Autonomous.ScoreConeTopMoveShort;
 import frc.robot.commands.Autonomous.ScoreConeTopBalance;
 import frc.robot.commands.Button_commands.*;
+import frc.robot.commands.General_Movement_Commands.Arm_command;
+import frc.robot.commands.General_Movement_Commands.Forearm_command;
+import frc.robot.commands.General_Movement_Commands.Swerve_teleop;
+import frc.robot.commands.General_Movement_Commands.Wrist_command;
 import frc.robot.commands.Roller_commands.ConeIntake;
 import frc.robot.commands.Roller_commands.ConeOuttake;
 import frc.robot.commands.Roller_commands.CubeIntake;
@@ -177,22 +181,22 @@ public class RobotContainer {
 
 
     // Left Side of Button box (Top to Bottom)
-    ButtonFour.whileTrue(new ScoreCubeTop2(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));    //Testing new version of ScoreCubeTop
+    ButtonFour.whileTrue(new ScoreCubeTop(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));    //Testing new version of ScoreCubeTop
     ButtonFive.whileTrue(new ScoreCubeMiddle(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
     // ButtonSix.whileTrue(new StowArm(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
-    ButtonSix.whileTrue(new GeneralPickup(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
+    ButtonSix.whileTrue(new RegFloorPickupHorzCone(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
 
     // ButtonSix.whileTrue(new DoubleSubstationPickup(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
 
     // Right Side of Button box (Top to Bottom)    
-    ButtonOne.whileTrue(new ScoreConeTop3(objArm_subsystem, objForearm_subsystem, objWrist_subsystem)); 
-    ButtonTwo.whileTrue(new ScoreConeMiddle2(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
-    ButtonThree.whileTrue(new PickupVerticalCone(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
+    ButtonOne.whileTrue(new ScoreConeTop(objArm_subsystem, objForearm_subsystem, objWrist_subsystem)); 
+    ButtonTwo.whileTrue(new ScoreConeMiddle(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
+    ButtonThree.whileTrue(new RegFloorPickupVertCone(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
 
     
 
     // Middle buttons (Top and Bottom)    
-    ButtonSeven.whileTrue(new DoubleSubstationPickup(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
+    ButtonSeven.whileTrue(new RegFloorPickupCube(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
     ButtonEight.whileTrue(new StowArm(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
     // ButtonSeven.whileTrue(new Mech_command(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, 0.0, 0.0, 0.0));
     // ButtonEight.debounce(0.05).onTrue(new Grabber_command(objGrabber_subsystem));

@@ -107,10 +107,16 @@ public class Arm_subsystem extends SubsystemBase {
     double dDifference = dTargetAngle - dCurrentAngle; 
     double dDeriv;
     boolean bArrived = false;
+    double dCommand;
 
     // computes dCommand, the motor speed
     dDeriv = dCurrentAngle - dAngle_old;
-    double dCommand = dDifference * Constants.Arm.kP - dDeriv * Constants.Arm.kD;
+    if (Math.abs(dDifference) > 2.0) {
+      dCommand = dDifference * Constants.Arm.kP - dDeriv * Constants.Arm.kD;
+    }
+    else {
+      dCommand = dDifference * Constants.Arm.kP;
+    }
     dCommand = Utilities.limitVariable(-dSpeedLimit * dSpeedMult, dCommand, dSpeedLimit * dSpeedMult);
     if (Math.abs(dCommand) > Math.abs(dCommand_old)) {      //Checking that speed is increasing
       dCommand = dCommand_old + Math.min(Math.abs(dCommand - dCommand_old), Constants.Arm.dSpeedUpLimit) * Math.signum(dCommand);

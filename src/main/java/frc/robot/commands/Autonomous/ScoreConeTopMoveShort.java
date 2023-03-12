@@ -13,11 +13,10 @@ import frc.robot.subsystems.Forearm_subsystem;
 import frc.robot.subsystems.Wrist_subsystem;
 import frc.robot.subsystems.xGrabber_subsystem;
 import frc.robot.subsystems.Swerve_subsystem;
-
-import frc.robot.commands.xGrabber_command;
-import frc.robot.commands.Swerve_auto;
-import frc.robot.commands.Button_commands.ScoreConeTop3;
+import frc.robot.commands.Button_commands.ScoreConeTop;
 import frc.robot.commands.Button_commands.StowArm;
+import frc.robot.commands.General_Movement_Commands.Swerve_auto;
+import frc.robot.commands.General_Movement_Commands.xGrabber_command;
 
 
 
@@ -34,7 +33,7 @@ public class ScoreConeTopMoveShort extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ScoreConeTop3(objArm, objForearm, objWrist).withTimeout(5.3),
+      new ScoreConeTop(objArm, objForearm, objWrist).withTimeout(5.3),
       new xGrabber_command(objGrabber).withTimeout(0.1),
       new ParallelCommandGroup(
         new Swerve_auto(objSwerve, 0.2, 0.0, 0.0, false),

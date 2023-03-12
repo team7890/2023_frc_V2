@@ -5,18 +5,14 @@
 package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
+import frc.robot.commands.General_Movement_Commands.Arm_command;
+import frc.robot.commands.General_Movement_Commands.Forearm_command;
+import frc.robot.commands.General_Movement_Commands.Wrist_command;
+import frc.robot.commands.General_Movement_Commands.xGrabber_command;
 // our Imports
-import frc.robot.commands.Button_commands.xScoreConeTop2;
 import frc.robot.subsystems.Arm_subsystem;
 import frc.robot.subsystems.Forearm_subsystem;
 import frc.robot.subsystems.Wrist_subsystem;
-import frc.robot.commands.xGrabber_command;
-
-import frc.robot.commands.Arm_command;
-import frc.robot.commands.Forearm_command;
-import frc.robot.commands.Wrist_command;
-
 import frc.robot.subsystems.xGrabber_subsystem;
 
 
@@ -30,7 +26,7 @@ public class AutoScoreConeTop extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new xScoreConeTop2(objArm, objForearm, objWrist).withTimeout(3.0),
+      // new xScoreConeTop2(objArm, objForearm, objWrist).withTimeout(3.0),
       new xGrabber_command(objGrabber)
     );
 

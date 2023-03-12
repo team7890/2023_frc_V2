@@ -18,12 +18,17 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+// ShuffleBoard imports
+// import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+// import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+
 public class Swerve_subsystem extends SubsystemBase {
     public SwerveDriveOdometry swerveOdometry;
     public SwerveModule[] mSwerveMods;
     public Pigeon2 gyro;
 
     public Swerve_subsystem() {
+        // ShuffleboardTab tabSwerve = Shuffleboard.getTab("Swerve");
         gyro = new Pigeon2(Constants.Swerve.pigeonID, "rio");       // Added "rio" network (bc it's wired on rio/pdh network)
         gyro.configFactoryDefault();
         flipGyro();
@@ -135,12 +140,13 @@ public class Swerve_subsystem extends SubsystemBase {
     @Override
     public void periodic(){
         swerveOdometry.update(getYaw(), getModulePositions()); 
-        for(SwerveModule mod : mSwerveMods){
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated", mod.getDistanceMeters());
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond); 
-        }
-        SmartDashboard.putNumber("Roll: ", getRoll());
-        SmartDashboard.putNumber("Yaw", getYawDouble());
+        // Shuffleboard.selectTab("Swerve");
+        // for(SwerveModule mod : mSwerveMods){
+            // SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
+            // SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated", mod.getDistanceMeters());
+            // SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond); 
+        // }
+        // SmartDashboard.putNumber("Roll: ", getRoll());
+        // SmartDashboard.putNumber("Yaw", getYawDouble());
     }
 }

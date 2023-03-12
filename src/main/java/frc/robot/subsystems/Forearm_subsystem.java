@@ -100,10 +100,16 @@ public class Forearm_subsystem extends SubsystemBase {
     double dDifference = dTargetAngle - dCurrentAngle; 
     double dDeriv;
     boolean bArrived = false;
+    double dCommand;
 
     // computes dCommand, the motor speed
     dDeriv = dCurrentAngle - dAngle_old;
-    double dCommand = dDifference * Constants.Forearm.kP - dDeriv * Constants.Forearm.kD;
+    if (Math.abs(dDifference) > 2.0) {
+      dCommand = dDifference * Constants.Forearm.kP - dDeriv * Constants.Forearm.kD;
+    }
+    else {
+      dCommand = dDifference * Constants.Forearm.kP;
+    }
     // if(Math.abs(dDifference) < 0.75) dCommand = 0.0;
 
     dCommand = Utilities.limitVariable(-dSpeedLimit * dSpeedMult, dCommand, dSpeedLimit * dSpeedMult);

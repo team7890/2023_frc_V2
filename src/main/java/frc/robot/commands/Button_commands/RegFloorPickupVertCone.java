@@ -10,7 +10,7 @@ import frc.robot.subsystems.Wrist_subsystem;
 import frc.robot.subsystems.Arm_subsystem;
 import frc.robot.subsystems.Forearm_subsystem;
 
-public class StowArm extends CommandBase {
+public class RegFloorPickupVertCone extends CommandBase {
 
   private final Wrist_subsystem objWrist;
   private final Forearm_subsystem objForearm;
@@ -29,14 +29,12 @@ public class StowArm extends CommandBase {
 
 
   // Final Target Positions
-  double dArmTarget = 2.0;
-  double dForearmTarget = -140.2;
-  // double dWristTarget = 150.0;
-  double dWristTarget = 140.0;
-
+  double dArmTarget = -2.0;
+  double dForearmTarget = -121.2;
+  double dWristTarget = -27.5;
 
   /** Creates a new ScoreCubeTop. */
-  public StowArm(Arm_subsystem objArm_in, Forearm_subsystem objForearm_in, Wrist_subsystem objWrist_in) {
+  public RegFloorPickupVertCone(Arm_subsystem objArm_in, Forearm_subsystem objForearm_in, Wrist_subsystem objWrist_in) {
     objArm = objArm_in;
     objForearm = objForearm_in;
     objWrist = objWrist_in;
@@ -63,26 +61,26 @@ public class StowArm extends CommandBase {
     dWristCommand_old = 0.0;
 
     iState = 0;
-    if (objForearm.getForearmAngle() > -20.0) iState = 14;
-    else iState = 10;
+    if (objForearm.getForearmAngle() > -20.0) iState = 14;    //was 10 at ashville but no longer need case 10.
+    else iState = 13;
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     switch (iState) {
-      case 10:          //if the forearm is out on the high scoring side
-                        // first move the wirst up (means the wrist is going to a negative angle)
+      case 13:          // once the forearm gets over the top (towards stow position) then move wrist to target
         dArmCommand_old = objArm.moveArmToAngle(dArmTarget, dArmAngle_old, dArmCommand_old, 1.0);
-        objForearm.softStop();
-        dWristCommand_old = objWrist.moveWristToAngle(dWristTarget, dWristAngle_old, dWristCommand_old, 1.0);
-        if (objWrist.getWristAngle() > 45.0 && objArm.getArmAngle() > -8.0) iState = 14;
+        dForearmCommand_old = objForearm.moveForearmToAngle(dForearmTarget, dForearmAngle_old, dForearmCommand_old, 1.0);
+        objWrist.softStop();
+        if (objArm.getArmAngle() > -10.0) iState = 14;
         break;
-      case 14:          // Move everything to stow targets
+      case 14:          // Move everything to "Pickup Verticle Cone" targets
         dArmCommand_old = objArm.moveArmToAngle(dArmTarget, dArmAngle_old, dArmCommand_old, 1.0);
         dForearmCommand_old = objForearm.moveForearmToAngle(dForearmTarget, dForearmAngle_old, dForearmCommand_old, 1.0);
         dWristCommand_old = objWrist.moveWristToAngle(dWristTarget, dWristAngle_old, dWristCommand_old, 1.0);
-        // if all wrist joint is at correct angle then iState = 99;
+        // if all three joints are at correct angle then iState = 99;
         if (Math.abs(objForearm.getForearmAngle() - dForearmTarget) < 1.0 && Math.abs(objArm.getArmAngle() - dArmTarget) < 1.0 && Math.abs(objWrist.getWristAngle() - dWristTarget) < 1.0) iState = 99;
         break;
       case 99:
@@ -94,7 +92,7 @@ public class StowArm extends CommandBase {
     dArmAngle_old = objArm.getArmAngle();
     dForearmAngle_old = objForearm.getForearmAngle();
     dWristAngle_old = objWrist.getWristAngle();
-    // System.out.println("StowArm - state: " + iState);     //For Testing
+    // System.out.println("PickupVerticleCone - state: " + iState);     //For Testing
   }
 
   // Called once the command ends or is interrupted.

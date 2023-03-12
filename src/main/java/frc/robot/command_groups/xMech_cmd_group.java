@@ -12,9 +12,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.*;
 
 import frc.robot.Constants;
-import frc.robot.commands.Arm_command;
-import frc.robot.commands.Forearm_command;
-import frc.robot.commands.Wrist_command;
+import frc.robot.commands.General_Movement_Commands.Arm_command;
+import frc.robot.commands.General_Movement_Commands.Forearm_command;
+import frc.robot.commands.General_Movement_Commands.Wrist_command;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:

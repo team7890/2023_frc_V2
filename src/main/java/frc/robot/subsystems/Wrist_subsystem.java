@@ -152,12 +152,12 @@ public class Wrist_subsystem extends SubsystemBase {
     // if (dCurrentAngle > Constants.Wrist.dMaxAngleLimit || !objPositiveSide.get()) {
     if (dCurrentAngle > Constants.Wrist.dMaxAngleLimit) {
     // if (!objPositiveSide.get()) {
-      dSpeed = Utilities.limitVariable(0.0, dSpeed, dSpeedLimit);
+      dSpeed = Utilities.limitVariable(-dSpeedLimit, dSpeed, 0.0);
     }
     // else if (dCurrentAngle < Constants.Wrist.dMinAngleLimit || !objNegativeSide.get()) {
     else if (dCurrentAngle < Constants.Wrist.dMinAngleLimit) {
     // else if (!objNegativeSide.get()) {
-      dSpeed = Utilities.limitVariable(-dSpeedLimit, dSpeed, 0.0);
+      dSpeed = Utilities.limitVariable(0.0, dSpeed, dSpeedLimit);
     }
     objWristMotor.set(dSpeed);
   }
@@ -187,7 +187,7 @@ public class Wrist_subsystem extends SubsystemBase {
     // dWristAngle = -Utilities.correctAngle(objAbsEncoder.get(), Constants.Wrist.dOffset, Constants.Wrist.dDegreesPerRev);
     // dOffset = Constants.Wrist.dOffset + dOffsetLive;
 
-    dWristAngle = Utilities.correctAngle2(objAbsEncoder.get(), Constants.Wrist.dOffset, 1.0, true);
+    dWristAngle = Utilities.correctAngle2(objAbsEncoder.get(), Constants.Wrist.dOffset, 1.0, false);
 
     SmartDashboard.putNumber("Raw Wrist Encoder", objAbsEncoder.get());
     SmartDashboard.putNumber("Wrist Angle", dWristAngle);
@@ -201,11 +201,16 @@ public class Wrist_subsystem extends SubsystemBase {
     double dDifference = dTargetAngle - dCurrentAngle; 
     double dDeriv;
     boolean bArrived = false;
+    double dCommand;
 
     // computes dCommand, the motor speed
     dDeriv = dCurrentAngle - dAngle_old;
-    double dCommand = -(dDifference * Constants.Wrist.kP - dDeriv * Constants.Wrist.kD);
-    // if(Math.abs(dDifference) < 0.75) dCommand = 0.0;
+    if (Math.abs(dDifference) > 2.0) {
+      dCommand = dDifference * Constants.Forearm.kP - dDeriv * Constants.Forearm.kD;
+    }
+    else {
+      dCommand = dDifference * Constants.Forearm.kP;
+    }    // if(Math.abs(dDifference) < 0.75) dCommand = 0.0;
 
     dCommand = Utilities.limitVariable(-dSpeedLimit * dSpeedMult, dCommand, dSpeedLimit * dSpeedMult);
     if (Math.abs(dCommand) > Math.abs(dCommand_old)) {      //Checking that speed is increasing

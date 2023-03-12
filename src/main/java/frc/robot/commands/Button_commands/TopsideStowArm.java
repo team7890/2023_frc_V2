@@ -10,7 +10,7 @@ import frc.robot.subsystems.Wrist_subsystem;
 import frc.robot.subsystems.Arm_subsystem;
 import frc.robot.subsystems.Forearm_subsystem;
 
-public class xScoreConeTop2 extends CommandBase {
+public class TopsideStowArm extends CommandBase {
 
   private final Wrist_subsystem objWrist;
   private final Forearm_subsystem objForearm;
@@ -26,16 +26,17 @@ public class xScoreConeTop2 extends CommandBase {
   private double dWristCommand_old;
 
   private int iState;
-  private int iCounter;
 
 
   // Final Target Positions
-  double dArmTarget = 25.0;
-  double dForearmTarget = 29.5;
-  double dWristTarget = 0.0;
+  double dArmTarget = 2.0;
+  double dForearmTarget = -140.2;
+  // double dWristTarget = 150.0;
+  double dWristTarget = 140.0;
 
-  /** Creates a new ScoreConeTop. */
-  public xScoreConeTop2(Arm_subsystem objArm_in, Forearm_subsystem objForearm_in, Wrist_subsystem objWrist_in) {
+
+  /** Creates a new ScoreCubeTop. */
+  public TopsideStowArm(Arm_subsystem objArm_in, Forearm_subsystem objForearm_in, Wrist_subsystem objWrist_in) {
     objArm = objArm_in;
     objForearm = objForearm_in;
     objWrist = objWrist_in;
@@ -61,41 +62,19 @@ public class xScoreConeTop2 extends CommandBase {
     dWristAngle_old = objWrist.getWristAngle();
     dWristCommand_old = 0.0;
 
-    iState = 20;                                            // Forearm is already on the high scoring side of the robot.
-    if (objForearm.getForearmAngle() < 15.0) iState = 10;   // Forearm is on the non-High scoring side of the robot.
+    iState = 0;
+    if (objForearm.getForearmAngle() > -20.0) iState = 14;
+    else iState = 10;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     switch (iState) {
-      case 10:  // forearm is on the non-high-scoring side of the robot and...
-                // moving arm to a position just inside the robot to make sure we don't go outside on both sides
-                // moving forearm to the target which is up and over the top
-                // moving wrist to the closer of -35.0 and 35.0 to go over the top and not reach too high
-        dArmCommand_old = objArm.moveArmToAngle(-5.0, dArmAngle_old, dArmCommand_old, 2.0);
-        dForearmCommand_old = objForearm.moveForearmToAngle(dForearmTarget, dForearmAngle_old, dForearmCommand_old, 3.0);
-        if (objWrist.getWristAngle() > 0.0) {
-          dWristCommand_old = objWrist.moveWristToAngle(35.0, dWristAngle_old, dWristCommand_old, 3.0);
-        }
-        else {
-          dWristCommand_old = objWrist.moveWristToAngle(-35.0, dWristAngle_old, dWristCommand_old, 3.0);
-        }
-        if (objForearm.getForearmAngle() > 20.0) iState = 11;
-        iCounter = 0;
-        break;
-      case 11:  // forearm has gotten to 20 degrees on the high scoring side and we will pause in this position for 300 ms or so
-                // in order to flip the cone
-        objArm.softStop();
-        objForearm.softStop();
-        objWrist.softStop();
-        iCounter = iCounter + 1;
-        if (iCounter > 15) iState = 20; // cone has flipped, now proceed to the three target angles
-        break;
-      case 20:  // proceed to the three target angles
-        dArmCommand_old = objArm.moveArmToAngle(dArmTarget, dArmAngle_old, dArmCommand_old, 2.0);
-        dForearmCommand_old = objForearm.moveForearmToAngle(dForearmTarget, dForearmAngle_old, dForearmCommand_old, 2.0);
-        dWristCommand_old = objWrist.moveWristToAngle(dWristTarget, dWristAngle_old, dWristCommand_old, 3.0);
+      case 14:          // Move everything to stow targets
+        dArmCommand_old = objArm.moveArmToAngle(dArmTarget, dArmAngle_old, dArmCommand_old, 1.0);
+        dForearmCommand_old = objForearm.moveForearmToAngle(dForearmTarget, dForearmAngle_old, dForearmCommand_old, 1.0);
+        dWristCommand_old = objWrist.moveWristToAngle(dWristTarget, dWristAngle_old, dWristCommand_old, 1.0);
         // if all wrist joint is at correct angle then iState = 99;
         if (Math.abs(objForearm.getForearmAngle() - dForearmTarget) < 1.0 && Math.abs(objArm.getArmAngle() - dArmTarget) < 1.0 && Math.abs(objWrist.getWristAngle() - dWristTarget) < 1.0) iState = 99;
         break;
@@ -105,6 +84,10 @@ public class xScoreConeTop2 extends CommandBase {
         objWrist.softStop();
         break;
     }
+    dArmAngle_old = objArm.getArmAngle();
+    dForearmAngle_old = objForearm.getForearmAngle();
+    dWristAngle_old = objWrist.getWristAngle();
+    // System.out.println("StowArm - state: " + iState);     //For Testing
   }
 
   // Called once the command ends or is interrupted.

@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Button_commands;
+package frc.robot.commands.General_Movement_Commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -10,7 +10,7 @@ import frc.robot.subsystems.Wrist_subsystem;
 import frc.robot.subsystems.Arm_subsystem;
 import frc.robot.subsystems.Forearm_subsystem;
 
-public class xScoreCubeTop extends CommandBase {
+public class Mech_command extends CommandBase {
 
   private final Wrist_subsystem objWrist;
   private final Forearm_subsystem objForearm;
@@ -18,67 +18,56 @@ public class xScoreCubeTop extends CommandBase {
   //Arm Variables
   private double dArmAngle_old;
   private double dArmCommand_old;
+  private final double dArmTargetAngle;
   //Forearm Variables
   private double dForearmAngle_old;
   private double dForearmCommand_old;
+  private final double dForearmTargetAngle;
   //Wrist Variables
   private double dWristAngle_old;
   private double dWristCommand_old;
+  private final double dWristTargetAngle;
+  
 
-  // Final Target Positions
-  double dArmTarget = 9.9;
-  double dForearmTarget = 62.1;
-  double dWristTarget = 8.5;
-
-  /** Creates a new ScoreCubeTop. */
-  public xScoreCubeTop(Arm_subsystem objArm_in, Forearm_subsystem objForearm_in, Wrist_subsystem objWrist_in) {
-    objArm = objArm_in;
-    objForearm = objForearm_in;
+  /** Creates a new Mech_command. */
+  public Mech_command(Arm_subsystem objArm_in, Forearm_subsystem objForearm_in, Wrist_subsystem objWrist_in, double dArmTargetAngle_in, double dForearmTargetAngle_in, double dWristTargetAngle_in) {
     objWrist = objWrist_in;
+    objForearm = objForearm_in;
+    objArm = objArm_in;
+    dArmTargetAngle = dArmTargetAngle_in;
+    dForearmTargetAngle = dForearmTargetAngle_in;
+    dWristTargetAngle = dWristTargetAngle_in;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(objArm);
-    addRequirements(objForearm);
     addRequirements(objWrist);
+    addRequirements(objForearm);
+    addRequirements(objArm);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     //Arm Variables
-    objArm.setSoftStop(false);
     dArmAngle_old = objArm.getArmAngle();
     dArmCommand_old = 0.0;
     //Forearm Variables
-    objForearm.setSoftStop(false);
     dForearmAngle_old = objForearm.getForearmAngle();
     dForearmCommand_old = 0.0;
     //Wrist Variables
-    objWrist.setSoftStop(false);
     dWristAngle_old = objWrist.getWristAngle();
     dWristCommand_old = 0.0;
+
+    // Softstop Stuff
+    objArm.setSoftStop(false);
+    objForearm.setSoftStop(false);
+    objWrist.setSoftStop(false);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (objForearm.getForearmAngle() < 30.0) {
-      dArmCommand_old = objArm.moveArmToAngle(-5.0, dArmAngle_old, dArmCommand_old, 2.0);
-      dForearmCommand_old = objForearm.moveForearmToAngle(dForearmTarget, dForearmAngle_old, dForearmCommand_old, 3.0);
-      if (objWrist.getWristAngle() > 0.0) {
-        dWristCommand_old = objWrist.moveWristToAngle(35.0, dWristAngle_old, dWristCommand_old, 1.0);
-      }
-      else {
-        dWristCommand_old = objWrist.moveWristToAngle(-35.0, dWristAngle_old, dWristCommand_old, 1.0);
-      }
-    }
-    else {
-      dArmCommand_old = objArm.moveArmToAngle(dArmTarget, dArmAngle_old, dArmCommand_old, 2.0);
-      dForearmCommand_old = objForearm.moveForearmToAngle(dForearmTarget, dForearmAngle_old, dForearmCommand_old, 1.0);
-      dWristCommand_old = objWrist.moveWristToAngle(dWristTarget, dWristAngle_old, dWristCommand_old, 2.0);
-    }
-    dArmAngle_old = objArm.getArmAngle();
-    dForearmAngle_old = objForearm.getForearmAngle();
-    dWristAngle_old = objWrist.getWristAngle();
+    dArmCommand_old = objArm.moveArmToAngle(dArmTargetAngle, dArmAngle_old, dArmCommand_old, 1.0);
+    dForearmCommand_old = objForearm.moveForearmToAngle(dForearmTargetAngle, dForearmAngle_old, dForearmCommand_old, 1.0);
+    dWristCommand_old = objWrist.moveWristToAngle(dWristTargetAngle, dWristAngle_old, dWristCommand_old, 1.0);
   }
 
   // Called once the command ends or is interrupted.
