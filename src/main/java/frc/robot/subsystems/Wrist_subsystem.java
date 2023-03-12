@@ -221,7 +221,6 @@ public class Wrist_subsystem extends SubsystemBase {
       bArrived = true;
     }
     SmartDashboard.putBoolean("Wrist Arrived", bArrived);
-    SmartDashboard.putNumber("WristControlSpeed", dCommand);
     return dCommand;
   }
 

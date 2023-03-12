@@ -121,7 +121,6 @@ public class Forearm_subsystem extends SubsystemBase {
       bArrived = true;
     }
     SmartDashboard.putBoolean("Forearm Arrived", bArrived);
-    SmartDashboard.putNumber("ForearmControlSpeed", dCommand);
     return dCommand;
   }
 

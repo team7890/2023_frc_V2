@@ -19,21 +19,25 @@ public class SignalLights_subsystem extends SubsystemBase {
   private AddressableLED objLED;
   private AddressableLEDBuffer objLEDBufferYellow;
   private AddressableLEDBuffer objLEDBufferPurple;
+  private AddressableLEDBuffer objLEDBufferGreen;
   private AddressableLEDBuffer objLEDBufferOff;
   private String sColor = "OFF";
+  private int iLength = 100;
 
   
   /** Creates a new SignalLights_subsystem. */
   public SignalLights_subsystem() {
     objLED = new AddressableLED(5);
-    objLEDBufferYellow = new AddressableLEDBuffer(16);
-    objLEDBufferPurple = new AddressableLEDBuffer(16);
-    objLEDBufferOff = new AddressableLEDBuffer(16);
+    objLEDBufferYellow = new AddressableLEDBuffer(iLength);
+    objLEDBufferPurple = new AddressableLEDBuffer(iLength);
+    objLEDBufferGreen = new AddressableLEDBuffer(iLength);
+    objLEDBufferOff = new AddressableLEDBuffer(iLength);
     objLED.setLength(objLEDBufferOff.getLength());
 
     for (var i = 0; i < objLEDBufferOff.getLength(); i++) {
       objLEDBufferYellow.setRGB(i, 30, 30, 0);
       objLEDBufferPurple.setRGB(i, 30, 0, 30);
+      objLEDBufferGreen.setRGB(i,0,255,0);
       objLEDBufferOff.setRGB(i, 0, 0, 0);
     }
     objLED.setData(objLEDBufferOff);
@@ -61,11 +65,16 @@ public class SignalLights_subsystem extends SubsystemBase {
             objLED.start();
             break;
           case "PURPLE":
+            sColor = "GREEN";
+            objLED.setData(objLEDBufferGreen);
+            objLED.start();
+            break;
+          case "GREEN":
             sColor = "OFF";
             objLED.setData(objLEDBufferOff);
             objLED.start();
             break;
-        }
+      }
       }
     );
   }

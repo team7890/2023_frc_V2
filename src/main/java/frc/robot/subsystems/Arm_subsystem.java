@@ -126,7 +126,6 @@ public class Arm_subsystem extends SubsystemBase {
       bArrived = true;
     }
     SmartDashboard.putBoolean("Arm Arrived", bArrived);
-    SmartDashboard.putNumber("ArmControlSpeed", dCommand);
     return dCommand;
   }
 }

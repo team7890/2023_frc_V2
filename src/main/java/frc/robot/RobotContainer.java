@@ -60,7 +60,7 @@ public class RobotContainer {
   private final Arm_subsystem objArm_subsystem = new Arm_subsystem();
   private final Forearm_subsystem objForearm_subsystem = new Forearm_subsystem();
   private final Wrist_subsystem objWrist_subsystem = new Wrist_subsystem();
-  // private final SignalLights_subsystem objSignalLights_subsystem = new SignalLights_subsystem();
+  private final SignalLights_subsystem objSignalLights_subsystem = new SignalLights_subsystem();
   private final xGrabber_subsystem objGrabber_subsystem = new xGrabber_subsystem();
 
   private final RollerHand_subsystem objRollerHand = new RollerHand_subsystem();
@@ -234,7 +234,7 @@ public class RobotContainer {
 
 
     // try with xbox controller but commented out when got button box above working
-    // m_DriverController.a().onTrue(objSignalLights_subsystem.changeLightColor());
+    m_DriverController.y().onTrue(objSignalLights_subsystem.changeLightColor());
 
     // added to test autos with button because getAutoCmd was not working
     // m_DriverController.start().whileTrue(new ScoreConeTopBalance(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objGrabber_subsystem, objSwerve_subsystem));

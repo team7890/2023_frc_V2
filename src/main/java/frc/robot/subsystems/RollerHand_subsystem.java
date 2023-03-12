@@ -18,9 +18,6 @@ public class RollerHand_subsystem extends SubsystemBase {
   private CANSparkMax objMotor1 = new CANSparkMax(Constants.canIDs.iRollerMotor1, MotorType.kBrushless); 
   private CANSparkMax objMotor2 = new CANSparkMax(Constants.canIDs.iRollerMotor2, MotorType.kBrushless);
 
-  private double dIntakeSpeed = 0.3;
-  private double dSpeedUpLimit = 0.03;
-
   /** Creates a new Grabber. */
   public RollerHand_subsystem() {
     objMotor1.setIdleMode(IdleMode.kBrake);
@@ -33,16 +30,17 @@ public class RollerHand_subsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    SmartDashboard.putNumber("Motor 1 Current", getMotor1Current());
-    dSpeedUpLimit = SmartDashboard.getNumber("Roller Speed Up Limit", dSpeedUpLimit);
+    // SmartDashboard.putNumber("Motor 1 Current", getMotor1Current());
   }
 
-  public double intakeCone(double dSpeed_old) {
-    return moveRollers(dIntakeSpeed, dSpeed_old, false);
-  }
-
-  public void intakeConeTester() {
+  public void intakeCone() {
     double dSpeed = 0.5;
+    objMotor1.set(dSpeed);
+    objMotor2.set(dSpeed);
+  }
+
+  public void holdCone() {
+    double dSpeed = 0.025;
     objMotor1.set(dSpeed);
     objMotor2.set(dSpeed);
   }
@@ -77,34 +75,8 @@ public class RollerHand_subsystem extends SubsystemBase {
     return objMotor1.getOutputCurrent();
   }
 
-  public double getMotor2Current() {
-    return objMotor1.getOutputCurrent();
-  }
-  
   public double getSpeed() {
     return objMotor1.get();
-  }
-
-  public double moveRollers(double dSpeed, double dSpeed_old, boolean bSameDirection) {
-
-    if (Math.abs(dSpeed) > Math.abs(dSpeed_old)) {      //Checking that speed is increasing
-      dSpeed = dSpeed_old + Math.min(Math.abs(dSpeed - dSpeed_old), dSpeedUpLimit) * Math.signum(dSpeed);
-    }
-
-    // if (Math.abs(dSpeed2) > Math.abs(dSpeed2_old)) {      //Checking that speed is increasing
-    //   dSpeed2 = dSpeed2_old + Math.min(Math.abs(dSpeed2 - dSpeed2_old), Constants.Wrist.dSpeedUpLimit) * Math.signum(dSpeed2);
-    // }
-
-    if(bSameDirection) {
-      objMotor1.set(dSpeed);
-      objMotor2.set(-dSpeed);
-    }
-    else {
-      objMotor1.set(dSpeed);
-      objMotor2.set(dSpeed);
-    }
-    
-    return dSpeed;
   }
 
   public void stopMotors() {

@@ -4,6 +4,7 @@
 
 package frc.robot.commands.Roller_commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -12,9 +13,10 @@ import frc.robot.subsystems.RollerHand_subsystem;
 public class ConeIntake extends CommandBase {
 
   private final RollerHand_subsystem objRollerHand;
-  private int iCount;
-  private double dSpeed_old;
   private double dMaxCurrent;
+  private double dStartTime;
+  private boolean bInrushCurrentPeriodDone;
+  private boolean bCurrentLimitTripped;
 
 
   /** Creates a new ConeIntake. */
@@ -27,27 +29,31 @@ public class ConeIntake extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    iCount = 0;
     dMaxCurrent = 0.0;
     objRollerHand.stopMotors();
-    dSpeed_old = objRollerHand.getSpeed();
+    dStartTime = Timer.getFPGATimestamp();
+    bInrushCurrentPeriodDone = false;
+    bCurrentLimitTripped = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (objRollerHand.getMotor1Current() > 4.0) {
-      iCount = iCount + 1;
+    if (Timer.getFPGATimestamp() - dStartTime > 0.35) {
+      bInrushCurrentPeriodDone = true;
     }
     else {
-      iCount = 0;
+      dMaxCurrent = 0.0;
     }
-    // dSpeed_old = objRollerHand.intakeCone(dSpeed_old);
-    objRollerHand.intakeConeTester();
-
-    // if (iCount > 8) {
-    //   objRollerHand.stopMotors();
-    // }
+    if (bInrushCurrentPeriodDone && objRollerHand.getMotor1Current() > 15.0) {
+      bCurrentLimitTripped = true;
+    }
+    if (bCurrentLimitTripped) {
+      objRollerHand.stopMotors();
+    }
+    else {
+      objRollerHand.intakeCone();
+    }
     dMaxCurrent = Math.max(dMaxCurrent, objRollerHand.getMotor1Current());
     SmartDashboard.putNumber("Max Roller Current", dMaxCurrent);
   }
@@ -55,7 +61,7 @@ public class ConeIntake extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    objRollerHand.stopMotors();
+    objRollerHand.holdCone();
   }
 
   // Returns true when the command should end.
