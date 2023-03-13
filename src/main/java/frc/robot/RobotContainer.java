@@ -26,10 +26,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
-import frc.robot.autos.*;
 import frc.robot.command_groups.*;
 import frc.robot.commands.General_Movement_Commands.*;
-import frc.robot.commands.Autonomous.AutoScoreConeTop;
+import frc.robot.commands.Autonomous.ppTest;
 import frc.robot.commands.Autonomous.ScoreConeTopMoveLong;
 import frc.robot.commands.Autonomous.ScoreConeTopMoveShort;
 import frc.robot.commands.Autonomous.ScoreConeTopBalance;
@@ -44,6 +43,8 @@ import frc.robot.commands.Roller_commands.CubeIntake_command;
 import frc.robot.commands.Roller_commands.CubeOuttake_command;
 import frc.robot.commands.SignalLights_commands.MakeLightsGo;
 import frc.robot.subsystems.*;
+import frc.robot.commands.Autonomous.ScoreConeTopGoOverChargerBalance;
+import frc.robot.commands.Autonomous.ScoreConeTopGrabConeBalance;
 //End of Swerve Imports
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -101,6 +102,11 @@ public class RobotContainer {
   private final SequentialCommandGroup m_ScoreConeTopMoveShort = new ScoreConeTopMoveShort(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
   private final SequentialCommandGroup m_ScoreConeTopMoveLong = new ScoreConeTopMoveLong(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
   private final SequentialCommandGroup m_ScoreConeTopBalance = new ScoreConeTopBalance(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
+  private final SequentialCommandGroup m_ScoreConeTopGoOverChargerBalance = new ScoreConeTopGoOverChargerBalance(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
+  private final SequentialCommandGroup m_ScoreConeTopGrabConeBalance = new ScoreConeTopGrabConeBalance(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
+  
+
+  private final SequentialCommandGroup m_ppTest = new ppTest(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -137,6 +143,9 @@ public class RobotContainer {
     m_chooser.setDefaultOption("ScoreConeTop MoveShort", m_ScoreConeTopMoveShort);
     m_chooser.addOption("ScoreConeTop MoveLong", m_ScoreConeTopMoveLong);
     m_chooser.addOption("ScoreConeTop Balance", m_ScoreConeTopBalance);
+    m_chooser.addOption("ScoreConeTop, GoOverCharger, Balance", m_ScoreConeTopGoOverChargerBalance);
+    m_chooser.addOption("ScoreConeTop, GoGrab Cone, Balance", m_ScoreConeTopGrabConeBalance);
+    m_chooser.addOption("PathPlanner Test", m_ppTest);
 
 
     // m_chooser.addOption("Complex Auto", m_complexAuto);

@@ -85,7 +85,8 @@ public class Swerve_subsystem extends SubsystemBase {
     }
 
     public void resetOdometry(Pose2d pose) {
-        swerveOdometry.resetPosition(getYaw(), getModulePositions(), pose);
+        // swerveOdometry.resetPosition(getYaw(), getModulePositions(), pose);
+        swerveOdometry.resetPosition(getYawFixed(), getModulePositions(), pose);
     }
 
     public SwerveModuleState[] getModuleStates(){
@@ -114,6 +115,16 @@ public class Swerve_subsystem extends SubsystemBase {
 
     public Rotation2d getYaw() {
         return (Constants.Swerve.invertGyro) ? Rotation2d.fromDegrees(360 - gyro.getYaw()) : Rotation2d.fromDegrees(gyro.getYaw());
+    }
+
+    public Rotation2d getYawFlipped() {
+        double dGyroYaw = gyro.getYaw() + 180.0;
+        return (Constants.Swerve.invertGyro) ? Rotation2d.fromDegrees(360 - dGyroYaw) : Rotation2d.fromDegrees(dGyroYaw);
+    }
+
+    public Rotation2d getYawFixed() {
+        double dGyroYaw = gyro.getYaw() + 5.0;
+        return (Constants.Swerve.invertGyro) ? Rotation2d.fromDegrees(360 - dGyroYaw) : Rotation2d.fromDegrees(dGyroYaw);
     }
 
     public void resetModulesToAbsolute(){

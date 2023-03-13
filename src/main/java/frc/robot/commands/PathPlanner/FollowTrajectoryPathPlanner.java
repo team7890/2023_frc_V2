@@ -18,7 +18,7 @@ import frc.robot.subsystems.Swerve_subsystem;                                 //
 
 public class FollowTrajectoryPathPlanner extends CommandBase {
 
-    private Swerve_subsystem swerveSubsystem;
+    private Swerve_subsystem objSwerve;
     private String pathName;
     private boolean zeroInitialPose;
     
@@ -27,11 +27,11 @@ public class FollowTrajectoryPathPlanner extends CommandBase {
     
     /** Creates a new FollowTrajectoryPathPlanner. */
     public FollowTrajectoryPathPlanner(Swerve_subsystem swerveSubsystem_in, String pathName_in, boolean zeroInitialPose_in) {
-        swerveSubsystem = swerveSubsystem_in;
-        addRequirements(swerveSubsystem_in);
-    
+        objSwerve = swerveSubsystem_in;    
         pathName = pathName_in;
         zeroInitialPose = zeroInitialPose_in;
+
+        addRequirements(objSwerve);
     }
     
     // Called when the command is initially scheduled.
@@ -42,8 +42,7 @@ public class FollowTrajectoryPathPlanner extends CommandBase {
     
         // Resets the pose of the robot if true (should generally only be true for the first path of an auto)
         if (zeroInitialPose) {
-            swerveSubsystem.resetOdometry(trajectoryToFollow.getInitialPose());
-        // Swerve.resetOdometry(trajectoryToFollow.getInitialPose());
+            objSwerve.resetOdometry(trajectoryToFollow.getInitialPose());
         }
 
         // PID controllers
@@ -57,15 +56,15 @@ public class FollowTrajectoryPathPlanner extends CommandBase {
         // Create a PPSwerveControllerCommand. This is almost identical to WPILib's SwerveControllerCommand, but it uses the holonomic rotation from the PathPlannerTrajectory to control the robot's rotation.
         followTrajectoryPathPlannerCommand = new PPSwerveControllerCommand(
             trajectoryToFollow,
-            swerveSubsystem::getPose, // Functional interface to feed supplier
+            objSwerve::getPose, // Functional interface to feed supplier
             // DriveConstants.kDriveKinematics,
             Constants.Swerve.swerveKinematics,          //Changed by Sequence
             xController, 
             yController, 
             thetaController, 
-            swerveSubsystem::setModuleStates, 
+            objSwerve::setModuleStates, 
             true, 
-            swerveSubsystem
+            objSwerve
         );
         // followTrajectoryPathPlannerCommand = new PPSwerveControllerCommand(trajectoryToFollow, swerveSubsystem::getPose, xController, yController, yController, swerveSubsystem::setModuleStates, swerveSubsystem);
         
