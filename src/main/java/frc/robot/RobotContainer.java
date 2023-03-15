@@ -11,6 +11,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
+import java.io.IOException;
+
+import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 // //Arm Imports
 // import frc.robot.subsystems.Arm_subsystem;
 // //ForeArm Imports
@@ -23,6 +30,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 //Already Imported: import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -135,7 +143,11 @@ public class RobotContainer {
       )
     );
 
-    objSignalLights_subsystem.setDefaultCommand(new MakeLightsGo(objSignalLights_subsystem, () -> m_CoPilotController.getLeftY()));
+    objSignalLights_subsystem.setDefaultCommand(
+      new MakeLightsGo(objSignalLights_subsystem, 
+      () -> m_DriverController.getLeftY()
+      )
+    );
     
     // Configure the trigger bindings
     configureBindings();
@@ -151,6 +163,23 @@ public class RobotContainer {
     // m_chooser.addOption("Complex Auto", m_complexAuto);
     Shuffleboard.getTab("Autonomous").add(m_chooser);
   }
+
+  // Trying to use 2059 The Hitchhikers pathplanner tutorial
+  // public Command loadPathplannerTrajectorytoRamseteCommand (String sFilename, boolean bResetOdometry) {
+  //   Trajectory trajectory;
+  //   try{
+  //     Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(sFilename);
+  //     trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+  //   }catch (IOException exception) {
+  //     DriverStation.reportError("Unable to open trajectory" + sFilename, exception.getStackTrace());
+  //     return new InstantCommand();
+  //   }
+
+  //   RamseteCommand ramseteCommand = new RamseteCommand(trajectory, Swerve_subsystem::getPose, new RamseteController(SwerveModuleConstants.kRamseteB), null, null, null, null, null, null, null)
+
+  // }
+
+
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the

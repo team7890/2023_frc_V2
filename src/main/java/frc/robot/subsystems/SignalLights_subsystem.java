@@ -9,8 +9,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 //Our Imports
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import java.util.IllegalFormatWidthException;
-
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,9 +26,9 @@ public class SignalLights_subsystem extends SubsystemBase {
   private String sColor = "OFF";
   private int iLength = 100;
   private int iStartPosition;   // varying start position for chasing lights
+  private double dStartPosition;
   private int iLightPosition;   // position in the string to set light in loop with start position accounted for
-  private int iCount;           // use to slow down light motion based on speed input
-
+  private double dSpeedCoefficient = 1.5;   // higher makes lights go faster
   
   /** Creates a new SignalLights_subsystem. */
   public SignalLights_subsystem() {
@@ -51,7 +49,6 @@ public class SignalLights_subsystem extends SubsystemBase {
     objLED.setData(objLEDBufferOff);
     objLED.start();
     iStartPosition = 0;
-    iCount = 0;
   }
 
   @Override
@@ -77,14 +74,16 @@ public class SignalLights_subsystem extends SubsystemBase {
     objLED.setData(objLEDBufferChase);
     objLED.start();
 
-    // int iCountTarget = (int)(dSpeed * 10.0);
-    // if (Math.abs(dSpeed) > 0.05) {
+    if (Math.abs(dSpeed) > 0.05) {
+      dStartPosition = dStartPosition + dSpeed * dSpeedCoefficient;
+    }
 
-    // }
-
-    iStartPosition = iStartPosition + 1;
-    if (iStartPosition > 49) iStartPosition = 0;
-    if (iStartPosition < 0) iStartPosition = 49;
+    // iStartPosition = iStartPosition + 1;
+    // if (iStartPosition > 49) iStartPosition = 0;
+    // if (iStartPosition < 0) iStartPosition = 49;
+    if (dStartPosition > 49.4) dStartPosition = 0.0;
+    if (dStartPosition < -0.4) dStartPosition = 49.0;
+    iStartPosition = (int)dStartPosition;
   }
 
   public void turnLightsOff() {
