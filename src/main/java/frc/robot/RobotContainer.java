@@ -77,18 +77,31 @@ public class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_CoPilotController = new CommandXboxController(Constants.Controllers.iCoPilot);
   
-  private final Joystick obj_ButtonBox = new  Joystick(Constants.Controllers.iButtonBox);
-  JoystickButton ButtonOne = new JoystickButton(obj_ButtonBox, 1);    // Top left
-  JoystickButton ButtonTwo = new JoystickButton(obj_ButtonBox, 2);    // Middle Left
-  JoystickButton ButtonThree = new JoystickButton(obj_ButtonBox, 3);  // Bottom Left
-  JoystickButton ButtonFour = new JoystickButton(obj_ButtonBox, 4);   // Top Right
-  JoystickButton ButtonFive = new JoystickButton(obj_ButtonBox, 5);   // Middle Right
-  JoystickButton ButtonSix = new JoystickButton(obj_ButtonBox, 6);    // Bottom Right
-  JoystickButton ButtonSeven = new JoystickButton(obj_ButtonBox, 7);    // Bottom Right
-  JoystickButton ButtonEight = new JoystickButton(obj_ButtonBox, 8);    // Middle Bottom
-  JoystickButton ButtonEleven = new JoystickButton(obj_ButtonBox, 11);    // Bottom Right
-  JoystickButton ButtonTwelve = new JoystickButton(obj_ButtonBox, 12);
+  private final Joystick obj_ButtonBox_main = new  Joystick(Constants.Controllers.iButtonBox);
+  JoystickButton ButtonOne = new JoystickButton(obj_ButtonBox_main, 1);    // Top left
+  JoystickButton ButtonTwo = new JoystickButton(obj_ButtonBox_main, 2);    // Middle Left
+  JoystickButton ButtonThree = new JoystickButton(obj_ButtonBox_main, 3);  // Bottom Left
+  JoystickButton ButtonFour = new JoystickButton(obj_ButtonBox_main, 4);   // Top Right
+  JoystickButton ButtonFive = new JoystickButton(obj_ButtonBox_main, 5);   // Middle Right
+  JoystickButton ButtonSix = new JoystickButton(obj_ButtonBox_main, 6);    // Bottom Right
+  JoystickButton ButtonSeven = new JoystickButton(obj_ButtonBox_main, 7);    // Bottom Right
+  JoystickButton ButtonEight = new JoystickButton(obj_ButtonBox_main, 8);    // Middle Bottom
+  JoystickButton ButtonEleven = new JoystickButton(obj_ButtonBox_main, 11);    // Bottom Right
+  JoystickButton ButtonTwelve = new JoystickButton(obj_ButtonBox_main, 12);
   
+  private final Joystick obj_ButtonBox_V2_additions = new  Joystick(Constants.Controllers.iButtonBox);
+  JoystickButton V2ButtonOne = new JoystickButton(obj_ButtonBox_V2_additions, 1);    // Top left
+  JoystickButton V2ButtonTwo = new JoystickButton(obj_ButtonBox_V2_additions, 2);    // Middle Left
+  JoystickButton V2ButtonThree = new JoystickButton(obj_ButtonBox_V2_additions, 3);  // Bottom Left
+  JoystickButton V2ButtonFour = new JoystickButton(obj_ButtonBox_V2_additions, 4);   // Top Right
+  JoystickButton V2ButtonFive = new JoystickButton(obj_ButtonBox_V2_additions, 5);   // Middle Right
+  JoystickButton V2ButtonSix = new JoystickButton(obj_ButtonBox_V2_additions, 6);    // Bottom Right
+  JoystickButton V2ButtonSeven = new JoystickButton(obj_ButtonBox_V2_additions, 7);    // Bottom Right
+  JoystickButton V2ButtonEight = new JoystickButton(obj_ButtonBox_V2_additions, 8);    // Middle Bottom
+  JoystickButton V2ButtonEleven = new JoystickButton(obj_ButtonBox_V2_additions, 11);    // Bottom Right
+  JoystickButton V2ButtonTwelve = new JoystickButton(obj_ButtonBox_V2_additions, 12);
+
+
 
   //For Swerve
   /* Controllers */
@@ -218,26 +231,25 @@ public class RobotContainer {
     
     /* ButtonBox Stuff */
 
-
-    // Left Side of Button box (Top to Bottom)
-    ButtonTwelve.whileTrue(new ScoreCubeTop(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));    //Testing new version of ScoreCubeTop
-    ButtonSix.whileTrue(new ScoreCubeMiddle(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
-    // ButtonSix.whileTrue(new StowArm(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
+    // Og Button Box Buttons
+    ButtonOne.whileTrue(new RegStowArm(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
+    ButtonTwo.whileTrue(new RegFloorPickupVertCone(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
     ButtonThree.whileTrue(new RegFloorPickupHorzCone(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
     ButtonFour.whileTrue(new RegFloorPickupCube(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
-    // ButtonSix.whileTrue(new DoubleSubstationPickup(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
+    ButtonFive.whileTrue(new RegScoreConeMiddle(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
+    ButtonSix.whileTrue(new RegScoreCubeMiddle(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
 
-    // Right Side of Button box (Top to Bottom)    
-    ButtonEleven.whileTrue(new ScoreConeTop(objArm_subsystem, objForearm_subsystem, objWrist_subsystem)); 
-    ButtonFive.whileTrue(new ScoreConeMiddle(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
-    ButtonTwo.whileTrue(new RegFloorPickupVertCone(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
-
+    ButtonEleven.whileTrue(new HiSideScoreConeTop(objArm_subsystem, objForearm_subsystem, objWrist_subsystem)); 
+    ButtonTwelve.whileTrue(new HiSideScoreCubeTop(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));    //Testing new version of ScoreCubeTop
     
-
-    // Middle buttons (Top and Bottom)    
-    ButtonOne.whileTrue(new StowArm(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
-    // ButtonSeven.whileTrue(new Mech_command(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, 0.0, 0.0, 0.0));
-    // ButtonEight.debounce(0.05).onTrue(new Grabber_command(objGrabber_subsystem));
+    // V2 Button Box Buttons
+    // V2ButtonOne.whileTrue(new (objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
+    // V2ButtonTwo.whileTrue(new (objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
+    // V2ButtonThree.whileTrue(new (objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
+    // V2ButtonFour.whileTrue(new (objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
+    // V2ButtonFive.whileTrue(new (objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
+    // V2ButtonSix.whileTrue(new (objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
+    
     
     // Currently Unused Buttons
     // ButtonSix.whileTrue(new ScoreCubeMiddle(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
@@ -255,7 +267,7 @@ public class RobotContainer {
 
     // Open/ Close grabber
     // m_DriverController.a().debounce(0.05).onTrue(new Grabber_command(objGrabber_subsystem));
-    m_DriverController.rightBumper().whileTrue(new StowArm(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
+    m_DriverController.rightBumper().whileTrue(new RegStowArm(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
     // leftbumper will be slow mode
 
 

@@ -14,8 +14,8 @@ import frc.robot.subsystems.Wrist_subsystem;
 import frc.robot.subsystems.Swerve_subsystem;
 import frc.robot.subsystems.RollerHand_subsystem;
 import frc.robot.commands.Button_commands.RegFloorPickupVertCone;
-import frc.robot.commands.Button_commands.ScoreConeTop;
-import frc.robot.commands.Button_commands.StowArm;
+import frc.robot.commands.Button_commands.HiSideScoreConeTop;
+import frc.robot.commands.Button_commands.RegStowArm;
 import frc.robot.commands.General_Movement_Commands.Swerve_auto;
 import frc.robot.commands.Roller_commands.ConeIntake_command;
 import frc.robot.commands.Roller_commands.ConeOuttake_command;
@@ -35,7 +35,7 @@ public class ScoreConeTopGrabConeBalance extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ScoreConeTop(objArm, objForearm, objWrist).withTimeout(4.0),
+      new HiSideScoreConeTop(objArm, objForearm, objWrist).withTimeout(4.0),
       new ConeOuttake_command(objRollerHand).withTimeout(1.0),
       new RegFloorPickupVertCone(objArm, objForearm, objWrist).withTimeout(1.0),
       new ParallelCommandGroup(
@@ -57,7 +57,7 @@ public class ScoreConeTopGrabConeBalance extends SequentialCommandGroup {
       new ParallelCommandGroup(
         new Swerve_balance(objSwerve, -0.45, 0.0, 0.0, false),
         new SequentialCommandGroup(
-          new StowArm(objArm, objForearm, objWrist).withTimeout(8.0)
+          new RegStowArm(objArm, objForearm, objWrist).withTimeout(8.0)
         ),
         new ConeIntake_command(objRollerHand).withTimeout(2.0)
       ).withTimeout(9.6)
