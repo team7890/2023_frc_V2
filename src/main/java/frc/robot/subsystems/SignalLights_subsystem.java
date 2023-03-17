@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
-
 public class SignalLights_subsystem extends SubsystemBase {
   
   private AddressableLED objLED;
@@ -24,11 +23,11 @@ public class SignalLights_subsystem extends SubsystemBase {
   private AddressableLEDBuffer objLEDBufferOff;
   private AddressableLEDBuffer objLEDBufferChase;
   private String sColor = "OFF";
-  private int iLength = 100;
+  private int iLength = 80;
   private int iStartPosition;   // varying start position for chasing lights
   private double dStartPosition;
   private int iLightPosition;   // position in the string to set light in loop with start position accounted for
-  private double dSpeedCoefficient = 1.5;   // higher makes lights go faster
+  private double dSpeedCoefficient = 2.5;   // higher makes lights go faster
   
   /** Creates a new SignalLights_subsystem. */
   public SignalLights_subsystem() {
@@ -43,7 +42,7 @@ public class SignalLights_subsystem extends SubsystemBase {
     for (var i = 0; i < objLEDBufferOff.getLength(); i++) {
       objLEDBufferYellow.setRGB(i, 30, 30, 0);
       objLEDBufferPurple.setRGB(i, 30, 0, 30);
-      objLEDBufferGreen.setRGB(i, 0, 255, 0);
+      objLEDBufferGreen.setRGB(i, 0, 130, 0);
       objLEDBufferOff.setRGB(i, 0, 0, 0);
     }
     objLED.setData(objLEDBufferOff);
@@ -59,16 +58,16 @@ public class SignalLights_subsystem extends SubsystemBase {
 
   public void chaseLights(double dSpeed) {
     for (var iLoop = 0; iLoop < iLength / 2; iLoop++) {
-      final var iGreen = 255 * iLoop / 10;
+      final var iGreen = 130; // * iLoop / 10;
       iLightPosition = iStartPosition + iLoop;
       if (iLightPosition > 49) iLightPosition = iLightPosition - 50;
       if (iLoop < 10) {
         objLEDBufferChase.setRGB(iLightPosition, 0, iGreen, 0);
-        objLEDBufferChase.setRGB(99 - iLightPosition, 0, iGreen, 0);
+        objLEDBufferChase.setRGB(78 - iLightPosition, 0, iGreen, 0);
       }
       else {
         objLEDBufferChase.setRGB(iLightPosition, 0, 0, 0);
-        objLEDBufferChase.setRGB(99 - iLightPosition, 0, 0, 0);
+        objLEDBufferChase.setRGB(78 - iLightPosition, 0, 0, 0);
       }
     }
     objLED.setData(objLEDBufferChase);

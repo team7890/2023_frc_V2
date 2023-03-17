@@ -37,7 +37,7 @@ public class ScoreConeTopBalance extends SequentialCommandGroup {
       new ConeOuttake_command(objRollerHand).withTimeout(1.0),
       new StowArm(objArm, objForearm, objWrist).withTimeout(1.0),
       new ParallelCommandGroup(
-        new Swerve_balance(objSwerve, 0.3, 0.0, 0.0, false),
+        new Swerve_balance(objSwerve, 0.28, 0.0, 0.0, false),
         new SequentialCommandGroup(
           new StowArm(objArm, objForearm, objWrist).withTimeout(8.0)
         )

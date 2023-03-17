@@ -61,8 +61,8 @@ public class RegFloorPickupCube extends CommandBase {
     dWristCommand_old = 0.0;
 
     iState = 0;
-    if (objForearm.getForearmAngle() > -20.0) iState = 14;    //was 10 at ashville but no longer need case 10.
-    else iState = 13;
+    if (objForearm.getForearmAngle() > -20.0) iState = 13;    //was 10 at ashville but no longer need case 10.
+    else iState = 14;
 
   }
 

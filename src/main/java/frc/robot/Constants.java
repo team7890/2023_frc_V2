@@ -46,15 +46,14 @@ public final class Constants {
     public static final double dArmSpeedManual = 0.4;
     public static final int iDIOPort = 0;
     // public static final double dDegreesPerRev = 360.0;
-    public static final double dOffset = 153.83;                         //Sets 0.0 to Straight up
+    public static final double dOffset = 34.0;                         //Sets 0.0 to Straight up
     public static final double dArmSpeedControlMax = 0.8;
-    public static final double kP = 0.04;
-    public static final double kD = 0.04;
+    public static final double kP = 0.5;
+    public static final double kD = 0.5;
     public static final double dSpeedUpLimit = 0.005;
     public static final double dSoftStopLimit = 0.035;
-    public static final double dMaxAngleLimit = 25.0;
-    // public static final double dMinAngleLimit = -22.0;
-    public static final double dMinAngleLimit = -32.0;
+    public static final double dMaxAngleLimit = 40.0;
+    public static final double dMinAngleLimit = -40.0;
     public static final double dTolerance = 3.0;                      
   }
 
@@ -63,12 +62,12 @@ public final class Constants {
     public static final double dSpeedManual = 0.2;
     public static final int iDIOPort = 1;
     // public static final double dDegreesPerRev = 360.0;
-    public static final double dOffset = -151.0;                         //Sets 0.0 to Straight up
+    public static final double dOffset = 148.5;                         //Sets 0.0 to Straight up
     public static final double dSpeedControlMax = 0.8;
     public static final double kP = 0.008;
     public static final double kD = 0.008;
     public static final double dSpeedUpLimit = 0.02;
-    public static final double dSoftStopLimit = 0.05;
+    public static final double dSoftStopLimit = 0.1;
     public static final double dMaxAngleLimit = 160.0;
     public static final double dMinAngleLimit = -158.0;
     public static final double dTolerance = 3.0;
@@ -80,10 +79,10 @@ public final class Constants {
     public static final int iDIOPort = 2;
     public static final double dDegreesPerRev = 360.0 / 42.0 * 18.0;
     // public static final double dOffset = -97.58;                          //Sets 0.0 to Straight up
-    public static final double dOffset = -116.7;
+    public static final double dOffset = 4.2;
     public static final double dSpeedControlMax = 0.4;
-    public static final double kP = 0.005;
-    public static final double kD = 0.005;
+    public static final double kP = 0.01;
+    public static final double kD = 0.01;
     public static final double dSpeedUpLimit = 0.02;
     public static final double dSoftStopLimit = 0.2;
     // public static final double dMaxAngleLimit = 118.0;
@@ -138,7 +137,7 @@ public final class Constants {
         public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
 
         public static final COTSFalconSwerveConstants chosenModule =  //TODO: This must be tuned to specific robot
-            COTSFalconSwerveConstants.SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L2);
+            COTSFalconSwerveConstants.SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L3);
 
         /* Drivetrain Constants */
         public static final double trackWidth = Units.inchesToMeters(20.75); //TODO: This must be tuned to specific robot
@@ -230,7 +229,7 @@ public final class Constants {
             public static final int driveMotorID = 26;
             public static final int angleMotorID = 25;
             public static final int canCoderID = 24;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(4.74);
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(4.13);
             // public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0.0);
 
             public static final SwerveModuleConstants constants = 
@@ -242,7 +241,7 @@ public final class Constants {
             public static final int driveMotorID = 33;
             public static final int angleMotorID = 32;
             public static final int canCoderID = 31;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(220.51);
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(220.43);
             // public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0.0);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
@@ -253,7 +252,7 @@ public final class Constants {
             public static final int driveMotorID = 36;
             public static final int angleMotorID = 35;
             public static final int canCoderID = 34;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(304.45);   
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(305.51);   
             // public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0.0);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);

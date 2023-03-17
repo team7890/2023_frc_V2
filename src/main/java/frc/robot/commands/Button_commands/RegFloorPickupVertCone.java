@@ -30,8 +30,10 @@ public class RegFloorPickupVertCone extends CommandBase {
 
   // Final Target Positions
   double dArmTarget = -2.0;
-  double dForearmTarget = -121.2;
-  double dWristTarget = -27.5;
+  double dForearmTarget = -111.8;
+  double dWristTarget = -35.4;
+  // double dForearmTarget = -127.8;
+  // double dWristTarget = 14.3;
 
   /** Creates a new ScoreCubeTop. */
   public RegFloorPickupVertCone(Arm_subsystem objArm_in, Forearm_subsystem objForearm_in, Wrist_subsystem objWrist_in) {
@@ -81,7 +83,7 @@ public class RegFloorPickupVertCone extends CommandBase {
         dForearmCommand_old = objForearm.moveForearmToAngle(dForearmTarget, dForearmAngle_old, dForearmCommand_old, 1.0);
         dWristCommand_old = objWrist.moveWristToAngle(dWristTarget, dWristAngle_old, dWristCommand_old, 1.0);
         // if all three joints are at correct angle then iState = 99;
-        if (Math.abs(objForearm.getForearmAngle() - dForearmTarget) < 1.0 && Math.abs(objArm.getArmAngle() - dArmTarget) < 1.0 && Math.abs(objWrist.getWristAngle() - dWristTarget) < 1.0) iState = 99;
+        if (Math.abs(objForearm.getForearmAngle() - dForearmTarget) < 1.0 && Math.abs(objArm.getArmAngle() - dArmTarget) < 1.0 && Math.abs(objWrist.getWristAngle() - dWristTarget) < 0.5) iState = 99;
         break;
       case 99:
         objArm.softStop();

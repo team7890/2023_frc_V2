@@ -29,9 +29,9 @@ public class RegFloorPickupHorzCone extends CommandBase {
 
 
   // Final Target Positions
-  double dArmTarget = -31.2;
-  double dForearmTarget = -124.7;
-  double dWristTarget = 42.5;
+  double dArmTarget = -30.5;
+  double dForearmTarget = -120.0;
+  double dWristTarget = 32.3;
 
   /** Creates a new ScoreCubeTop. */
   public RegFloorPickupHorzCone(Arm_subsystem objArm_in, Forearm_subsystem objForearm_in, Wrist_subsystem objWrist_in) {
@@ -61,8 +61,8 @@ public class RegFloorPickupHorzCone extends CommandBase {
     dWristCommand_old = 0.0;
 
     iState = 0;
-    if (objForearm.getForearmAngle() > -20.0) iState = 14;    //was 10 at ashville but no longer need case 10.
-    else iState = 13;
+    if (objForearm.getForearmAngle() > -20.0) iState = 13;    //was 10 at ashville but no longer need case 10.
+    else iState = 14;
 
   }
 

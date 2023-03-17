@@ -29,10 +29,9 @@ public class StowArm extends CommandBase {
 
 
   // Final Target Positions
-  double dArmTarget = 2.0;
-  double dForearmTarget = -140.2;
-  // double dWristTarget = 150.0;
-  double dWristTarget = 140.0;
+  double dArmTarget = 3.5;
+  double dForearmTarget = -150.0;
+  double dWristTarget = 114.5;
 
 
   /** Creates a new ScoreCubeTop. */
