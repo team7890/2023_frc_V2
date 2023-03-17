@@ -32,7 +32,7 @@ public class ScoreConeTop extends CommandBase {
   // Final Target Positions
   double dArmTarget = 26.7;
   double dForearmTarget = 10.0;
-  double dWristTarget = 60.0;
+  double dWristTarget = 65.0;
 
   /** Creates a new ScoreCubeTop. */
   public ScoreConeTop(Arm_subsystem objArm_in, Forearm_subsystem objForearm_in, Wrist_subsystem objWrist_in) {

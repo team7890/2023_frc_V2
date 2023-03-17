@@ -81,15 +81,15 @@ public final class Constants {
     // public static final double dOffset = -97.58;                          //Sets 0.0 to Straight up
     public static final double dOffset = 4.2;
     public static final double dSpeedControlMax = 0.4;
-    public static final double kP = 0.01;
-    public static final double kD = 0.01;
+    public static final double kP = 0.02;
+    public static final double kD = 0.02;
     public static final double dSpeedUpLimit = 0.02;
     public static final double dSoftStopLimit = 0.2;
     // public static final double dMaxAngleLimit = 118.0;
     // public static final double dMinAngleLimit = -90.0;
     public static final double dMaxAngleLimit = 150.0;
     public static final double dMinAngleLimit = -150.0;
-    public static final double dTolerance = 10.0;
+    public static final double dTolerance = 3.0;
   }
 
   public static final class Grabber{

@@ -35,7 +35,7 @@ public class ScoreConeTopGrabConeBalance extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ScoreConeTop(objArm, objForearm, objWrist).withTimeout(5.3),
+      new ScoreConeTop(objArm, objForearm, objWrist).withTimeout(4.0),
       new ConeOuttake_command(objRollerHand).withTimeout(1.0),
       new RegFloorPickupVertCone(objArm, objForearm, objWrist).withTimeout(1.0),
       new ParallelCommandGroup(
@@ -45,17 +45,17 @@ public class ScoreConeTopGrabConeBalance extends SequentialCommandGroup {
         )
       ).withTimeout(3.0),
       new ParallelCommandGroup(
-        new Swerve_auto(objSwerve, 0.3, 0.0, 0.0, false).withTimeout(2.0),
+        new Swerve_auto(objSwerve, 0.3, 0.0, 0.0, false).withTimeout(1.8),
         new SequentialCommandGroup(
-          new RegFloorPickupVertCone(objArm, objForearm, objWrist).withTimeout(2.0)
+          new RegFloorPickupVertCone(objArm, objForearm, objWrist).withTimeout(1.8)
         ),
-        new ConeIntake_command(objRollerHand).withTimeout(2.0)
-      ).withTimeout(2.0),
+        new ConeIntake_command(objRollerHand).withTimeout(1.8)
+      ).withTimeout(1.8),
 
 
       //below is correct end
       new ParallelCommandGroup(
-        new Swerve_balance(objSwerve, -0.3, 0.0, 0.0, false),
+        new Swerve_balance(objSwerve, -0.45, 0.0, 0.0, false),
         new SequentialCommandGroup(
           new StowArm(objArm, objForearm, objWrist).withTimeout(8.0)
         ),

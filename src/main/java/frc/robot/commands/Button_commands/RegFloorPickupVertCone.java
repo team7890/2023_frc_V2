@@ -30,7 +30,7 @@ public class RegFloorPickupVertCone extends CommandBase {
 
   // Final Target Positions
   double dArmTarget = -2.0;
-  double dForearmTarget = -111.8;
+  double dForearmTarget = -113.8;
   double dWristTarget = -35.4;
   // double dForearmTarget = -127.8;
   // double dWristTarget = 14.3;
