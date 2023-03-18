@@ -13,8 +13,8 @@ import frc.robot.subsystems.Forearm_subsystem;
 import frc.robot.subsystems.Wrist_subsystem;
 import frc.robot.subsystems.Swerve_subsystem;
 import frc.robot.subsystems.RollerHand_subsystem;
-import frc.robot.commands.Button_commands.HiSideScoreConeTop;
-import frc.robot.commands.Button_commands.RegStowArm;
+import frc.robot.commands.Button_commands.High_Side_Commands.*;
+import frc.robot.commands.Button_commands.Regular_Side_Commands.*;
 import frc.robot.commands.General_Movement_Commands.Swerve_auto;
 import frc.robot.commands.Roller_commands.ConeOuttake_command;
 

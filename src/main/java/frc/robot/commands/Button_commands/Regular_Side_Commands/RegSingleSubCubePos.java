@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Button_commands.High_Side_Commands;
+package frc.robot.commands.Button_commands.Regular_Side_Commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -10,7 +10,7 @@ import frc.robot.subsystems.Wrist_subsystem;
 import frc.robot.subsystems.Arm_subsystem;
 import frc.robot.subsystems.Forearm_subsystem;
 
-public class HiSideStowArm extends CommandBase {
+public class RegSingleSubCubePos extends CommandBase {
 
   private final Wrist_subsystem objWrist;
   private final Forearm_subsystem objForearm;
@@ -29,13 +29,13 @@ public class HiSideStowArm extends CommandBase {
 
 
   // Final Target Positions
-  double dArmTarget = -34.5;
-  double dForearmTarget = 160.0;
-  double dWristTarget = -108.0;
+  double dArmTarget = 2.7;
+  double dForearmTarget = -105.2;
+  double dWristTarget = 123.6;
 
 
   /** Creates a new ScoreCubeTop. */
-  public HiSideStowArm(Arm_subsystem objArm_in, Forearm_subsystem objForearm_in, Wrist_subsystem objWrist_in) {
+  public RegSingleSubCubePos(Arm_subsystem objArm_in, Forearm_subsystem objForearm_in, Wrist_subsystem objWrist_in) {
     objArm = objArm_in;
     objForearm = objForearm_in;
     objWrist = objWrist_in;
@@ -62,22 +62,21 @@ public class HiSideStowArm extends CommandBase {
     dWristCommand_old = 0.0;
 
     iState = 0;
-    // if (objForearm.getForearmAngle() > -20.0) iState = 14;
-    // else iState = 10;
-    iState = 14;
+    if (objForearm.getForearmAngle() < -50.0) iState = 14;
+    else iState = 10;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     switch (iState) {
-      // case 10:          //if the forearm is out on the high scoring side
-      //                   // first move the wirst up (means the wrist is going to a negative angle)
-      //   dArmCommand_old = objArm.moveArmToAngle(dArmTarget, dArmAngle_old, dArmCommand_old, 1.0);
-      //   objForearm.softStop();
-      //   dWristCommand_old = objWrist.moveWristToAngle(dWristTarget, dWristAngle_old, dWristCommand_old, 1.0);
-      //   if (objWrist.getWristAngle() > 45.0 && objArm.getArmAngle() > -8.0) iState = 14;
-      //   break;
+      case 10:          //if the forearm is out on the high scoring side
+                        // first move the wirst up (means the wrist is going to a negative angle)
+        objArm.softStop();
+        dForearmCommand_old = objForearm.moveForearmToAngle(dForearmTarget, dForearmAngle_old, dForearmCommand_old, 1.0);
+        objWrist.softStop();
+        if (Math.abs(objForearm.getForearmAngle() - dForearmTarget) < 1.0) iState = 14;
+        break;
       case 14:          // Move everything to stow targets
         dArmCommand_old = objArm.moveArmToAngle(dArmTarget, dArmAngle_old, dArmCommand_old, 1.0);
         dForearmCommand_old = objForearm.moveForearmToAngle(dForearmTarget, dForearmAngle_old, dForearmCommand_old, 1.0);

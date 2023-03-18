@@ -40,7 +40,18 @@ import frc.robot.commands.Autonomous.ppTest;
 import frc.robot.commands.Autonomous.ScoreConeTopMoveLong;
 import frc.robot.commands.Autonomous.ScoreConeTopMoveShort;
 import frc.robot.commands.Autonomous.ScoreConeTopBalance;
-import frc.robot.commands.Button_commands.*;
+// import frc.robot.commands.Button_commands.*;
+import frc.robot.commands.Button_commands.High_Side_Commands.HiSideScoreConeTop;
+import frc.robot.commands.Button_commands.High_Side_Commands.HiSideScoreCubeTop;
+import frc.robot.commands.Button_commands.High_Side_Commands.HiSideStowArm;
+import frc.robot.commands.Button_commands.Regular_Side_Commands.RegFloorPickupCube;
+import frc.robot.commands.Button_commands.Regular_Side_Commands.RegFloorPickupHorzCone;
+import frc.robot.commands.Button_commands.Regular_Side_Commands.RegFloorPickupVertCone;
+import frc.robot.commands.Button_commands.Regular_Side_Commands.RegScoreConeMiddle;
+import frc.robot.commands.Button_commands.Regular_Side_Commands.RegScoreCubeMiddle;
+import frc.robot.commands.Button_commands.Regular_Side_Commands.RegSingleSubConePos;
+import frc.robot.commands.Button_commands.Regular_Side_Commands.RegSingleSubCubePos;
+import frc.robot.commands.Button_commands.Regular_Side_Commands.RegStowArm;
 import frc.robot.commands.General_Movement_Commands.Arm_command;
 import frc.robot.commands.General_Movement_Commands.Forearm_command;
 import frc.robot.commands.General_Movement_Commands.Swerve_teleop;
@@ -77,29 +88,31 @@ public class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_CoPilotController = new CommandXboxController(Constants.Controllers.iCoPilot);
   
-  private final Joystick obj_ButtonBox_main = new  Joystick(Constants.Controllers.iButtonBox);
-  JoystickButton ButtonOne = new JoystickButton(obj_ButtonBox_main, 1);    // Top left
-  JoystickButton ButtonTwo = new JoystickButton(obj_ButtonBox_main, 2);    // Middle Left
-  JoystickButton ButtonThree = new JoystickButton(obj_ButtonBox_main, 3);  // Bottom Left
-  JoystickButton ButtonFour = new JoystickButton(obj_ButtonBox_main, 4);   // Top Right
-  JoystickButton ButtonFive = new JoystickButton(obj_ButtonBox_main, 5);   // Middle Right
-  JoystickButton ButtonSix = new JoystickButton(obj_ButtonBox_main, 6);    // Bottom Right
-  JoystickButton ButtonSeven = new JoystickButton(obj_ButtonBox_main, 7);    // Bottom Right
-  JoystickButton ButtonEight = new JoystickButton(obj_ButtonBox_main, 8);    // Middle Bottom
-  JoystickButton ButtonEleven = new JoystickButton(obj_ButtonBox_main, 11);    // Bottom Right
-  JoystickButton ButtonTwelve = new JoystickButton(obj_ButtonBox_main, 12);
+  private final Joystick obj_ButtonBox_main_USB_2 = new  Joystick(Constants.Controllers.iButtonBox);
+  JoystickButton ButtonOne = new JoystickButton(obj_ButtonBox_main_USB_2, 1);    // Top left
+  JoystickButton ButtonTwo = new JoystickButton(obj_ButtonBox_main_USB_2, 2);    // Middle Left
+  JoystickButton ButtonThree = new JoystickButton(obj_ButtonBox_main_USB_2, 3);  // Bottom Left
+  JoystickButton ButtonFour = new JoystickButton(obj_ButtonBox_main_USB_2, 4);   // Top Right
+  JoystickButton ButtonFive = new JoystickButton(obj_ButtonBox_main_USB_2, 5);   // Middle Right
+  JoystickButton ButtonSix = new JoystickButton(obj_ButtonBox_main_USB_2, 6);    // Bottom Right
+  JoystickButton ButtonSeven = new JoystickButton(obj_ButtonBox_main_USB_2, 7);    // Bottom Right
+  JoystickButton ButtonEight = new JoystickButton(obj_ButtonBox_main_USB_2, 8);    // Middle Bottom
+  JoystickButton ButtonNine = new JoystickButton(obj_ButtonBox_main_USB_2, 9);    // Middle Bottom
+  JoystickButton ButtonTen = new JoystickButton(obj_ButtonBox_main_USB_2, 10);    // Middle Bottom
+  JoystickButton ButtonEleven = new JoystickButton(obj_ButtonBox_main_USB_2, 11);    // Bottom Right
+  JoystickButton ButtonTwelve = new JoystickButton(obj_ButtonBox_main_USB_2, 12);
   
-  private final Joystick obj_ButtonBox_V2_additions = new  Joystick(Constants.Controllers.iButtonBox);
-  JoystickButton V2ButtonOne = new JoystickButton(obj_ButtonBox_V2_additions, 1);    // Top left
-  JoystickButton V2ButtonTwo = new JoystickButton(obj_ButtonBox_V2_additions, 2);    // Middle Left
-  JoystickButton V2ButtonThree = new JoystickButton(obj_ButtonBox_V2_additions, 3);  // Bottom Left
-  JoystickButton V2ButtonFour = new JoystickButton(obj_ButtonBox_V2_additions, 4);   // Top Right
-  JoystickButton V2ButtonFive = new JoystickButton(obj_ButtonBox_V2_additions, 5);   // Middle Right
-  JoystickButton V2ButtonSix = new JoystickButton(obj_ButtonBox_V2_additions, 6);    // Bottom Right
-  JoystickButton V2ButtonSeven = new JoystickButton(obj_ButtonBox_V2_additions, 7);    // Bottom Right
-  JoystickButton V2ButtonEight = new JoystickButton(obj_ButtonBox_V2_additions, 8);    // Middle Bottom
-  JoystickButton V2ButtonEleven = new JoystickButton(obj_ButtonBox_V2_additions, 11);    // Bottom Right
-  JoystickButton V2ButtonTwelve = new JoystickButton(obj_ButtonBox_V2_additions, 12);
+  private final Joystick obj_ButtonBox_V2_additions_USB_3 = new  Joystick(Constants.Controllers.iButtonBoxV2);
+  JoystickButton V2ButtonOne = new JoystickButton(obj_ButtonBox_V2_additions_USB_3, 1);    // Top left
+  JoystickButton V2ButtonTwo = new JoystickButton(obj_ButtonBox_V2_additions_USB_3, 2);    // Middle Left
+  JoystickButton V2ButtonThree = new JoystickButton(obj_ButtonBox_V2_additions_USB_3, 3);  // Bottom Left
+  JoystickButton V2ButtonFour = new JoystickButton(obj_ButtonBox_V2_additions_USB_3, 4);   // Top Right
+  JoystickButton V2ButtonFive = new JoystickButton(obj_ButtonBox_V2_additions_USB_3, 5);   // Middle Right
+  JoystickButton V2ButtonSix = new JoystickButton(obj_ButtonBox_V2_additions_USB_3, 6);    // Bottom Right
+  JoystickButton V2ButtonSeven = new JoystickButton(obj_ButtonBox_V2_additions_USB_3, 7);    // Bottom Right
+  JoystickButton V2ButtonEight = new JoystickButton(obj_ButtonBox_V2_additions_USB_3, 8);    // Middle Bottom
+  JoystickButton V2ButtonEleven = new JoystickButton(obj_ButtonBox_V2_additions_USB_3, 11);    // Bottom Right
+  JoystickButton V2ButtonTwelve = new JoystickButton(obj_ButtonBox_V2_additions_USB_3, 12);
 
 
 
@@ -238,7 +251,9 @@ public class RobotContainer {
     ButtonFour.whileTrue(new RegFloorPickupCube(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
     ButtonFive.whileTrue(new RegScoreConeMiddle(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
     ButtonSix.whileTrue(new RegScoreCubeMiddle(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
-
+    ButtonSeven.whileTrue(new RegSingleSubConePos(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
+    ButtonEight.whileTrue(new RegSingleSubCubePos(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
+    ButtonNine.whileTrue(new HiSideStowArm(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
     ButtonEleven.whileTrue(new HiSideScoreConeTop(objArm_subsystem, objForearm_subsystem, objWrist_subsystem)); 
     ButtonTwelve.whileTrue(new HiSideScoreCubeTop(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));    //Testing new version of ScoreCubeTop
     
@@ -249,7 +264,7 @@ public class RobotContainer {
     // V2ButtonFour.whileTrue(new (objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
     // V2ButtonFive.whileTrue(new (objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
     // V2ButtonSix.whileTrue(new (objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
-    
+
     
     // Currently Unused Buttons
     // ButtonSix.whileTrue(new ScoreCubeMiddle(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
