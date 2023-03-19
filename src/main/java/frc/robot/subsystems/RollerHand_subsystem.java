@@ -39,6 +39,12 @@ public class RollerHand_subsystem extends SubsystemBase {
     objMotor2.set(dSpeed);
   }
 
+  public void intakeCone_SingleSubstation() {
+    double dSpeed = 0.2;
+    objMotor1.set(dSpeed);
+    objMotor2.set(dSpeed);
+  }
+
   public void holdCone() {
     double dSpeed = 0.025;
     objMotor1.set(dSpeed);

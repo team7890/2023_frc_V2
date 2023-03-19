@@ -40,9 +40,12 @@ import frc.robot.commands.Autonomous.ppTest;
 import frc.robot.commands.Autonomous.ScoreConeTopMoveLong;
 import frc.robot.commands.Autonomous.ScoreConeTopMoveShort;
 import frc.robot.commands.Autonomous.ScoreConeTopBalance;
+import frc.robot.commands.Button_commands.High_Side_Commands.HiSideFloorPickupHorzCone;
+import frc.robot.commands.Button_commands.High_Side_Commands.HiSideFloorPickupVertCone;
 // import frc.robot.commands.Button_commands.*;
 import frc.robot.commands.Button_commands.High_Side_Commands.HiSideScoreConeTop;
 import frc.robot.commands.Button_commands.High_Side_Commands.HiSideScoreCubeTop;
+import frc.robot.commands.Button_commands.High_Side_Commands.HiSideSingleSubConePos;
 import frc.robot.commands.Button_commands.High_Side_Commands.HiSideStowArm;
 import frc.robot.commands.Button_commands.Regular_Side_Commands.RegFloorPickupCube;
 import frc.robot.commands.Button_commands.Regular_Side_Commands.RegFloorPickupHorzCone;
@@ -56,6 +59,7 @@ import frc.robot.commands.General_Movement_Commands.Arm_command;
 import frc.robot.commands.General_Movement_Commands.Forearm_command;
 import frc.robot.commands.General_Movement_Commands.Swerve_teleop;
 import frc.robot.commands.General_Movement_Commands.Wrist_command;
+import frc.robot.commands.Roller_commands.ConeIntake_ForSingleSub_command;
 import frc.robot.commands.Roller_commands.ConeIntake_command;
 import frc.robot.commands.Roller_commands.ConeOuttake_command;
 import frc.robot.commands.Roller_commands.CubeIntake_command;
@@ -65,7 +69,7 @@ import frc.robot.subsystems.*;
 import frc.robot.commands.Autonomous.ScoreConeTopGoOverChargerBalance;
 import frc.robot.commands.Autonomous.ScoreConeTopGrabConeBalance;
 //End of Swerve Imports
-
+import frc.robot.commands.Autonomous.ScoreConeTopGrabCubeBalance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
@@ -111,6 +115,8 @@ public class RobotContainer {
   JoystickButton V2ButtonSix = new JoystickButton(obj_ButtonBox_V2_additions_USB_3, 6);    // Bottom Right
   JoystickButton V2ButtonSeven = new JoystickButton(obj_ButtonBox_V2_additions_USB_3, 7);    // Bottom Right
   JoystickButton V2ButtonEight = new JoystickButton(obj_ButtonBox_V2_additions_USB_3, 8);    // Middle Bottom
+  JoystickButton V2ButtonNine = new JoystickButton(obj_ButtonBox_V2_additions_USB_3, 9);    // Middle Bottom
+  JoystickButton V2ButtonTen = new JoystickButton(obj_ButtonBox_V2_additions_USB_3, 10);    // Middle Bottom
   JoystickButton V2ButtonEleven = new JoystickButton(obj_ButtonBox_V2_additions_USB_3, 11);    // Bottom Right
   JoystickButton V2ButtonTwelve = new JoystickButton(obj_ButtonBox_V2_additions_USB_3, 12);
 
@@ -139,6 +145,7 @@ public class RobotContainer {
   private final SequentialCommandGroup m_ScoreConeTopBalance = new ScoreConeTopBalance(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
   private final SequentialCommandGroup m_ScoreConeTopGoOverChargerBalance = new ScoreConeTopGoOverChargerBalance(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
   private final SequentialCommandGroup m_ScoreConeTopGrabConeBalance = new ScoreConeTopGrabConeBalance(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
+  private final SequentialCommandGroup m_ScoreConeTopGrabCubeBalance = new ScoreConeTopGrabCubeBalance(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
   
 
   private final SequentialCommandGroup m_ppTest = new ppTest(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
@@ -184,6 +191,7 @@ public class RobotContainer {
     m_chooser.addOption("ScoreConeTop Balance", m_ScoreConeTopBalance);
     m_chooser.addOption("ScoreConeTop, GoOverCharger, Balance", m_ScoreConeTopGoOverChargerBalance);
     m_chooser.addOption("ScoreConeTop, GoGrab Cone, Balance", m_ScoreConeTopGrabConeBalance);
+    m_chooser.addOption("ScoreConeTop, GoGrab Cube, Balance", m_ScoreConeTopGrabCubeBalance);
     m_chooser.addOption("PathPlanner Test", m_ppTest);
 
 
@@ -254,17 +262,17 @@ public class RobotContainer {
     ButtonSeven.whileTrue(new RegSingleSubConePos(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
     ButtonEight.whileTrue(new RegSingleSubCubePos(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
     ButtonNine.whileTrue(new HiSideStowArm(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
+    ButtonTen.whileTrue(new HiSideFloorPickupVertCone(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
     ButtonEleven.whileTrue(new HiSideScoreConeTop(objArm_subsystem, objForearm_subsystem, objWrist_subsystem)); 
     ButtonTwelve.whileTrue(new HiSideScoreCubeTop(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));    //Testing new version of ScoreCubeTop
     
     // V2 Button Box Buttons
-    // V2ButtonOne.whileTrue(new (objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
-    // V2ButtonTwo.whileTrue(new (objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
-    // V2ButtonThree.whileTrue(new (objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
+    V2ButtonOne.whileTrue(new HiSideFloorPickupHorzCone(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
+    // V2ButtonTwo.whileTrue(new HiSideFloorPickupCub(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
+    V2ButtonThree.whileTrue(new HiSideSingleSubConePos(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
     // V2ButtonFour.whileTrue(new (objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
     // V2ButtonFive.whileTrue(new (objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
     // V2ButtonSix.whileTrue(new (objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
-
     
     // Currently Unused Buttons
     // ButtonSix.whileTrue(new ScoreCubeMiddle(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
@@ -295,6 +303,7 @@ public class RobotContainer {
     m_DriverController.rightTrigger().whileTrue(new ConeOuttake_command(objRollerHand));
     m_DriverController.a().whileTrue(new CubeIntake_command(objRollerHand));
     m_DriverController.x().whileTrue(new CubeOuttake_command(objRollerHand, false));
+    m_DriverController.y().whileTrue(new ConeIntake_ForSingleSub_command(objRollerHand));
     m_DriverController.b().whileTrue(new CubeOuttake_command(objRollerHand, true));
 
 
