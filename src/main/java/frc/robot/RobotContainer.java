@@ -88,6 +88,7 @@ public class RobotContainer {
   private final SignalLights_subsystem objSignalLights_subsystem = new SignalLights_subsystem();
 
   private final RollerHand_subsystem objRollerHand = new RollerHand_subsystem();
+  private final Limelight_subsystem objLimelight = new Limelight_subsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_CoPilotController = new CommandXboxController(Constants.Controllers.iCoPilot);
