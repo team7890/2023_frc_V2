@@ -25,6 +25,8 @@ public class Forearm_subsystem extends SubsystemBase {
   private boolean bHoldPosition;
   private double dHoldAngle;
   private double dAngle;
+  private double dCharSpeed;
+  private boolean bRampStop;
 
   /** Creates a new Forearm_subsystem. */
   public Forearm_subsystem() {
@@ -37,18 +39,27 @@ public class Forearm_subsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     dAngle = getForearmAngle();
-    if (bSoftStopActive) {
-      softStop();
-      if (Math.abs(objForearmMotor.get()) < 0.03) {
-        bSoftStopActive = false;
-        bHoldPosition = true;
-        dHoldAngle = dAngle;
-      }
-    }
+    // if (bSoftStopActive) {
+    //   softStop();
+    //   if (Math.abs(objForearmMotor.get()) < 0.03) {
+    //     bSoftStopActive = false;
+    //     bHoldPosition = true;
+    //     dHoldAngle = dAngle;
+    //   }
+    // }
 
     if(bHoldPosition) {
       holdPosition(dHoldAngle, 1.0);
     }    
+  }
+
+  public void setHoldAngle(double dHoldAngle_in) {
+    dHoldAngle = dHoldAngle_in;
+    bHoldPosition = true;
+  }
+  
+  public void stopHoldingAngle() {
+    bHoldPosition = false;
   }
 
   public void setSoftStop(boolean input) { 
@@ -68,14 +79,25 @@ public class Forearm_subsystem extends SubsystemBase {
     objForearmMotor.set(dSpeed);
   }
 
-  public void characterize(double dStartingSpeed, double dMaxSpeed) {
-    
+  public double characterize(double dSpeed_in, double dMaxSpeed_in) {
+    if (!bRampStop) {
+      dCharSpeed = dSpeed_in + Constants.Forearm.dRampLimit;
+    }
+    else {
+      dCharSpeed = Math.max(dSpeed_in - Constants.Forearm.dRampLimit, 0.0);
+    }
 
+    if (dCharSpeed >= dMaxSpeed_in) {
+      bRampStop = true;
+    }
 
+    moveForearm(dCharSpeed);
+    return dCharSpeed;
+  }
+  
 
-
-
-
+  public void resetRamp() {
+    bRampStop = false;
   }
 
   public void stopForearm() {
@@ -128,6 +150,38 @@ public class Forearm_subsystem extends SubsystemBase {
     }
     moveForearm(dCommand);
     if (Math.abs(dDifference) < Constants.Forearm.dTolerance) {
+      bArrived = true;
+    }
+    SmartDashboard.putBoolean("Forearm Arrived", bArrived);
+    return dCommand;
+  }
+  
+  public double moveForearmToAngle2(double dTargetAngle, double dCommand_old) {
+    double dSpeedLimit = Constants.Forearm.dSpeedControlMax;
+    double dCurrentAngle = getForearmAngle();
+    double dDifference = dTargetAngle - dCurrentAngle; // To see if we have arrived
+    boolean bArrived = false;
+    double dCommand = 0.0;
+
+    if (!bRampStop) {
+      dCommand = dCommand_old + Math.signum(dDifference) * Constants.Forearm.dRampLimit;
+    }
+    dCommand = Utilities.limitVariable(-dSpeedLimit, dCommand, dSpeedLimit);
+    if (Math.abs(dDifference) <= 20.5) {
+      bRampStop = true;
+    }
+    if (bRampStop) {
+      dCommand = dCommand_old - Math.signum(dDifference) * Constants.Forearm.dRampLimit;
+      if (Math.signum(dDifference) > 0.0) {
+        dCommand = Math.max(dCommand, 0.0);
+      }
+      else {
+        dCommand = Math.min(dCommand, 0.0);
+      }
+    }
+
+    moveForearm(dCommand);
+    if (Math.abs(dDifference) < Constants.Forearm.dTolerance || dCommand == 0.0) {
       bArrived = true;
     }
     SmartDashboard.putBoolean("Forearm Arrived", bArrived);

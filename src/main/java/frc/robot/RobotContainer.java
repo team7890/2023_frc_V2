@@ -55,6 +55,7 @@ import frc.robot.commands.Button_commands.Regular_Side_Commands.RegScoreCubeMidd
 import frc.robot.commands.Button_commands.Regular_Side_Commands.RegSingleSubConePos;
 import frc.robot.commands.Button_commands.Regular_Side_Commands.RegSingleSubCubePos;
 import frc.robot.commands.Button_commands.Regular_Side_Commands.RegStowArm;
+import frc.robot.commands.Button_commands.Testing.CharacterizeTest_command;
 import frc.robot.commands.General_Movement_Commands.Arm_command;
 import frc.robot.commands.General_Movement_Commands.Forearm_command;
 import frc.robot.commands.General_Movement_Commands.Swerve_teleop;
@@ -271,7 +272,7 @@ public class RobotContainer {
     V2ButtonOne.whileTrue(new HiSideFloorPickupHorzCone(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
     // V2ButtonTwo.whileTrue(new HiSideFloorPickupCub(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
     V2ButtonThree.whileTrue(new HiSideSingleSubConePos(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
-    // V2ButtonFour.whileTrue(new (objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
+    V2ButtonFour.whileTrue(new CharacterizeTest_command(objForearm_subsystem));
     // V2ButtonFive.whileTrue(new (objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
     // V2ButtonSix.whileTrue(new (objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
     

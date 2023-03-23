@@ -72,7 +72,7 @@ public final class Constants {
     public static final int iDIOPort = 1;
     // public static final double dDegreesPerRev = 360.0;
     public static final double dOffset = 148.5;                         //Sets 0.0 to Straight up
-    public static final double dSpeedControlMax = 0.8;
+    public static final double dSpeedControlMax = 0.45;
     public static final double kP = 0.008;
     public static final double kD = 0.008;
     public static final double dSpeedUpLimit = 0.02;
@@ -80,6 +80,8 @@ public final class Constants {
     public static final double dMaxAngleLimit = 160.0;
     public static final double dMinAngleLimit = -158.0;
     public static final double dTolerance = 3.0;
+
+    public static final double dRampLimit = 0.03;
   }
 
   public static final class Wrist{
