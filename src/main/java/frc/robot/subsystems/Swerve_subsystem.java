@@ -117,10 +117,10 @@ public class Swerve_subsystem extends SubsystemBase {
         return (Constants.Swerve.invertGyro) ? Rotation2d.fromDegrees(360 - gyro.getYaw()) : Rotation2d.fromDegrees(gyro.getYaw());
     }
 
-    public Rotation2d getYawFlipped() {
-        double dGyroYaw = gyro.getYaw() + 180.0;
-        return (Constants.Swerve.invertGyro) ? Rotation2d.fromDegrees(360 - dGyroYaw) : Rotation2d.fromDegrees(dGyroYaw);
-    }
+    // public Rotation2d getYawFlipped() {
+    //     double dGyroYaw = gyro.getYaw() + 180.0;
+    //     return (Constants.Swerve.invertGyro) ? Rotation2d.fromDegrees(360 - dGyroYaw) : Rotation2d.fromDegrees(dGyroYaw);
+    // }
 
     public Rotation2d getYawFixed() {
         double dGyroYaw = gyro.getYaw() + 5.0;
@@ -144,7 +144,8 @@ public class Swerve_subsystem extends SubsystemBase {
     }
 
     public double getYawDouble() {
-        double dYaw = gyro.getYaw();
+        double dYaw = gyro.getYaw() % 360.0;
+        if (dYaw < 0.0) dYaw = dYaw + 360.0;
         return dYaw;
     }
 

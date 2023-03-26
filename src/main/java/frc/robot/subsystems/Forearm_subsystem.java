@@ -48,7 +48,7 @@ public class Forearm_subsystem extends SubsystemBase {
     //   }
     // }
 
-    if(bHoldPosition) {
+    if (bHoldPosition) {
       holdPosition(dHoldAngle, 1.0);
     }    
   }
@@ -142,7 +142,6 @@ public class Forearm_subsystem extends SubsystemBase {
     else {
       dCommand = dDifference * Constants.Forearm.kP;
     }
-    // if(Math.abs(dDifference) < 0.75) dCommand = 0.0;
 
     dCommand = Utilities.limitVariable(-dSpeedLimit * dSpeedMult, dCommand, dSpeedLimit * dSpeedMult);
     if (Math.abs(dCommand) > Math.abs(dCommand_old)) {      //Checking that speed is increasing
@@ -162,20 +161,25 @@ public class Forearm_subsystem extends SubsystemBase {
     double dDifference = dTargetAngle - dCurrentAngle; // To see if we have arrived
     boolean bArrived = false;
     double dCommand = 0.0;
+    double dSign = Math.signum(dDifference);
 
     if (!bRampStop) {
-      dCommand = dCommand_old + Math.signum(dDifference) * Constants.Forearm.dRampLimit;
+      // if we haven't reached max speed, speed up to speed limit which is cruising speed
+      dCommand = dCommand_old + dSign * Constants.Forearm.dRampLimit;
     }
     dCommand = Utilities.limitVariable(-dSpeedLimit, dCommand, dSpeedLimit);
     if (Math.abs(dDifference) <= 20.5) {
+      // if we are to the point where we need to slow down to arrive at the angle, set bRampStop to true to do the ramp down
       bRampStop = true;
     }
     if (bRampStop) {
-      dCommand = dCommand_old - Math.signum(dDifference) * Constants.Forearm.dRampLimit;
-      if (Math.signum(dDifference) > 0.0) {
+      dCommand = dCommand_old - dSign * Constants.Forearm.dRampLimit;
+      if (dSign > 0.0) {
+        // limit speed so do not ramp past zero when speed is positive
         dCommand = Math.max(dCommand, 0.0);
       }
       else {
+        // limit speed so do not ramp past zero when speed is negative
         dCommand = Math.min(dCommand, 0.0);
       }
     }
@@ -192,15 +196,8 @@ public class Forearm_subsystem extends SubsystemBase {
     double dSpeedLimit = Constants.Forearm.dSpeedControlMax;
     double dCurrentAngle = getForearmAngle();
     double dDifference = dTargetAngle - dCurrentAngle; 
-    // double dDeriv;
-    // boolean bArrived = false;
-
-    // computes dCommand, the motor speed
-    // dDeriv = dCurrentAngle - dAngle_old;
-    // double dCommand = dDifference * Constants.Forearm.kP - dDeriv * Constants.Forearm.kD;
-    // if(Math.abs(dDifference) < 0.75) dCommand = 0.0;
-
     double dCommand = dDifference * (Constants.Forearm.kP * 0.6);
+
     if (dCurrentAngle > 25.0) {
       dCommand = dCommand - 0.025;
     }
@@ -209,14 +206,7 @@ public class Forearm_subsystem extends SubsystemBase {
     }
 
     dCommand = Utilities.limitVariable(-dSpeedLimit * dSpeedMult, dCommand, dSpeedLimit * dSpeedMult);
-    // if (Math.abs(dCommand) > Math.abs(dCommand_old)) {      //Checking that speed is increasing
-    //   dCommand = dCommand_old + Math.min(Math.abs(dCommand - dCommand_old), Constants.Forearm.dSpeedUpLimit) * Math.signum(dCommand);
-    // }
     moveForearm(dCommand);
-    // if (Math.abs(dDifference) < Constants.Forearm.dTolerance) {
-    //   bArrived = true;
-    // }
-    // return dCommand;
   }
 
 }

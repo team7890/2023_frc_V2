@@ -45,7 +45,6 @@ public class CharacterizeTest_command extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    
     return dSpeed == 0.0;
   }
 }

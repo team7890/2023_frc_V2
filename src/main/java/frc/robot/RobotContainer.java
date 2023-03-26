@@ -66,6 +66,7 @@ import frc.robot.commands.Roller_commands.ConeOuttake_command;
 import frc.robot.commands.Roller_commands.CubeIntake_command;
 import frc.robot.commands.Roller_commands.CubeOuttake_command;
 import frc.robot.commands.SignalLights_commands.MakeLightsGo;
+import frc.robot.commands.General_Movement_Commands.Swerve_snap90;
 import frc.robot.subsystems.*;
 import frc.robot.commands.Autonomous.ScoreConeTopGoOverChargerBalance;
 import frc.robot.commands.Autonomous.ScoreConeTopGrabConeBalance;
@@ -228,11 +229,27 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
 
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
-    //m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    m_DriverController.rightBumper().whileTrue(new RegStowArm(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
+    // leftbumper will be slow mode (above)
+
+    m_DriverController.back().onTrue(new InstantCommand(objSwerve_subsystem::zeroGyro, objSwerve_subsystem));
+    m_DriverController.button(10).whileTrue(new Swerve_snap90(objSwerve_subsystem));
+
+    m_DriverController.leftTrigger().whileTrue(new ConeIntake_command(objRollerHand));
+    m_DriverController.rightTrigger().whileTrue(new ConeOuttake_command(objRollerHand));
+    m_DriverController.a().whileTrue(new CubeIntake_command(objRollerHand));
+    m_DriverController.x().whileTrue(new CubeOuttake_command(objRollerHand, false));
+    m_DriverController.y().whileTrue(new ConeIntake_ForSingleSub_command(objRollerHand));
+    m_DriverController.b().whileTrue(new CubeOuttake_command(objRollerHand, true));
+
+
+    // try with xbox controller but commented out when got button box above working
+    m_DriverController.y().onTrue(objSignalLights_subsystem.changeLightColor());
+
+    // added to test autos with button because getAutoCmd was not working
+    // m_DriverController.start().whileTrue(new ScoreConeTopBalance(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objGrabber_subsystem, objSwerve_subsystem));
+    // m_DriverController.leftBumper().whileTrue(new Swerve_balance(objSwerve_subsystem, .25, 0, 0, false));
 
     m_CoPilotController.x().whileTrue(new Arm_command(objArm_subsystem, Constants.Arm.dArmSpeedManual, false, 0.0));         
     m_CoPilotController.y().whileTrue(new Arm_command(objArm_subsystem, -Constants.Arm.dArmSpeedManual, false, 0.0));        
@@ -286,35 +303,6 @@ public class RobotContainer {
     // ButtonThree.whileTrue(new xScoreConeMiddleOld(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
     // 
 
-
-
-
-
-    // Open/ Close grabber
-    // m_DriverController.a().debounce(0.05).onTrue(new Grabber_command(objGrabber_subsystem));
-    m_DriverController.rightBumper().whileTrue(new RegStowArm(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
-    // leftbumper will be slow mode
-
-
-    /* Driver Buttons */    //For Swerve
-    // zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));            //This is a change from team:364 code because we used CommandXboxController
-    m_DriverController.back().onTrue(new InstantCommand(objSwerve_subsystem::zeroGyro, objSwerve_subsystem));                                  //Amalan How do we do this with CommandXboxController?
-
-
-    m_DriverController.leftTrigger().whileTrue(new ConeIntake_command(objRollerHand));
-    m_DriverController.rightTrigger().whileTrue(new ConeOuttake_command(objRollerHand));
-    m_DriverController.a().whileTrue(new CubeIntake_command(objRollerHand));
-    m_DriverController.x().whileTrue(new CubeOuttake_command(objRollerHand, false));
-    m_DriverController.y().whileTrue(new ConeIntake_ForSingleSub_command(objRollerHand));
-    m_DriverController.b().whileTrue(new CubeOuttake_command(objRollerHand, true));
-
-
-    // try with xbox controller but commented out when got button box above working
-    m_DriverController.y().onTrue(objSignalLights_subsystem.changeLightColor());
-
-    // added to test autos with button because getAutoCmd was not working
-    // m_DriverController.start().whileTrue(new ScoreConeTopBalance(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objGrabber_subsystem, objSwerve_subsystem));
-    // m_DriverController.leftBumper().whileTrue(new Swerve_balance(objSwerve_subsystem, .25, 0, 0, false));
   }
 
   /**

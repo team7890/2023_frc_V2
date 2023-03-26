@@ -10,6 +10,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Swerve_teleop extends CommandBase {    
     private Swerve_subsystem s_Swerve;    
@@ -50,5 +51,9 @@ public class Swerve_teleop extends CommandBase {
             !robotCentricSup.getAsBoolean(), 
             true
         );
+
+        // SmartDashboard.putNumber("rotation", rotationVal * Constants.Swerve.maxAngularVelocity);
+        // SmartDashboard.putNumber("YawAngle", s_Swerve.getYawDouble());
+ 
     }
 }
