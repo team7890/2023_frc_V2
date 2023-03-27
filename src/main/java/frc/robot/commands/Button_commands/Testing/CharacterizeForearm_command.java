@@ -7,15 +7,16 @@ package frc.robot.commands.Button_commands.Testing;
 import frc.robot.subsystems.Forearm_subsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 
-public class CharacterizeTest_command extends CommandBase {
+public class CharacterizeForearm_command extends CommandBase {
 
   private final Forearm_subsystem objForearm_subsystem;
   private double dSpeed;
-  private double dMaxSpeed = 0.45;
+  private double dMaxSpeed = Constants.Forearm.dSpeedControlMax;
   
   /** Creates a new CharacterizeTest_command. */
-  public CharacterizeTest_command(Forearm_subsystem objForearm_in) {
+  public CharacterizeForearm_command(Forearm_subsystem objForearm_in) {
     // Use addRequirements() here to declare subsystem dependencies.
     objForearm_subsystem = objForearm_in;
     addRequirements(objForearm_subsystem);
@@ -32,6 +33,7 @@ public class CharacterizeTest_command extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // dSpeed = objForearm_subsystem.characterize(dSpeed, dMaxSpeed);
     dSpeed = objForearm_subsystem.moveForearmToAngle2(90.0, dSpeed);
   }
 
@@ -39,6 +41,7 @@ public class CharacterizeTest_command extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     // objForearm_subsystem.setSoftStop(true);
+    // objForearm_subsystem.setHoldAngle(objForearm_subsystem.getForearmAngle());
     objForearm_subsystem.setHoldAngle(90.0);
   }
 

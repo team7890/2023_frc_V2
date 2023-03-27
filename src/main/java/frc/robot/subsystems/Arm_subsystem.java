@@ -25,6 +25,10 @@ public class Arm_subsystem extends SubsystemBase {
   private double dSpeed1;
   private double dSpeed2;
   private boolean bSoftStopActive;
+  private boolean bHoldPosition;
+  private double dHoldAngle;
+  private double dCharSpeed;
+  private boolean bRampStop;
 
   /** Creates a new Arm_subsystem. */
   public Arm_subsystem() {
@@ -39,16 +43,29 @@ public class Arm_subsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     getArmAngle();
-    if(bSoftStopActive) {
-      softStop();
-      if(Math.abs(objArmMotor1.get()) < 0.03) setSoftStop(false);
-    }
+    // if(bSoftStopActive) {
+    //   softStop();
+    //   if(Math.abs(objArmMotor1.get()) < 0.03) setSoftStop(false);
+    // }
+    if (bHoldPosition) {
+      holdPosition(dHoldAngle);
+    }  
+  }
+
+  public void setHoldAngle(double dHoldAngle_in) {
+    dHoldAngle = dHoldAngle_in;
+    bHoldPosition = true;
+  }
+  
+  public void stopHoldingAngle() {
+    bHoldPosition = false;
   }
 
   public void setSoftStop(boolean input) { bSoftStopActive = input; }
 
   public double moveArm(double dSpeed, double dSpeed_old) {
-    double dSpeedLimit = Constants.Arm.dArmSpeedControlMax;
+
+    double dSpeedLimit = Constants.Arm.dSpeedControlMax;
     double dCurrentAngle = getArmAngle();
 
     if (Math.abs(dSpeed) > Math.abs(dSpeed_old)) {      //Checking that speed is increasing
@@ -64,6 +81,40 @@ public class Arm_subsystem extends SubsystemBase {
     objArmMotor1.set(dSpeed);
     objArmMotor2.set(-dSpeed);
     return dSpeed;
+  }
+
+  public void moveArm2(double dSpeed) {
+    double dSpeedLimit = Constants.Arm.dSpeedControlMax;
+    double dCurrentAngle = getArmAngle();
+    if (dCurrentAngle > Constants.Arm.dMaxAngleLimit) {
+      dSpeed = Utilities.limitVariable(-dSpeedLimit, dSpeed, 0.0);   
+    }
+    else if (dCurrentAngle < Constants.Arm.dMinAngleLimit) {
+      dSpeed = Utilities.limitVariable(0.0, dSpeed, dSpeedLimit); 
+    }
+    // set speeds so positive speed moves in positive angle direction
+    objArmMotor1.set(dSpeed);
+    objArmMotor2.set(-dSpeed);
+  }
+
+  public double characterize(double dSpeed_in, double dMaxSpeed_in) {
+    if (!bRampStop) {
+      dCharSpeed = dSpeed_in + Constants.Arm.dRampLimit;
+    }
+    else {
+      dCharSpeed = Math.max(dSpeed_in - Constants.Arm.dRampLimit, 0.0);
+    }
+
+    if (dCharSpeed >= dMaxSpeed_in) {
+      bRampStop = true;
+    }
+
+    moveArm2(dCharSpeed);
+    return dCharSpeed;
+  }
+  
+  public void resetRamp() {
+    bRampStop = false;
   }
 
   public void stopArm() {
@@ -102,7 +153,7 @@ public class Arm_subsystem extends SubsystemBase {
   }
 
   public double moveArmToAngle(double dTargetAngle, double dAngle_old, double dCommand_old, double dSpeedMult) {
-    double dSpeedLimit = Constants.Arm.dArmSpeedControlMax;
+    double dSpeedLimit = Constants.Arm.dSpeedControlMax;
     double dCurrentAngle = getArmAngle();
     double dDifference = dTargetAngle - dCurrentAngle; 
     double dDeriv;
@@ -128,5 +179,63 @@ public class Arm_subsystem extends SubsystemBase {
     SmartDashboard.putBoolean("Arm Arrived", bArrived);
     return dCommand;
   }
+
+  public double moveArmToAngle2(double dTargetAngle, double dCommand_old) {
+    // note positive arm speed moves
+    double dSpeedLimit = Constants.Arm.dSpeedControlMax;
+    double dCurrentAngle = getArmAngle();
+    double dDifference = dTargetAngle - dCurrentAngle; // To see if we have arrived
+    boolean bArrived = false;
+    double dCommand = 0.0;
+    double dSign = Math.signum(dDifference);
+    double dRampDownAngle;
+
+    if (!bRampStop) {
+      // if we haven't reached max speed, speed up to speed limit which is cruising speed
+      dCommand = dCommand_old + dSign * Constants.Arm.dRampLimit;
+    }
+    dCommand = Utilities.limitVariable(-dSpeedLimit, dCommand, dSpeedLimit);
+    dRampDownAngle = 0.5 * Constants.Arm.dRampCharKvalue * dCommand_old * dCommand_old / Constants.Forearm.dRampLimit;
+    if (Math.abs(dDifference) <= dRampDownAngle) {
+      // if we are to the point where we need to slow down to arrive at the angle, set bRampStop to true to do the ramp down
+      bRampStop = true;
+    }
+    if (bRampStop) {
+      dCommand = dCommand_old - dSign * Constants.Forearm.dRampLimit;
+      if (dSign > 0.0) {
+        // limit speed so do not ramp past zero when speed is positive
+        dCommand = Math.max(dCommand, 0.0);
+      }
+      else {
+        // limit speed so do not ramp past zero when speed is negative
+        dCommand = Math.min(dCommand, 0.0);
+      }
+    }
+
+    moveArm2(dCommand);
+    if (Math.abs(dDifference) < Constants.Arm.dTolerance || dCommand == 0.0) {
+      bArrived = true;
+    }
+    SmartDashboard.putBoolean("Forearm Arrived", bArrived);
+    return dCommand;
+  }
+
+  public void holdPosition(double dTargetAngle) {
+    double dSpeedLimit = Constants.Forearm.dSpeedControlMax;
+    double dCurrentAngle = getArmAngle();
+    double dDifference = dTargetAngle - dCurrentAngle; 
+    double dCommand = dDifference * Constants.Forearm.kP * 0.6;
+
+    if (dCurrentAngle > 25.0) {
+      dCommand = dCommand - 0.025;
+    }
+    if (dCurrentAngle < -25.0) {
+      dCommand = dCommand + 0.025;
+    }
+
+    dCommand = Utilities.limitVariable(-dSpeedLimit, dCommand, dSpeedLimit);
+    moveArm2(dCommand);
+  }
+
 }
 

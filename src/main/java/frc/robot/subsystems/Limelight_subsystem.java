@@ -29,16 +29,11 @@ public class Limelight_subsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    // LimelightHelpers.LimelightResults objLimelightResults = LimelightHelpers.getLatestResults("limelight");
-    // var vResults = objLimelightResults.targetingResults.targets_Fiducials[0];
-    // tx = vResults.tx;
-    // ty = vResults.ty;
-
-    SmartDashboard.putNumber("tx", tx.getDouble(0.0));
-    SmartDashboard.putNumber("ty", ty.getDouble(0.0));
-    SmartDashboard.putNumber("ta", ta.getDouble(0.0));
-    SmartDashboard.putNumber("ts", ts.getDouble(0.0));
-    SmartDashboard.putBoolean("tv", tv.getBoolean(false));
+    // SmartDashboard.putNumber("tx", tx.getDouble(0.0));
+    // SmartDashboard.putNumber("ty", ty.getDouble(0.0));
+    // SmartDashboard.putNumber("ta", ta.getDouble(0.0));
+    // SmartDashboard.putNumber("ts", ts.getDouble(0.0));
+    // SmartDashboard.putBoolean("tv", tv.getBoolean(false));
   }
 
   public void turnLEDsOn() {

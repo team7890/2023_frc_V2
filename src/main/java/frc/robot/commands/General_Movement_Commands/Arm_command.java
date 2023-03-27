@@ -15,7 +15,7 @@ public class Arm_command extends CommandBase {
   private final double dSpeed;
   private final Arm_subsystem objArm_subsystem;
   private final boolean bMode;
-  private final double dTargetAngle;
+  private double dTargetAngle;
   private double dAngle_old;
   private double dCommand_old;
   private boolean bDone;
@@ -37,6 +37,9 @@ public class Arm_command extends CommandBase {
     dAngle_old = objArm_subsystem.getArmAngle();
     dCommand_old = 0.0;
     bDone = false;
+
+    objArm_subsystem.resetRamp();
+    objArm_subsystem.stopHoldingAngle();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -44,21 +47,24 @@ public class Arm_command extends CommandBase {
   public void execute() {
     // objArm_subsystem.moveArm(dSpeed);
     if (bMode) {
-      dCommand_old = objArm_subsystem.moveArmToAngle(dTargetAngle, dAngle_old, dCommand_old, 1.0);
+      // dCommand_old = objArm_subsystem.moveArmToAngle(dTargetAngle, dAngle_old, dCommand_old, 1.0);
+      dCommand_old = objArm_subsystem.moveArmToAngle2(dTargetAngle, dCommand_old);
       dAngle_old = objArm_subsystem.getArmAngle();
       if (Math.abs(dTargetAngle - dAngle_old) < Constants.Arm.dTolerance) {
         bDone = true;
       }
     }
     else {
-      dCommand_old = objArm_subsystem.moveArm(dSpeed, dCommand_old);
+      objArm_subsystem.moveArm2(dSpeed);
+      dTargetAngle = objArm_subsystem.getArmAngle();
     }   
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    objArm_subsystem.setSoftStop(true);
+    // objArm_subsystem.setSoftStop(true);
+    objArm_subsystem.setHoldAngle(dTargetAngle);
   }
 
   // Returns true when the command should end.
