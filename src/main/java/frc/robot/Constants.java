@@ -67,7 +67,6 @@ public final class Constants {
     
     public static final double dRampLimit = 0.04;
     public static final double dRampCharKvalue = 1.83;
-
   }
 
   public static final class Forearm {
@@ -106,6 +105,9 @@ public final class Constants {
     public static final double dMaxAngleLimit = 150.0;
     public static final double dMinAngleLimit = -150.0;
     public static final double dTolerance = 3.0;
+
+    public static final double dRampLimit = 0.04;
+    public static final double dRampCharKvalue = 1.83;    // NEED TO CALCULATE THIS
   }
 
   public static final class Grabber{

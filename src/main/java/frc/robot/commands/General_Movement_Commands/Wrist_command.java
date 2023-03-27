@@ -13,7 +13,7 @@ public class Wrist_command extends CommandBase {
   private final double dSpeed;
   private final Wrist_subsystem objWrist_subsystem;
   private final boolean bMode;
-  private final double dTargetAngle;
+  private double dTargetAngle;
   private double dAngle_old;
   private double dCommand_old;
   private boolean bDone;
@@ -35,15 +35,17 @@ public class Wrist_command extends CommandBase {
     dAngle_old = objWrist_subsystem.getWristAngle();
     dCommand_old = 0.0;
     bDone = false;
-    System.out.println("Wrist_command init");  
+
+    objWrist_subsystem.resetRamp();
+    objWrist_subsystem.stopHoldingAngle();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // objWrist_subsystem.moveWrist(dSpeed);
     if (bMode) {
-      dCommand_old = objWrist_subsystem.moveWristToAngle(dTargetAngle, dAngle_old, dCommand_old, 1.0);
+      // dCommand_old = objWrist_subsystem.moveWristToAngle(dTargetAngle, dAngle_old, dCommand_old, 1.0);
+      dCommand_old = objWrist_subsystem.moveWristToAngle2(dTargetAngle, dCommand_old);
       dAngle_old = objWrist_subsystem.getWristAngle();
       if (Math.abs(dTargetAngle - dAngle_old) < Constants.Wrist.dTolerance) {
         bDone = true; 
@@ -51,13 +53,15 @@ public class Wrist_command extends CommandBase {
     }
     else {
       objWrist_subsystem.moveWrist(dSpeed);
+      dTargetAngle = objWrist_subsystem.getWristAngle();
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    objWrist_subsystem.setSoftStop(true);
+    // objWrist_subsystem.setSoftStop(true);
+    objWrist_subsystem.setHoldAngle(dTargetAngle);
   }
 
   // Returns true when the command should end.

@@ -195,13 +195,13 @@ public class Arm_subsystem extends SubsystemBase {
       dCommand = dCommand_old + dSign * Constants.Arm.dRampLimit;
     }
     dCommand = Utilities.limitVariable(-dSpeedLimit, dCommand, dSpeedLimit);
-    dRampDownAngle = 0.5 * Constants.Arm.dRampCharKvalue * dCommand_old * dCommand_old / Constants.Forearm.dRampLimit;
+    dRampDownAngle = 0.5 * Constants.Arm.dRampCharKvalue * dCommand_old * dCommand_old / Constants.Arm.dRampLimit;
     if (Math.abs(dDifference) <= dRampDownAngle) {
       // if we are to the point where we need to slow down to arrive at the angle, set bRampStop to true to do the ramp down
       bRampStop = true;
     }
     if (bRampStop) {
-      dCommand = dCommand_old - dSign * Constants.Forearm.dRampLimit;
+      dCommand = dCommand_old - dSign * Constants.Arm.dRampLimit;
       if (dSign > 0.0) {
         // limit speed so do not ramp past zero when speed is positive
         dCommand = Math.max(dCommand, 0.0);
@@ -216,15 +216,15 @@ public class Arm_subsystem extends SubsystemBase {
     if (Math.abs(dDifference) < Constants.Arm.dTolerance || dCommand == 0.0) {
       bArrived = true;
     }
-    SmartDashboard.putBoolean("Forearm Arrived", bArrived);
+    SmartDashboard.putBoolean("Arm Arrived", bArrived);
     return dCommand;
   }
 
   public void holdPosition(double dTargetAngle) {
-    double dSpeedLimit = Constants.Forearm.dSpeedControlMax;
+    double dSpeedLimit = Constants.Arm.dSpeedControlMax;
     double dCurrentAngle = getArmAngle();
     double dDifference = dTargetAngle - dCurrentAngle; 
-    double dCommand = dDifference * Constants.Forearm.kP * 0.6;
+    double dCommand = dDifference * Constants.Arm.kP * 0.6;
 
     if (dCurrentAngle > 25.0) {
       dCommand = dCommand - 0.025;
