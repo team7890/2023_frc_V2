@@ -22,13 +22,9 @@ public class Forearm_subsystem extends SubsystemBase {
   private DutyCycleEncoder objAbsEncoder;
   private double dSpeed;
   private boolean bSoftStopActive;
-  private boolean bSoftStopToHold;
   private boolean bHoldPosition;
-  private double dHoldAngle = -200.0;
+  private double dHoldAngle;
   private double dAngle;
-  private double dCharSpeed;
-  private boolean bRampStop;
-  private boolean bArrived;
 
   /** Creates a new Forearm_subsystem. */
   public Forearm_subsystem() {
@@ -43,44 +39,23 @@ public class Forearm_subsystem extends SubsystemBase {
     dAngle = getForearmAngle();
     if (bSoftStopActive) {
       softStop();
-      if (Math.abs(objForearmMotor.get()) < 0.08) {
+      if (Math.abs(objForearmMotor.get()) < 0.03) {
         bSoftStopActive = false;
         bHoldPosition = true;
-        if (!bSoftStopToHold) dHoldAngle = dAngle;
+        dHoldAngle = dAngle;
       }
     }
-    if (bHoldPosition) {
-      holdPosition(dHoldAngle);
-    }
-    
-    if (Math.abs(dHoldAngle - dAngle) < Constants.Forearm.dTolerance) bArrived = true;
-    else bArrived = false;
-    SmartDashboard.putBoolean("Forearm Arrived", bArrived);
-    SmartDashboard.putNumber("Forearm Hold Angle", dHoldAngle);
-  }
 
-  public void setHoldAngle(double dHoldAngle_in) {
-    dHoldAngle = dHoldAngle_in;
-    bHoldPosition = true;
-  }
-  
-  public void stopHoldingAngle() {
-    bHoldPosition = false;
+    if(bHoldPosition) {
+      holdPosition(dHoldAngle, 1.0);
+    }    
   }
 
   public void setSoftStop(boolean input) { 
     bSoftStopActive = input; 
-    bSoftStopToHold = false;
     bHoldPosition = false;
   }
 
-  public void setSoftStopToHold(double dHoldAngle_in) {
-    bSoftStopActive = true;
-    bSoftStopToHold = true;
-    bHoldPosition = false;
-    dHoldAngle = dHoldAngle_in;
-  }
-  
   public void moveForearm(double dSpeed) {
     double dSpeedLimit = Constants.Forearm.dSpeedControlMax;
     double dCurrentAngle = getForearmAngle();
@@ -93,30 +68,16 @@ public class Forearm_subsystem extends SubsystemBase {
     objForearmMotor.set(dSpeed);
   }
 
-<<<<<<< HEAD
-  public double characterize(double dSpeed_in, double dMaxSpeed_in) {
-    if (!bRampStop) {
-      dCharSpeed = dSpeed_in + Constants.Forearm.dRampLimit;
-    }
-    else {
-      dCharSpeed = Math.max(dSpeed_in - Constants.Forearm.dRampLimit, 0.0);
-    }
+  public void characterize(double dStartingSpeed, double dMaxSpeed) {
+    
 
-    if (dCharSpeed >= dMaxSpeed_in) {
-      bRampStop = true;
-    }
 
-    moveForearm(dCharSpeed);
-    return dCharSpeed;
-  }
-  
 
-  public void resetRamp() {
-    bRampStop = false;
+
+
+
   }
 
-=======
->>>>>>> parent of 47a999a (LimeLight stuff)
   public void stopForearm() {
     objForearmMotor.stopMotor();
   }
@@ -148,6 +109,7 @@ public class Forearm_subsystem extends SubsystemBase {
     double dCurrentAngle = getForearmAngle();
     double dDifference = dTargetAngle - dCurrentAngle; 
     double dDeriv;
+    boolean bArrived = false;
     double dCommand;
 
     // computes dCommand, the motor speed
@@ -158,57 +120,33 @@ public class Forearm_subsystem extends SubsystemBase {
     else {
       dCommand = dDifference * Constants.Forearm.kP;
     }
+    // if(Math.abs(dDifference) < 0.75) dCommand = 0.0;
 
     dCommand = Utilities.limitVariable(-dSpeedLimit * dSpeedMult, dCommand, dSpeedLimit * dSpeedMult);
     if (Math.abs(dCommand) > Math.abs(dCommand_old)) {      //Checking that speed is increasing
       dCommand = dCommand_old + Math.min(Math.abs(dCommand - dCommand_old), Constants.Forearm.dSpeedUpLimit) * Math.signum(dCommand);
     }
     moveForearm(dCommand);
-    return dCommand;
-  }
-  
-  public double moveForearmToAngle2(double dTargetAngle, double dCommand_old) {
-    double dSpeedLimit = Constants.Forearm.dSpeedControlMax;
-    double dCurrentAngle = getForearmAngle();
-    double dDifference = dTargetAngle - dCurrentAngle; // To see if we have arrived
-    double dCommand = 0.0;
-    double dSign = Math.signum(dDifference);
-    double dRampDownAngle;
-
-    if (!bRampStop) {
-      // if we haven't reached max speed, speed up to speed limit which is cruising speed
-      dCommand = dCommand_old + dSign * Constants.Forearm.dRampLimit;
+    if (Math.abs(dDifference) < Constants.Forearm.dTolerance) {
+      bArrived = true;
     }
-    dCommand = Utilities.limitVariable(-dSpeedLimit, dCommand, dSpeedLimit);
-    dRampDownAngle = 0.5 * Constants.Forearm.dRampCharKvalue * dCommand_old * dCommand_old / Constants.Forearm.dRampLimit;
-    if (Math.abs(dDifference) <= dRampDownAngle) {
-      // if we are to the point where we need to slow down to arrive at the angle, set bRampStop to true to do the ramp down
-      bRampStop = true;
-    }
-    // else bRampStop = false;
-
-    if (bRampStop) {
-      dCommand = dCommand_old - dSign * Constants.Forearm.dRampLimit;
-      if (dSign > 0.0) {
-        // limit speed so do not ramp past zero when speed is positive
-        dCommand = Math.max(dCommand, 0.0);
-      }
-      else {
-        // limit speed so do not ramp past zero when speed is negative
-        dCommand = Math.min(dCommand, 0.0);
-      }
-    }
-
-    moveForearm(dCommand);
+    SmartDashboard.putBoolean("Forearm Arrived", bArrived);
     return dCommand;
   }
 
-  public void holdPosition(double dTargetAngle) {
+  public void holdPosition(double dTargetAngle, double dSpeedMult) {
     double dSpeedLimit = Constants.Forearm.dSpeedControlMax;
     double dCurrentAngle = getForearmAngle();
     double dDifference = dTargetAngle - dCurrentAngle; 
-    double dCommand = dDifference * 0.022;
+    // double dDeriv;
+    // boolean bArrived = false;
 
+    // computes dCommand, the motor speed
+    // dDeriv = dCurrentAngle - dAngle_old;
+    // double dCommand = dDifference * Constants.Forearm.kP - dDeriv * Constants.Forearm.kD;
+    // if(Math.abs(dDifference) < 0.75) dCommand = 0.0;
+
+    double dCommand = dDifference * (Constants.Forearm.kP * 0.6);
     if (dCurrentAngle > 25.0) {
       dCommand = dCommand - 0.025;
     }
@@ -216,8 +154,15 @@ public class Forearm_subsystem extends SubsystemBase {
       dCommand = dCommand + 0.025;
     }
 
-    dCommand = Utilities.limitVariable(-dSpeedLimit, dCommand, dSpeedLimit);
+    dCommand = Utilities.limitVariable(-dSpeedLimit * dSpeedMult, dCommand, dSpeedLimit * dSpeedMult);
+    // if (Math.abs(dCommand) > Math.abs(dCommand_old)) {      //Checking that speed is increasing
+    //   dCommand = dCommand_old + Math.min(Math.abs(dCommand - dCommand_old), Constants.Forearm.dSpeedUpLimit) * Math.signum(dCommand);
+    // }
     moveForearm(dCommand);
+    // if (Math.abs(dDifference) < Constants.Forearm.dTolerance) {
+    //   bArrived = true;
+    // }
+    // return dCommand;
   }
 
 }

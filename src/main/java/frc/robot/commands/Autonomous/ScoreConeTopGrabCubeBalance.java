@@ -20,7 +20,6 @@ import frc.robot.commands.General_Movement_Commands.Swerve_auto;
 import frc.robot.commands.Roller_commands.ConeOuttake_command;
 import frc.robot.commands.Roller_commands.CubeIntake_command;
 import frc.robot.commands.General_Movement_Commands.Swerve_balance;
-import frc.robot.commands.Button_commands.Auto_Specific_commands.AutoSpecific_RegFloorPickupCube;
 
 
 
@@ -38,18 +37,18 @@ public class ScoreConeTopGrabCubeBalance extends SequentialCommandGroup {
     addCommands(
       new HiSideScoreConeTop(objArm, objForearm, objWrist).withTimeout(4.0),
       new ConeOuttake_command(objRollerHand).withTimeout(1.0),
-      new AutoSpecific_RegFloorPickupCube(objArm, objForearm, objWrist).withTimeout(1.0),
+      new RegFloorPickupCube(objArm, objForearm, objWrist).withTimeout(1.0),
       new ParallelCommandGroup(
         new Swerve_auto(objSwerve, 0.3, 0.0, 0.0, false).withTimeout(3.0),
         new SequentialCommandGroup( //TODO clean up
-          new AutoSpecific_RegFloorPickupCube(objArm, objForearm, objWrist).withTimeout(3.0)
+          new RegFloorPickupCube(objArm, objForearm, objWrist).withTimeout(3.0)
         ),
         new CubeIntake_command(objRollerHand).withTimeout(3.0)
       ).withTimeout(3.0),
       new ParallelCommandGroup(
         new Swerve_auto(objSwerve, 0.3, 0.0, 0.0, false).withTimeout(1.8),
         new SequentialCommandGroup(
-          new AutoSpecific_RegFloorPickupCube(objArm, objForearm, objWrist).withTimeout(1.8)
+          new RegFloorPickupCube(objArm, objForearm, objWrist).withTimeout(1.8)
         ),
         new CubeIntake_command(objRollerHand).withTimeout(1.8)
       ).withTimeout(1.8),

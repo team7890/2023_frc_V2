@@ -53,7 +53,7 @@ public class SignalLights_subsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    // SmartDashboard.putString("LED Color", sColor);
+    SmartDashboard.putString("LED Color", sColor);
   }
 
   public void chaseLights(double dSpeed) {

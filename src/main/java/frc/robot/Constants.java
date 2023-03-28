@@ -17,14 +17,6 @@ import frc.lib.util.COTSFalconSwerveConstants;
 import frc.lib.util.SwerveModuleConstants;
 //End of Imports for Swerve
 
-// imports for Limelight7028
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation3d;
-import static edu.wpi.first.math.util.Units.degreesToRadians;
-// end of imports for Limelight
-
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -51,69 +43,54 @@ public final class Constants {
   }
 
   public static final class Arm {
-    // basic setup constants
     public static final int iCurrentLimit = 40;
+    public static final double dArmSpeedManual = 0.4;
     public static final int iDIOPort = 0;
+    // public static final double dDegreesPerRev = 360.0;
     public static final double dOffset = 34.0;                         //Sets 0.0 to Straight up
-    // main control constants
-    public static final double dSpeedManual = 0.3;
-    public static final double dMaxAngleLimit = 40.0;
-    public static final double dMinAngleLimit = -40.0;
-    public static final double dTolerance = 3.0;
-    public static final double dSoftStopLimit = 0.035;
-    // new ramp control constants
-    public static final double dSpeedControlMax = 0.4;
-    public static final double dRampLimit = 0.02;
-    public static final double dRampCharKvalue = 1.83;
-    // not really used anymore
-    public static final double dDegreesPerRev = 360.0;
+    public static final double dArmSpeedControlMax = 0.8;
     public static final double kP = 0.5;
     public static final double kD = 0.5;
-    public static final double dSpeedUpLimit = 0.005;    
+    public static final double dSpeedUpLimit = 0.005;
+    public static final double dSoftStopLimit = 0.035;
+    public static final double dMaxAngleLimit = 40.0;
+    public static final double dMinAngleLimit = -40.0;
+    public static final double dTolerance = 3.0;                      
   }
 
   public static final class Forearm {
-    // basic setup constants
     public static final int iCurrentLimit = 40;
+    public static final double dSpeedManual = 0.2;
     public static final int iDIOPort = 1;
+    // public static final double dDegreesPerRev = 360.0;
     public static final double dOffset = 148.5;                         //Sets 0.0 to Straight up
-    // main control constants
-    public static final double dSpeedManual = 0.15;
-    public static final double dMaxAngleLimit = 160.0;
-    public static final double dMinAngleLimit = -158.0;
-    public static final double dTolerance = 3.0;
-    public static final double dSoftStopLimit = 0.1;
-    // new ramp control constants
-    public static final double dSpeedControlMax = 0.6;
-    public static final double dRampLimit = 0.015;
-    public static final double dRampCharKvalue = 6.03;
-    // not really used anymore
-    public static final double dDegreesPerRev = 360.0;
+    public static final double dSpeedControlMax = 0.8;
     public static final double kP = 0.008;
     public static final double kD = 0.008;
     public static final double dSpeedUpLimit = 0.02;
+    public static final double dSoftStopLimit = 0.1;
+    public static final double dMaxAngleLimit = 160.0;
+    public static final double dMinAngleLimit = -158.0;
+    public static final double dTolerance = 3.0;
   }
 
   public static final class Wrist{
-    // basic setup constants
     public static final int iCurrentLimit = 40;
+    public static final double dSpeedManual = 0.3;
     public static final int iDIOPort = 2;
-    public static final double dOffset = 123.1;               //Sets 0.0 to Straight up
-    // main control constants
-    public static final double dSpeedManual = 0.2;
-    public static final double dMaxAngleLimit = 150.0;
-    public static final double dMinAngleLimit = -150.0;
-    public static final double dTolerance = 3.0;
-    public static final double dSoftStopLimit = 0.2;
-    // new ramp control constants
-    public static final double dSpeedControlMax = 0.6;
-    public static final double dRampLimit = 0.03;
-    public static final double dRampCharKvalue = 11.37;    
-    // not really used anymore
     public static final double dDegreesPerRev = 360.0 / 42.0 * 18.0;
+    // public static final double dOffset = -97.58;                          //Sets 0.0 to Straight up
+    public static final double dOffset = -56.2;
+    public static final double dSpeedControlMax = 0.4;
     public static final double kP = 0.02;
     public static final double kD = 0.02;
     public static final double dSpeedUpLimit = 0.02;
+    public static final double dSoftStopLimit = 0.2;
+    // public static final double dMaxAngleLimit = 118.0;
+    // public static final double dMinAngleLimit = -90.0;
+    public static final double dMaxAngleLimit = 150.0;
+    public static final double dMinAngleLimit = -150.0;
+    public static final double dTolerance = 3.0;
   }
 
   public static final class Grabber{
@@ -300,39 +277,7 @@ public final class Constants {
     }
   //End of Stuff Copied in for Swerve
 
-  // stuff copied in for Limelight7028
-  public static class VisionConstants {
 
-    /** Physical location of the apriltag camera on the robot, relative to the center of the robot. */
-    public static final Transform3d APRILTAG_CAMERA_TO_ROBOT =
-        new Transform3d(new Translation3d(-0.06, 0.250, -0.2127), new Rotation3d(0.0, degreesToRadians(15.0), 0.0));
-
-    /** Physical location of the shooter camera on the robot, relative to the center of the robot. */
-    public static final Transform3d LOW_LIMELIGHT_TO_ROBOT = new Transform3d(
-        new Translation3d(-0.083, 0.254, -0.537),
-        new Rotation3d(0.0, degreesToRadians(-9.8), degreesToRadians(-1.0)));
-
-    public static final String LOW_LIMELIGHT_NAME = "limelight";
-    
-    /** Physical location of the high camera on the robot, relative to the center of the robot. */
-    public static final Transform3d HIGH_LIMELIGHT_TO_ROBOT = new Transform3d(
-        new Translation3d(-0.11, -0.015, -0.895),
-        new Rotation3d(degreesToRadians(-90.0), degreesToRadians(34.6), 0.0));
-
-    public static final String HIGH_LIMELIGHT_NAME = "limelight-high";
-    
-    public static final double FIELD_LENGTH_METERS = 16.54175;
-    public static final double FIELD_WIDTH_METERS = 8.0137;
-
-    // Pose on the opposite side of the field. Use with `relativeTo` to flip a pose to the opposite alliance
-    public static final Pose2d FLIPPING_POSE = new Pose2d(
-        new Translation2d(FIELD_LENGTH_METERS, FIELD_WIDTH_METERS),
-        new Rotation2d(Math.PI));
-
-    /** Minimum target ambiguity. Targets with higher ambiguity will be discarded */
-    public static final double APRILTAG_AMBIGUITY_THRESHOLD = 0.2;
-  }
-  // end of stuff copied in for Limelight
 
 
 }

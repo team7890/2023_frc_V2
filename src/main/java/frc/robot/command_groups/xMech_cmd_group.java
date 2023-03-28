@@ -26,7 +26,7 @@ public class xMech_cmd_group extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ParallelCommandGroup(
-        new Arm_command(obj_Arm, Constants.Arm.dSpeedManual, true, 15.0),
+        new Arm_command(obj_Arm, Constants.Arm.dArmSpeedManual, true, 15.0),
         new SequentialCommandGroup(
           Commands.waitSeconds(2),
           new Forearm_command(obj_Forearm, Constants.Forearm.dSpeedManual / 5.0, true, 15.0)

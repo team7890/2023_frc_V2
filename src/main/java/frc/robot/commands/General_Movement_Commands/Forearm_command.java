@@ -15,7 +15,7 @@ public class Forearm_command extends CommandBase {
   private final double dSpeed;
   private final Forearm_subsystem objForearm_subsystem;
   private final boolean bMode;
-  private double dTargetAngle;
+  private final double dTargetAngle;
   private double dAngle_old;
   private double dCommand_old;
   private boolean bDone;
@@ -33,21 +33,18 @@ public class Forearm_command extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // objForearm_subsystem.setSoftStop(false);
-    // dAngle_old = objForearm_subsystem.getForearmAngle();
+    objForearm_subsystem.setSoftStop(false);
+    // objForearm_subsystem.stopForearm();
+    dAngle_old = objForearm_subsystem.getForearmAngle();
     dCommand_old = 0.0;
     bDone = false;
-
-    objForearm_subsystem.resetRamp();
-    objForearm_subsystem.stopHoldingAngle();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if (bMode) {
-      // dCommand_old = objForearm_subsystem.moveForearmToAngle(dTargetAngle, dAngle_old, dCommand_old, 1.0);
-      dCommand_old = objForearm_subsystem.moveForearmToAngle2(dTargetAngle, dCommand_old);
+      dCommand_old = objForearm_subsystem.moveForearmToAngle(dTargetAngle, dAngle_old, dCommand_old, 1.0);
       dAngle_old = objForearm_subsystem.getForearmAngle();
       if (Math.abs(dTargetAngle - dAngle_old) < Constants.Forearm.dTolerance) {
         bDone = true;
@@ -55,19 +52,16 @@ public class Forearm_command extends CommandBase {
     }
     else {
       objForearm_subsystem.moveForearm(dSpeed);
-      dTargetAngle = objForearm_subsystem.getForearmAngle();
     }
-    // System.out.println("Forearm Target:  " + dTargetAngle);
-    // System.out.println("Forearm Angle:  " + dAngle_old);
-    // System.out.println("Forearm Done:  " + bDone);
+    System.out.println("Forearm Target:  " + dTargetAngle);
+    System.out.println("Forearm Angle:  " + dAngle_old);
+    System.out.println("Forearm Done:  " + bDone);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     objForearm_subsystem.setSoftStop(true);
-    // objForearm_subsystem.setHoldAngle(dTargetAngle);
-
   }
 
   // Returns true when the command should end.

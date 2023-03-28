@@ -48,21 +48,18 @@ public class HiSideFloorPickupCube extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // //Arm Variables
-    // // objArm.setSoftStop(false);
-    // // objArm.stopHoldingAngle();
-    // dArmAngle_old = objArm.getArmAngle();
-    // dArmCommand_old = 0.0;
-    // //Forearm Variables
-    // // objForearm.setSoftStop(false);
-    // // objForearm.stopHoldingAngle();
-    // dForearmAngle_old = objForearm.getForearmAngle();
-    // dForearmCommand_old = 0.0;
-    // //Wrist Variables
-    // // objWrist.setSoftStop(false);
-    // // objWrist.stopHoldingAngle();
-    // dWristAngle_old = objWrist.getWristAngle();
-    // dWristCommand_old = 0.0;
+    //Arm Variables
+    objArm.setSoftStop(false);
+    dArmAngle_old = objArm.getArmAngle();
+    dArmCommand_old = 0.0;
+    //Forearm Variables
+    objForearm.setSoftStop(false);
+    dForearmAngle_old = objForearm.getForearmAngle();
+    dForearmCommand_old = 0.0;
+    //Wrist Variables
+    objWrist.setSoftStop(false);
+    dWristAngle_old = objWrist.getWristAngle();
+    dWristCommand_old = 0.0;
 
     // iState = 0;
     // if (objForearm.getForearmAngle() > 120.0) iState = 10;
@@ -74,15 +71,12 @@ public class HiSideFloorPickupCube extends CommandBase {
   @Override
   public void execute() {
     switch (iState) {
-      // case 10:          //if the forearm is out on the high scoring side
-      //                   // first move the wirst up (means the wrist is going to a negative angle)
-      //   objArm.holdPosition(objArm.getArmAngle());
-      //   dForearmCommand_old = objForearm.moveForearmToAngle(dForearmTarget, dForearmAngle_old, dForearmCommand_old, 1.0);
-      //   objWrist.holdPosition(objWrist.getWristAngle());
-      //   if (objWrist.getWristAngle() > 45.0 && objArm.getArmAngle() > -8.0) iState = 14;
-      //   break;
-      case 11:
-
+      case 10:          //if the forearm is out on the high scoring side
+                        // first move the wirst up (means the wrist is going to a negative angle)
+        objArm.softStop();
+        dForearmCommand_old = objForearm.moveForearmToAngle(dForearmTarget, dForearmAngle_old, dForearmCommand_old, 1.0);
+        objWrist.softStop();
+        if (objWrist.getWristAngle() > 45.0 && objArm.getArmAngle() > -8.0) iState = 14;
         break;
       case 14:          // Move everything to stow targets
         dArmCommand_old = objArm.moveArmToAngle(dArmTarget, dArmAngle_old, dArmCommand_old, 1.0);
@@ -92,9 +86,9 @@ public class HiSideFloorPickupCube extends CommandBase {
         if (Math.abs(objForearm.getForearmAngle() - dForearmTarget) < 1.0 && Math.abs(objArm.getArmAngle() - dArmTarget) < 1.0 && Math.abs(objWrist.getWristAngle() - dWristTarget) < 1.0) iState = 99;
         break;
       case 99:
-        objArm.holdPosition(dArmTarget);
-        objForearm.holdPosition(dForearmTarget);
-        objWrist.holdPosition(dWristTarget);
+        objArm.softStop();
+        objForearm.softStop();
+        objWrist.softStop();
         break;
     }
     dArmAngle_old = objArm.getArmAngle();
@@ -106,9 +100,9 @@ public class HiSideFloorPickupCube extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    objArm.holdPosition(dArmTarget);
-    objForearm.holdPosition(dForearmTarget);
-    objWrist.holdPosition(dWristTarget);
+    objArm.setSoftStop(true);
+    objForearm.setSoftStop(true);
+    objWrist.setSoftStop(true);
   }
 
   // Returns true when the command should end.

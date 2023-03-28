@@ -15,7 +15,7 @@ public class Arm_command extends CommandBase {
   private final double dSpeed;
   private final Arm_subsystem objArm_subsystem;
   private final boolean bMode;
-  private double dTargetAngle;
+  private final double dTargetAngle;
   private double dAngle_old;
   private double dCommand_old;
   private boolean bDone;
@@ -33,13 +33,10 @@ public class Arm_command extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // objArm_subsystem.stopArm();
-    // dAngle_old = objArm_subsystem.getArmAngle();
+    objArm_subsystem.stopArm();
+    dAngle_old = objArm_subsystem.getArmAngle();
     dCommand_old = 0.0;
     bDone = false;
-
-    objArm_subsystem.resetRamp();
-    objArm_subsystem.stopHoldingAngle();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -47,16 +44,14 @@ public class Arm_command extends CommandBase {
   public void execute() {
     // objArm_subsystem.moveArm(dSpeed);
     if (bMode) {
-      // dCommand_old = objArm_subsystem.moveArmToAngle(dTargetAngle, dAngle_old, dCommand_old, 1.0);
-      dCommand_old = objArm_subsystem.moveArmToAngle2(dTargetAngle, dCommand_old);
+      dCommand_old = objArm_subsystem.moveArmToAngle(dTargetAngle, dAngle_old, dCommand_old, 1.0);
       dAngle_old = objArm_subsystem.getArmAngle();
       if (Math.abs(dTargetAngle - dAngle_old) < Constants.Arm.dTolerance) {
         bDone = true;
       }
     }
     else {
-      objArm_subsystem.moveArm2(dSpeed);
-      dTargetAngle = objArm_subsystem.getArmAngle();
+      dCommand_old = objArm_subsystem.moveArm(dSpeed, dCommand_old);
     }   
   }
 
@@ -64,7 +59,6 @@ public class Arm_command extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     objArm_subsystem.setSoftStop(true);
-    // objArm_subsystem.setHoldAngle(dTargetAngle);
   }
 
   // Returns true when the command should end.

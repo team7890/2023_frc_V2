@@ -16,14 +16,17 @@ public class RegStowArm extends CommandBase {
   private final Forearm_subsystem objForearm;
   private final Arm_subsystem objArm;
   //Arm Variables
+  private double dArmAngle_old;
   private double dArmCommand_old;
   //Forearm Variables
+  private double dForearmAngle_old;
   private double dForearmCommand_old;
   //Wrist Variables
+  private double dWristAngle_old;
   private double dWristCommand_old;
 
   private int iState;
-  private boolean bDone;
+
 
   // Final Target Positions
   double dArmTarget = 3.5;
@@ -45,11 +48,21 @@ public class RegStowArm extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    //Arm Variables
+    objArm.setSoftStop(false);
+    dArmAngle_old = objArm.getArmAngle();
+    dArmCommand_old = 0.0;
+    //Forearm Variables
+    objForearm.setSoftStop(false);
+    dForearmAngle_old = objForearm.getForearmAngle();
+    dForearmCommand_old = 0.0;
+    //Wrist Variables
+    objWrist.setSoftStop(false);
+    dWristAngle_old = objWrist.getWristAngle();
+    dWristCommand_old = 0.0;
+
     iState = 0;
-    objArm.resetRamp();
-    objForearm.resetRamp();
-    objWrist.resetRamp();
-    if (objForearm.getForearmAngle() > -20.0) iState = 12;
+    if (objForearm.getForearmAngle() > -20.0) iState = 14;
     else iState = 10;
   }
 
@@ -57,55 +70,38 @@ public class RegStowArm extends CommandBase {
   @Override
   public void execute() {
     switch (iState) {
-      case 10:         
-        objArm.stopHoldingAngle();
-        objWrist.stopHoldingAngle();
-        iState = 11;
-        break;
-      case 11:          //if the forearm is out on the high scoring side
+      case 10:          //if the forearm is out on the high scoring side
                         // first move the wirst up (means the wrist is going to a negative angle)
-        dArmCommand_old = objArm.moveArmToAngle2(dArmTarget, dArmCommand_old);
-        dWristCommand_old = objWrist.moveWristToAngle2(dWristTarget, dWristCommand_old);
-        if (objWrist.getWristAngle() > 45.0 && objArm.getArmAngle() > -8.0) {
-          objForearm.stopHoldingAngle();
-          iState = 13;
-        }
+        dArmCommand_old = objArm.moveArmToAngle(dArmTarget, dArmAngle_old, dArmCommand_old, 1.0);
+        objForearm.softStop();
+        dWristCommand_old = objWrist.moveWristToAngle(dWristTarget, dWristAngle_old, dWristCommand_old, 1.0);
+        if (objWrist.getWristAngle() > 45.0 && objArm.getArmAngle() > -8.0) iState = 14;
         break;
-      case 12:         
-        objArm.stopHoldingAngle();
-        objForearm.stopHoldingAngle();
-        objWrist.stopHoldingAngle();
-        iState = 13;
-        break;
-      case 13:          // Move everything to stow targets
-        dArmCommand_old = objArm.moveArmToAngle2(dArmTarget, dArmCommand_old);
-        dForearmCommand_old = objForearm.moveForearmToAngle2(dForearmTarget, dForearmCommand_old);
-        dWristCommand_old = objWrist.moveWristToAngle2(dWristTarget, dWristCommand_old);
+      case 14:          // Move everything to stow targets
+        dArmCommand_old = objArm.moveArmToAngle(dArmTarget, dArmAngle_old, dArmCommand_old, 1.0);
+        dForearmCommand_old = objForearm.moveForearmToAngle(dForearmTarget, dForearmAngle_old, dForearmCommand_old, 1.0);
+        dWristCommand_old = objWrist.moveWristToAngle(dWristTarget, dWristAngle_old, dWristCommand_old, 1.0);
         // if all wrist joint is at correct angle then iState = 99;
         if (Math.abs(objForearm.getForearmAngle() - dForearmTarget) < 1.0 && Math.abs(objArm.getArmAngle() - dArmTarget) < 1.0 && Math.abs(objWrist.getWristAngle() - dWristTarget) < 1.0) iState = 99;
         break;
       case 99:
-        objArm.holdPosition(dArmTarget);
-        objForearm.holdPosition(dForearmTarget);
-        objWrist.holdPosition(dWristTarget);
+        objArm.softStop();
+        objForearm.softStop();
+        objWrist.softStop();
         break;
     }
+    dArmAngle_old = objArm.getArmAngle();
+    dForearmAngle_old = objForearm.getForearmAngle();
+    dWristAngle_old = objWrist.getWristAngle();
     // System.out.println("StowArm - state: " + iState);     //For Testing
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if (iState == 99) {
-      objArm.setSoftStopToHold(dArmTarget);
-      objForearm.setSoftStopToHold(dForearmTarget);
-      objWrist.setSoftStopToHold(dWristTarget);
-    }
-    else {
-      objArm.setSoftStop(true);
-      objForearm.setSoftStop(true);
-      objWrist.setSoftStop(true);
-    }
+    objArm.setSoftStop(true);
+    objForearm.setSoftStop(true);
+    objWrist.setSoftStop(true);
   }
 
   // Returns true when the command should end.

@@ -33,7 +33,7 @@ public class xStowArm2 extends SequentialCommandGroup {
     addCommands(
       new ParallelCommandGroup(
         new Wrist_command(obj_Wrist, Constants.Wrist.dSpeedManual, true, dWristTarget),
-        new Arm_command(obj_Arm, Constants.Arm.dSpeedManual, true, dArmTarget).withTimeout(5.0),
+        new Arm_command(obj_Arm, Constants.Arm.dArmSpeedManual, true, dArmTarget).withTimeout(5.0),
         new SequentialCommandGroup(
           new WaitCommand(0.5),
           new Forearm_command(obj_Forearm, Constants.Forearm.dSpeedManual, true, dForearmTarget)
