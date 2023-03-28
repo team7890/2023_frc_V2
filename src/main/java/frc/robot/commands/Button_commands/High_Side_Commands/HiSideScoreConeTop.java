@@ -48,20 +48,20 @@ public class HiSideScoreConeTop extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //Arm Variables
-    objArm.setSoftStop(false);
-    dArmAngle_old = objArm.getArmAngle();
-    dArmCommand_old = 0.0;
-    //Forearm Variables
-    objForearm.setSoftStop(false);
-    dForearmAngle_old = objForearm.getForearmAngle();
-    dForearmCommand_old = 0.0;
-    //Wrist Variables
-    objWrist.setSoftStop(false);
-    dWristAngle_old = objWrist.getWristAngle();
-    dWristCommand_old = 0.0;
+    // //Arm Variables
+    // objArm.setSoftStop(false);
+    // dArmAngle_old = objArm.getArmAngle();
+    // dArmCommand_old = 0.0;
+    // //Forearm Variables
+    // objForearm.setSoftStop(false);
+    // dForearmAngle_old = objForearm.getForearmAngle();
+    // dForearmCommand_old = 0.0;
+    // //Wrist Variables
+    // objWrist.setSoftStop(false);
+    // dWristAngle_old = objWrist.getWristAngle();
+    // dWristCommand_old = 0.0;
 
-    iState = 14;
+    iState = 13;
     // if (objForearm.getForearmAngle() < 20.0) iState = 10;
     bDone = false;
   }
@@ -70,17 +70,23 @@ public class HiSideScoreConeTop extends CommandBase {
   @Override
   public void execute() {
     switch (iState) {
+      case 13:         
+        objArm.stopHoldingAngle();
+        objForearm.stopHoldingAngle();
+        objWrist.stopHoldingAngle();
+        iState = 14;
+        break;
       case 14:          // Move everything to "Pickup Verticle Cone" targets
-        dArmCommand_old = objArm.moveArmToAngle(dArmTarget, dArmAngle_old, dArmCommand_old, 1.0);
-        dForearmCommand_old = objForearm.moveForearmToAngle(dForearmTarget, dForearmAngle_old, dForearmCommand_old, 1.0);
-        dWristCommand_old = objWrist.moveWristToAngle(dWristTarget, dWristAngle_old, dWristCommand_old, 1.0);
+        dArmCommand_old = objArm.moveArmToAngle2(dArmTarget, dArmCommand_old);
+        dForearmCommand_old = objForearm.moveForearmToAngle2(dForearmTarget, dForearmCommand_old);
+        dWristCommand_old = objWrist.moveWristToAngle2(dWristTarget, dWristCommand_old);
         // if all three joints are at correct angle then iState = 99;
         if (Math.abs(objForearm.getForearmAngle() - dForearmTarget) < Constants.Forearm.dTolerance && Math.abs(objArm.getArmAngle() - dArmTarget) < Constants.Arm.dTolerance && Math.abs(objWrist.getWristAngle() - dWristTarget) < Constants.Wrist.dTolerance) iState = 99;
         break;
       case 99:
-        objArm.softStop();
-        objForearm.softStop();
-        objWrist.softStop();
+        objArm.holdPosition(dArmTarget);
+        objForearm.holdPosition(dForearmTarget);
+        objWrist.holdPosition(dWristTarget);
         bDone = true;
         break;
     }
@@ -93,9 +99,9 @@ public class HiSideScoreConeTop extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    objArm.setSoftStop(true);
-    objForearm.setSoftStop(true);
-    objWrist.setSoftStop(true);
+      objArm.setSoftStopToHold(dArmTarget);
+      objForearm.setSoftStopToHold(dForearmTarget);
+      objWrist.setSoftStopToHold(dWristTarget);
   }
 
   // Returns true when the command should end.

@@ -33,8 +33,8 @@ public class Arm_command extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    objArm_subsystem.stopArm();
-    dAngle_old = objArm_subsystem.getArmAngle();
+    // objArm_subsystem.stopArm();
+    // dAngle_old = objArm_subsystem.getArmAngle();
     dCommand_old = 0.0;
     bDone = false;
 
@@ -63,8 +63,8 @@ public class Arm_command extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // objArm_subsystem.setSoftStop(true);
-    objArm_subsystem.setHoldAngle(dTargetAngle);
+    objArm_subsystem.setSoftStop(true);
+    // objArm_subsystem.setHoldAngle(dTargetAngle);
   }
 
   // Returns true when the command should end.

@@ -33,7 +33,7 @@ public class xTopCubePosition extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ParallelCommandGroup(
-        new Arm_command(obj_Arm, Constants.Arm.dArmSpeedManual, true, dArmTarget).withTimeout(5.0),
+        new Arm_command(obj_Arm, Constants.Arm.dSpeedManual, true, dArmTarget).withTimeout(5.0),
         new Forearm_command(obj_Forearm, Constants.Forearm.dSpeedManual, true, dForearmTarget),
         new SequentialCommandGroup(
           new WaitCommand(4),

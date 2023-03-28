@@ -23,11 +23,13 @@ public class Wrist_subsystem extends SubsystemBase {
   private DutyCycleEncoder objAbsEncoder;
   private double dSpeed;
   private boolean bSoftStopActive;
+  private boolean bSoftStopToHold;
   private boolean bHoldPosition;
-  private double dHoldAngle;
+  private double dHoldAngle = -99.0;
   private double dAngle;
   private double dCharSpeed;
   private boolean bRampStop;
+  private boolean bArrived;
 
   /** Creates a new Wrist_subsystem. */
   public Wrist_subsystem() {
@@ -39,21 +41,22 @@ public class Wrist_subsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    getWristAngle();
     dAngle = getWristAngle();
-    
-    // if (bSoftStopActive) {
-    //   softStop();
-    //   if (Math.abs(objWristMotor.get()) < 0.03) {
-    //     bSoftStopActive = false;
-    //     bHoldPosition = true;
-    //     dHoldAngle = dAngle;
-    //   }
-    // }
-
+    if (bSoftStopActive) {
+      softStop();
+      if (Math.abs(objWristMotor.get()) < 0.08) {
+        bSoftStopActive = false;
+        bHoldPosition = true;
+        if (!bSoftStopToHold) dHoldAngle = dAngle;
+      }
+    }
     if (bHoldPosition) {
       holdPosition(dHoldAngle);
     }
+    if (Math.abs(dHoldAngle - dAngle) < Constants.Wrist.dTolerance) bArrived = true;
+    else bArrived = false;
+    SmartDashboard.putBoolean("Wrist Arrived", bArrived);
+    SmartDashboard.putNumber("Wrist Hold Angle", dHoldAngle);
 
   }
 
@@ -68,7 +71,15 @@ public class Wrist_subsystem extends SubsystemBase {
 
   public void setSoftStop(boolean input) { 
     bSoftStopActive = input; 
+    bSoftStopToHold = false;
     bHoldPosition = false;
+  }
+
+  public void setSoftStopToHold(double dHoldAngle_in) {
+    bSoftStopActive = true;
+    bSoftStopToHold = true;
+    bHoldPosition = false;
+    dHoldAngle = dHoldAngle_in;
   }
   
   public void moveWrist(double dSpeed) {
@@ -157,7 +168,6 @@ public class Wrist_subsystem extends SubsystemBase {
     double dCurrentAngle = getWristAngle();
     double dDifference = dTargetAngle - dCurrentAngle; 
     double dDeriv;
-    boolean bArrived = false;
     double dCommand;
 
     // computes dCommand, the motor speed
@@ -174,10 +184,6 @@ public class Wrist_subsystem extends SubsystemBase {
       dCommand = dCommand_old + Math.min(Math.abs(dCommand - dCommand_old), Constants.Wrist.dSpeedUpLimit) * Math.signum(dCommand);
     }
     moveWrist(dCommand);
-    if (Math.abs(dDifference) < Constants.Wrist.dTolerance) {
-      bArrived = true;
-    }
-    SmartDashboard.putBoolean("Wrist Arrived", bArrived);
     return dCommand;
   }
 
@@ -186,7 +192,6 @@ public class Wrist_subsystem extends SubsystemBase {
     double dSpeedLimit = Constants.Wrist.dSpeedControlMax;
     double dCurrentAngle = getWristAngle();
     double dDifference = dTargetAngle - dCurrentAngle; // To see if we have arrived
-    boolean bArrived = false;
     double dCommand = 0.0;
     double dSign = Math.signum(dDifference);
     double dRampDownAngle;
@@ -201,6 +206,8 @@ public class Wrist_subsystem extends SubsystemBase {
       // if we are to the point where we need to slow down to arrive at the angle, set bRampStop to true to do the ramp down
       bRampStop = true;
     }
+    else bRampStop = false;
+
     if (bRampStop) {
       dCommand = dCommand_old - dSign * Constants.Wrist.dRampLimit;
       if (dSign > 0.0) {
@@ -214,10 +221,6 @@ public class Wrist_subsystem extends SubsystemBase {
     }
 
     moveWrist2(dCommand);
-    if (Math.abs(dDifference) < Constants.Wrist.dTolerance || dCommand == 0.0) {
-      bArrived = true;
-    }
-    SmartDashboard.putBoolean("Wrist Arrived", bArrived);
     return dCommand;
   }
 
@@ -226,11 +229,9 @@ public class Wrist_subsystem extends SubsystemBase {
     double dSpeedLimit = Constants.Wrist.dSpeedControlMax;
     double dCurrentAngle = getWristAngle();
     double dDifference = dTargetAngle - dCurrentAngle;
-    // CHECK if positive motor speed means positive angle change and get rid of the - sign next line
-    double dCommand = -dDifference * (Constants.Wrist.kP * 0.6);
+    double dCommand = dDifference * 0.011;
     dCommand = Utilities.limitVariable(-dSpeedLimit, dCommand, dSpeedLimit);
     moveWrist2(dCommand);
   }
-
 
 }

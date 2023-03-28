@@ -51,63 +51,69 @@ public final class Constants {
   }
 
   public static final class Arm {
+    // basic setup constants
     public static final int iCurrentLimit = 40;
-    public static final double dArmSpeedManual = 0.3;
     public static final int iDIOPort = 0;
-    // public static final double dDegreesPerRev = 360.0;
     public static final double dOffset = 34.0;                         //Sets 0.0 to Straight up
-    public static final double dSpeedControlMax = 0.8;
-    public static final double kP = 0.5;
-    public static final double kD = 0.5;
-    public static final double dSpeedUpLimit = 0.005;
-    public static final double dSoftStopLimit = 0.035;
+    // main control constants
+    public static final double dSpeedManual = 0.3;
     public static final double dMaxAngleLimit = 40.0;
     public static final double dMinAngleLimit = -40.0;
     public static final double dTolerance = 3.0;
-    
+    public static final double dSoftStopLimit = 0.035;
+    // new ramp control constants
+    public static final double dSpeedControlMax = 0.8;
     public static final double dRampLimit = 0.04;
     public static final double dRampCharKvalue = 1.83;
+    // not really used anymore
+    public static final double dDegreesPerRev = 360.0;
+    public static final double kP = 0.5;
+    public static final double kD = 0.5;
+    public static final double dSpeedUpLimit = 0.005;    
   }
 
   public static final class Forearm {
+    // basic setup constants
     public static final int iCurrentLimit = 40;
-    public static final double dSpeedManual = 0.2;
     public static final int iDIOPort = 1;
-    // public static final double dDegreesPerRev = 360.0;
     public static final double dOffset = 148.5;                         //Sets 0.0 to Straight up
-    public static final double dSpeedControlMax = 0.6;
-    public static final double kP = 0.008;
-    public static final double kD = 0.008;
-    public static final double dSpeedUpLimit = 0.02;
-    public static final double dSoftStopLimit = 0.1;
+    // main control constants
+    public static final double dSpeedManual = 0.15;
     public static final double dMaxAngleLimit = 160.0;
     public static final double dMinAngleLimit = -158.0;
     public static final double dTolerance = 3.0;
-
+    public static final double dSoftStopLimit = 0.1;
+    // new ramp control constants
+    public static final double dSpeedControlMax = 0.6;
     public static final double dRampLimit = 0.03;
     public static final double dRampCharKvalue = 6.03;
+    // not really used anymore
+    public static final double dDegreesPerRev = 360.0;
+    public static final double kP = 0.008;
+    public static final double kD = 0.008;
+    public static final double dSpeedUpLimit = 0.02;
   }
 
   public static final class Wrist{
+    // basic setup constants
     public static final int iCurrentLimit = 40;
-    public static final double dSpeedManual = 0.3;
     public static final int iDIOPort = 2;
-    public static final double dDegreesPerRev = 360.0 / 42.0 * 18.0;
-    // public static final double dOffset = -97.58;                          //Sets 0.0 to Straight up
-    public static final double dOffset = 123.1;
-    public static final double dSpeedControlMax = 0.4;
-    public static final double kP = 0.02;
-    public static final double kD = 0.02;
-    public static final double dSpeedUpLimit = 0.02;
-    public static final double dSoftStopLimit = 0.2;
-    // public static final double dMaxAngleLimit = 118.0;
-    // public static final double dMinAngleLimit = -90.0;
+    public static final double dOffset = 123.1;               //Sets 0.0 to Straight up
+    // main control constants
+    public static final double dSpeedManual = 0.2;
     public static final double dMaxAngleLimit = 150.0;
     public static final double dMinAngleLimit = -150.0;
     public static final double dTolerance = 3.0;
-
+    public static final double dSoftStopLimit = 0.2;
+    // new ramp control constants
+    public static final double dSpeedControlMax = 0.6;
     public static final double dRampLimit = 0.04;
-    public static final double dRampCharKvalue = 1.83;    // NEED TO CALCULATE THIS
+    public static final double dRampCharKvalue = 11.37;    
+    // not really used anymore
+    public static final double dDegreesPerRev = 360.0 / 42.0 * 18.0;
+    public static final double kP = 0.02;
+    public static final double kD = 0.02;
+    public static final double dSpeedUpLimit = 0.02;
   }
 
   public static final class Grabber{

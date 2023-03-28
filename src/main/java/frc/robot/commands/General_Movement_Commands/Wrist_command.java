@@ -31,8 +31,8 @@ public class Wrist_command extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    objWrist_subsystem.setSoftStop(false);
-    dAngle_old = objWrist_subsystem.getWristAngle();
+    // objWrist_subsystem.setSoftStop(false);
+    // dAngle_old = objWrist_subsystem.getWristAngle();
     dCommand_old = 0.0;
     bDone = false;
 
@@ -60,8 +60,8 @@ public class Wrist_command extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // objWrist_subsystem.setSoftStop(true);
-    objWrist_subsystem.setHoldAngle(dTargetAngle);
+    objWrist_subsystem.setSoftStop(true);
+    // objWrist_subsystem.setHoldAngle(dTargetAngle);
   }
 
   // Returns true when the command should end.

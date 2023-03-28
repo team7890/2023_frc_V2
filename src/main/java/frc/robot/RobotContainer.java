@@ -62,6 +62,7 @@ import frc.robot.commands.Button_commands.Regular_Side_Commands.RegStowArm;
 
 import frc.robot.commands.Button_commands.Testing.CharacterizeArm_command;
 import frc.robot.commands.Button_commands.Testing.CharacterizeForearm_command;
+import frc.robot.commands.Button_commands.Testing.CharacterizeWrist_command;
 
 import frc.robot.commands.General_Movement_Commands.Arm_command;
 import frc.robot.commands.General_Movement_Commands.Forearm_command;
@@ -223,8 +224,8 @@ public class RobotContainer {
     m_DriverController.b().whileTrue(new CubeOuttake_command(objRollerHand, true));
 
     // ----- copilot controller -----
-    m_CoPilotController.x().whileTrue(new Arm_command(objArm_subsystem, Constants.Arm.dArmSpeedManual, false, 0.0));         
-    m_CoPilotController.y().whileTrue(new Arm_command(objArm_subsystem, -Constants.Arm.dArmSpeedManual, false, 0.0));        
+    m_CoPilotController.x().whileTrue(new Arm_command(objArm_subsystem, Constants.Arm.dSpeedManual, false, 0.0));         
+    m_CoPilotController.y().whileTrue(new Arm_command(objArm_subsystem, -Constants.Arm.dSpeedManual, false, 0.0));        
 
     m_CoPilotController.back().whileTrue(new Forearm_command(objForearm_subsystem, Constants.Forearm.dSpeedManual, false, 0.0));           // Back Button = Left button
     m_CoPilotController.start().whileTrue(new Forearm_command(objForearm_subsystem, -Constants.Forearm.dSpeedManual, false, 0.0));         // Start Button = Right button
@@ -255,7 +256,8 @@ public class RobotContainer {
     // V2ButtonTwo.whileTrue(new HiSideFloorPickupCub(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
     V2ButtonThree.whileTrue(new HiSideSingleSubConePos(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
     // V2ButtonFour.whileTrue(new CharacterizeForearm_command(objForearm_subsystem));   // white lower left button in corner of buttonbox
-    V2ButtonFour.whileTrue(new CharacterizeArm_command(objArm_subsystem));   // white lower left button in corner of buttonbox
+    // V2ButtonFour.whileTrue(new CharacterizeArm_command(objArm_subsystem));   // white lower left button in corner of buttonbox
+    V2ButtonFour.whileTrue(new CharacterizeWrist_command(objWrist_subsystem));   // white lower left button in corner of buttonbox
     // V2ButtonFive.whileTrue(new (objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
     // V2ButtonSix.whileTrue(new (objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
     

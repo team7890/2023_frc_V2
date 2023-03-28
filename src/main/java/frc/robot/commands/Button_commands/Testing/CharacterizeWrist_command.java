@@ -32,15 +32,15 @@ public class CharacterizeWrist_command extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    dSpeed = objWrist_subsystem.characterize(dSpeed, dMaxSpeed);      // this line for characterize
-    // dSpeed = objWrist_subsystem.moveWristToAngle2(15.0, dSpeed);   // this line to test
+    // dSpeed = objWrist_subsystem.characterize(dSpeed, dMaxSpeed);      // this line for characterize
+    dSpeed = objWrist_subsystem.moveWristToAngle2(15.0, dSpeed);   // this line to test
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    objWrist_subsystem.setHoldAngle(objWrist_subsystem.getWristAngle());    // this line for characterize
-    // objWrist_subsystem.setHoldAngle(15.0);                               // this line to test
+    // objWrist_subsystem.setHoldAngle(objWrist_subsystem.getWristAngle());    // this line for characterize
+    objWrist_subsystem.setHoldAngle(15.0);                               // this line to test
   }
 
   // Returns true when the command should end.
