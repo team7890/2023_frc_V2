@@ -62,8 +62,8 @@ public final class Constants {
     public static final double dTolerance = 3.0;
     public static final double dSoftStopLimit = 0.035;
     // new ramp control constants
-    public static final double dSpeedControlMax = 0.8;
-    public static final double dRampLimit = 0.04;
+    public static final double dSpeedControlMax = 0.4;
+    public static final double dRampLimit = 0.02;
     public static final double dRampCharKvalue = 1.83;
     // not really used anymore
     public static final double dDegreesPerRev = 360.0;
@@ -85,7 +85,7 @@ public final class Constants {
     public static final double dSoftStopLimit = 0.1;
     // new ramp control constants
     public static final double dSpeedControlMax = 0.6;
-    public static final double dRampLimit = 0.03;
+    public static final double dRampLimit = 0.015;
     public static final double dRampCharKvalue = 6.03;
     // not really used anymore
     public static final double dDegreesPerRev = 360.0;
@@ -107,7 +107,7 @@ public final class Constants {
     public static final double dSoftStopLimit = 0.2;
     // new ramp control constants
     public static final double dSpeedControlMax = 0.6;
-    public static final double dRampLimit = 0.04;
+    public static final double dRampLimit = 0.03;
     public static final double dRampCharKvalue = 11.37;    
     // not really used anymore
     public static final double dDegreesPerRev = 360.0 / 42.0 * 18.0;

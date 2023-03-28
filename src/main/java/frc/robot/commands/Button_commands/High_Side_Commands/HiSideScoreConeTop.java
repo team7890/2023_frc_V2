@@ -17,13 +17,10 @@ public class HiSideScoreConeTop extends CommandBase {
   private final Forearm_subsystem objForearm;
   private final Arm_subsystem objArm;
   //Arm Variables
-  private double dArmAngle_old;
   private double dArmCommand_old;
   //Forearm Variables
-  private double dForearmAngle_old;
   private double dForearmCommand_old;
   //Wrist Variables
-  private double dWristAngle_old;
   private double dWristCommand_old;
 
   private int iState;
@@ -48,21 +45,11 @@ public class HiSideScoreConeTop extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // //Arm Variables
-    // objArm.setSoftStop(false);
-    // dArmAngle_old = objArm.getArmAngle();
-    // dArmCommand_old = 0.0;
-    // //Forearm Variables
-    // objForearm.setSoftStop(false);
-    // dForearmAngle_old = objForearm.getForearmAngle();
-    // dForearmCommand_old = 0.0;
-    // //Wrist Variables
-    // objWrist.setSoftStop(false);
-    // dWristAngle_old = objWrist.getWristAngle();
-    // dWristCommand_old = 0.0;
+    iState = 1;
+    objArm.resetRamp();
+    objForearm.resetRamp();
+    objWrist.resetRamp();
 
-    iState = 13;
-    // if (objForearm.getForearmAngle() < 20.0) iState = 10;
     bDone = false;
   }
 
@@ -70,7 +57,7 @@ public class HiSideScoreConeTop extends CommandBase {
   @Override
   public void execute() {
     switch (iState) {
-      case 13:         
+      case 1:         
         objArm.stopHoldingAngle();
         objForearm.stopHoldingAngle();
         objWrist.stopHoldingAngle();
@@ -87,26 +74,29 @@ public class HiSideScoreConeTop extends CommandBase {
         objArm.holdPosition(dArmTarget);
         objForearm.holdPosition(dForearmTarget);
         objWrist.holdPosition(dWristTarget);
-        bDone = true;
         break;
     }
-    dArmAngle_old = objArm.getArmAngle();
-    dForearmAngle_old = objForearm.getForearmAngle();
-    dWristAngle_old = objWrist.getWristAngle();
     // System.out.println("ScoreConeTop - state: " + iState);     //For Testing
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    if (iState == 99) {
       objArm.setSoftStopToHold(dArmTarget);
       objForearm.setSoftStopToHold(dForearmTarget);
       objWrist.setSoftStopToHold(dWristTarget);
+    }
+    else {
+      objArm.setSoftStop(true);
+      objForearm.setSoftStop(true);
+      objWrist.setSoftStop(true);
+    }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return bDone;
+    return false;
   }
 }

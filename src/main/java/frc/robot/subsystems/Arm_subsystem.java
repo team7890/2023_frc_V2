@@ -215,7 +215,7 @@ public class Arm_subsystem extends SubsystemBase {
       // if we are to the point where we need to slow down to arrive at the angle, set bRampStop to true to do the ramp down
       bRampStop = true;
     }
-    else bRampStop = false;
+    // else bRampStop = false;
 
     if (bRampStop) {
       dCommand = dCommand_old - dSign * Constants.Arm.dRampLimit;

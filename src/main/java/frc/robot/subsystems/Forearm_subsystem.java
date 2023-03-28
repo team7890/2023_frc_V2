@@ -24,7 +24,7 @@ public class Forearm_subsystem extends SubsystemBase {
   private boolean bSoftStopActive;
   private boolean bSoftStopToHold;
   private boolean bHoldPosition;
-  private double dHoldAngle = -99.0;
+  private double dHoldAngle = -200.0;
   private double dAngle;
   private double dCharSpeed;
   private boolean bRampStop;
@@ -182,7 +182,7 @@ public class Forearm_subsystem extends SubsystemBase {
       // if we are to the point where we need to slow down to arrive at the angle, set bRampStop to true to do the ramp down
       bRampStop = true;
     }
-    else bRampStop = false;
+    // else bRampStop = false;
 
     if (bRampStop) {
       dCommand = dCommand_old - dSign * Constants.Forearm.dRampLimit;
