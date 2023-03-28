@@ -93,6 +93,7 @@ public class Forearm_subsystem extends SubsystemBase {
     objForearmMotor.set(dSpeed);
   }
 
+<<<<<<< HEAD
   public double characterize(double dSpeed_in, double dMaxSpeed_in) {
     if (!bRampStop) {
       dCharSpeed = dSpeed_in + Constants.Forearm.dRampLimit;
@@ -114,6 +115,8 @@ public class Forearm_subsystem extends SubsystemBase {
     bRampStop = false;
   }
 
+=======
+>>>>>>> parent of 47a999a (LimeLight stuff)
   public void stopForearm() {
     objForearmMotor.stopMotor();
   }
