@@ -144,7 +144,8 @@ public class Swerve_subsystem extends SubsystemBase {
     }
 
     public double getYawDouble() {
-        double dYaw = gyro.getYaw();
+        double dYaw = gyro.getYaw() % 360.0;
+        if (dYaw < 0.0) dYaw = dYaw + 360.0;
         return dYaw;
     }
 

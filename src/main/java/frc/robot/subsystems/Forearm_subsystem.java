@@ -68,16 +68,6 @@ public class Forearm_subsystem extends SubsystemBase {
     objForearmMotor.set(dSpeed);
   }
 
-  public void characterize(double dStartingSpeed, double dMaxSpeed) {
-    
-
-
-
-
-
-
-  }
-
   public void stopForearm() {
     objForearmMotor.stopMotor();
   }
