@@ -28,9 +28,9 @@ public class RegScoreConeMiddle extends CommandBase {
 
 
   // Final Target Positions
-  double dArmTarget = -25.6;
-  double dForearmTarget = -35.5;
-  double dWristTarget = -67.4;
+  double dArmTarget = -25.5;
+  double dForearmTarget = -35.8;
+  double dWristTarget = -70.9;
 
   /** Creates a new ScoreCubeTop. */
   public RegScoreConeMiddle(Arm_subsystem objArm_in, Forearm_subsystem objForearm_in, Wrist_subsystem objWrist_in) {

@@ -30,8 +30,8 @@ public class RegScoreCubeMiddle extends CommandBase {
 
   // Final Target Positions
   double dArmTarget = -19.6;
-  double dForearmTarget = -83.6;
-  double dWristTarget = 51.5;
+  double dForearmTarget = -76.6; // old was 83
+  double dWristTarget = 49.5; // old was 51
 
   /** Creates a new ScoreCubeTop. */
   public RegScoreCubeMiddle(Arm_subsystem objArm_in, Forearm_subsystem objForearm_in, Wrist_subsystem objWrist_in) {

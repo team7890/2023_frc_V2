@@ -204,6 +204,7 @@ public class Wrist_subsystem extends SubsystemBase {
     double dCommand;
 
     // computes dCommand, the motor speed
+    // TODO: copy over thing from forearm in equivalent if statement
     dDeriv = dCurrentAngle - dAngle_old;
     if (Math.abs(dDifference) > 2.0) {
       dCommand = dDifference * Constants.Wrist.kP - dDeriv * Constants.Wrist.kD;

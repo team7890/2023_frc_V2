@@ -106,6 +106,7 @@ public class Forearm_subsystem extends SubsystemBase {
     dDeriv = dCurrentAngle - dAngle_old;
     if (Math.abs(dDifference) > 2.0) {
       dCommand = dDifference * Constants.Forearm.kP - dDeriv * Constants.Forearm.kD;
+      dCommand = dCommand + Math.signum(dCommand) * 0.05;
     }
     else {
       dCommand = dDifference * Constants.Forearm.kP;
