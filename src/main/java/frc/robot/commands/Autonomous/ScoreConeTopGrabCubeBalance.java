@@ -44,16 +44,14 @@ public class ScoreConeTopGrabCubeBalance extends SequentialCommandGroup {
         new CubeIntake_command(objRollerHand).withTimeout(3.0)
       ).withTimeout(3.0),
       new ParallelCommandGroup(
-        new Swerve_auto(objSwerve, 0.3, 0.0, 0.0, false).withTimeout(1.8),
+        new Swerve_auto(objSwerve, 0.2, 0.0, 0.0, false).withTimeout(1.8),
         new RegFloorPickupCube(objArm, objForearm, objWrist).withTimeout(1.8),
         new CubeIntake_command(objRollerHand).withTimeout(1.8)
       ).withTimeout(1.8),
       //below is correct end
       new ParallelCommandGroup(
         new Swerve_balance(objSwerve, -0.45, 0.0, 0.0, false),
-        new SequentialCommandGroup(
-          new RegStowArm(objArm, objForearm, objWrist).withTimeout(8.0)
-        ),
+        new RegStowArm(objArm, objForearm, objWrist).withTimeout(8.0),
         new CubeIntake_command(objRollerHand).withTimeout(2.0)
       ).withTimeout(9.6)
       // new Swerve_balance(objSwerve, 0.0, 0.0, 0.0, false).withTimeout(0.1),
