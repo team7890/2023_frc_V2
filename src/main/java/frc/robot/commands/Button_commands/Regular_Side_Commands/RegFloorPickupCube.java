@@ -30,7 +30,7 @@ public class RegFloorPickupCube extends CommandBase {
   // Final Target Positions
   double dArmTarget = -30.5;
   double dForearmTarget = -119.1;
-  double dWristTarget = 70.5;
+  double dWristTarget = 72.5;   // was 70.5
 
   /** Creates a new ScoreCubeTop. */
   public RegFloorPickupCube(Arm_subsystem objArm_in, Forearm_subsystem objForearm_in, Wrist_subsystem objWrist_in) {
@@ -90,7 +90,7 @@ public class RegFloorPickupCube extends CommandBase {
     dArmAngle_old = objArm.getArmAngle();
     dForearmAngle_old = objForearm.getForearmAngle();
     dWristAngle_old = objWrist.getWristAngle();
-    // System.out.println("PickupVerticleCone - state: " + iState);     //For Testing
+    // System.out.println("RegFloorPickupCube - state: " + iState);     //For Testing
   }
 
   // Called once the command ends or is interrupted.

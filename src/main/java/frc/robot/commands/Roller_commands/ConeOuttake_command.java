@@ -31,6 +31,7 @@ public class ConeOuttake_command extends CommandBase {
   @Override
   public void execute() {
     objRollerHand.outtakeCone();
+    // System.out.println("ConeOuttake_command");
   }
 
   // Called once the command ends or is interrupted.

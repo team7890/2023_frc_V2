@@ -32,6 +32,7 @@ public class CubeIntake_command extends CommandBase {
   @Override
   public void execute() {
     objRollerHand.intakeCube();
+    // System.out.println("CubeIntake_command");     //For Testing
   }
 
   // Called once the command ends or is interrupted.

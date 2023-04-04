@@ -42,6 +42,7 @@ import frc.robot.commands.Autonomous.ScoreConeTopMoveLong;
 import frc.robot.commands.Autonomous.ScoreConeTopMoveShort;
 import frc.robot.commands.Autonomous.ScoreConeTopBalance;
 import frc.robot.commands.Autonomous.ScoreConeTopGoOverChargerBalance;
+import frc.robot.commands.Autonomous.ScoreConeTopGrabCubeBalance;
 import frc.robot.commands.Autonomous.ScoreConeTopGrabHorzConeScore;
 
 import frc.robot.commands.Button_commands.High_Side_Commands.HiSideFloorPickupHorzCone;
@@ -135,7 +136,7 @@ public class RobotContainer {
   private final SequentialCommandGroup m_ScoreConeTopBalance = new ScoreConeTopBalance(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
   private final SequentialCommandGroup m_ScoreConeTopGoOverChargerBalance = new ScoreConeTopGoOverChargerBalance(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
   private final SequentialCommandGroup m_ScoreConeTopGrabHorzConeScore = new ScoreConeTopGrabHorzConeScore(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
-  private final SequentialCommandGroup m_ScoreConeTopGrabCubeBalance = new ScoreConeTopGrabHorzConeScore(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
+  private final SequentialCommandGroup m_ScoreConeTopGrabCubeBalance = new ScoreConeTopGrabCubeBalance(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
   
   private final SequentialCommandGroup m_ppTest = new ppTest(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
 

@@ -93,7 +93,7 @@ public class RegStowArm extends CommandBase {
     dArmAngle_old = objArm.getArmAngle();
     dForearmAngle_old = objForearm.getForearmAngle();
     dWristAngle_old = objWrist.getWristAngle();
-    // System.out.println("StowArm - state: " + iState);     //For Testing
+    // System.out.println("RegStowArm - state: " + iState);     //For Testing
   }
 
   // Called once the command ends or is interrupted.

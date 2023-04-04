@@ -22,8 +22,8 @@ public class RollerHand_subsystem extends SubsystemBase {
   public RollerHand_subsystem() {
     objMotor1.setIdleMode(IdleMode.kBrake);
     objMotor2.setIdleMode(IdleMode.kBrake);
-    objMotor1.setSmartCurrentLimit(5); // TODO: Make constants
-    objMotor2.setSmartCurrentLimit(5);
+    objMotor1.setSmartCurrentLimit(3); // TODO: Make constants
+    objMotor2.setSmartCurrentLimit(3);
   }
 
   @Override
@@ -59,7 +59,7 @@ public class RollerHand_subsystem extends SubsystemBase {
   }
 
   public void intakeCube() {
-    double dSpeed = 0.5;
+    double dSpeed = 0.75;
     objMotor1.set(-dSpeed);
     objMotor2.set(-dSpeed);
   }
