@@ -202,13 +202,13 @@ public class RobotContainer {
   private void configureBindings() {
 
     // ----- driver controller -----
-    m_DriverController.rightBumper().whileTrue(new RegStowArm(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
+    // m_DriverController.rightBumper().whileTrue(new RegStowArm(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
     // leftbumper will be slow mode (above)
 
     // button 10 is on the back of the controller under the right stick?
     // m_DriverController.button(10).whileTrue(new Swerve_snap90(objSwerve_subsystem));
     // start button is on the right of the controller on the front
-    m_DriverController.start().whileTrue(new Swerve_snap90(objSwerve_subsystem));
+    m_DriverController.rightBumper().whileTrue(new Swerve_snap90(objSwerve_subsystem));
     m_DriverController.back().onTrue(new InstantCommand(objSwerve_subsystem::zeroGyro, objSwerve_subsystem));                                  //Amalan How do we do this with CommandXboxController?
 
     m_DriverController.leftTrigger().whileTrue(new ConeIntake_command(objRollerHand));

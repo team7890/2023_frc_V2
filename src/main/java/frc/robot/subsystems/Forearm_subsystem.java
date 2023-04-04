@@ -80,6 +80,9 @@ public class Forearm_subsystem extends SubsystemBase {
     else {
       dSpeed = Math.min(dSpeed + Constants.Forearm.dSoftStopLimit, 0.0);
     }
+    if(Math.abs(dSpeed) < 0.06) { // former was < .035, this used to not be herei
+      dSpeed = 0.0;
+    }
     objForearmMotor.set(dSpeed);
     return Math.abs(dSpeed);
   }
@@ -106,6 +109,8 @@ public class Forearm_subsystem extends SubsystemBase {
     dDeriv = dCurrentAngle - dAngle_old;
     if (Math.abs(dDifference) > 2.0) {
       dCommand = dDifference * Constants.Forearm.kP - dDeriv * Constants.Forearm.kD;
+      // if (!(getForearmAngle() > 20.0 && dCommand > 0.0))
+      // if (!(getForearmAngle() < -20.0 && dCommand < 0.0))
       dCommand = dCommand + Math.signum(dCommand) * 0.05;
     }
     else {

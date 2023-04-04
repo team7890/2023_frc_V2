@@ -30,7 +30,7 @@ public class RegFloorPickupCube extends CommandBase {
   // Final Target Positions
   double dArmTarget = -30.5;
   double dForearmTarget = -119.1;
-  double dWristTarget = 72.5;   // was 70.5
+  double dWristTarget = 75.5;   // 70.5 -> 72.5 -> 79.5 -> 75.5
 
   /** Creates a new ScoreCubeTop. */
   public RegFloorPickupCube(Arm_subsystem objArm_in, Forearm_subsystem objForearm_in, Wrist_subsystem objWrist_in) {

@@ -82,7 +82,7 @@ public class Arm_subsystem extends SubsystemBase {
       dSpeed1 = Math.min(dSpeed1 + Constants.Arm.dSoftStopLimit, 0.0);
       dSpeed2 = Math.max(dSpeed2 - Constants.Arm.dSoftStopLimit, 0.0);
     }
-    if(Math.abs(dSpeed1) < 0.035) {
+    if(Math.abs(dSpeed1) < 0.06) { // former was < 0.035
       dSpeed1 = 0.0;
       dSpeed2 = 0.0;
     }

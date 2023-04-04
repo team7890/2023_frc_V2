@@ -174,7 +174,7 @@ public class Wrist_subsystem extends SubsystemBase {
     else {
       dSpeed = Math.min(dSpeed + Constants.Wrist.dSoftStopLimit, 0.0);
     }
-    if(Math.abs(dSpeed) < 0.035) {
+    if(Math.abs(dSpeed) < 0.06) { // former was < .035
       dSpeed = 0.0;
     }
     objWristMotor.set(dSpeed);
@@ -208,6 +208,9 @@ public class Wrist_subsystem extends SubsystemBase {
     dDeriv = dCurrentAngle - dAngle_old;
     if (Math.abs(dDifference) > 2.0) {
       dCommand = dDifference * Constants.Wrist.kP - dDeriv * Constants.Wrist.kD;
+      // if (!(getForearmAngle() > 20.0 && dCommand > 0.0))
+      // if (!(getForearmAngle() < -20.0 && dCommand < 0.0))
+      dCommand = dCommand + Math.signum(dCommand) * 0.05;
     }
     else {
       dCommand = dDifference * Constants.Wrist.kP;
