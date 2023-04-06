@@ -61,8 +61,9 @@ public class RegFloorPickupHorzCone extends CommandBase {
     dWristCommand_old = 0.0;
 
     iState = 0;
-    if (objForearm.getForearmAngle() > -20.0) iState = 13;    //was 10 at ashville but no longer need case 10.
-    else iState = 14;
+    // if (objForearm.getForearmAngle() > -20.0) iState = 13;    //was 10 at ashville but no longer need case 10.
+    // else iState = 14;
+    iState = 14;
 
   }
 
@@ -70,12 +71,12 @@ public class RegFloorPickupHorzCone extends CommandBase {
   @Override
   public void execute() {
     switch (iState) {
-      case 13:          // once the forearm gets over the top (towards stow position) then move wrist to target
-        dArmCommand_old = objArm.moveArmToAngle(dArmTarget, dArmAngle_old, dArmCommand_old, 1.0);
-        dForearmCommand_old = objForearm.moveForearmToAngle(dForearmTarget, dForearmAngle_old, dForearmCommand_old, 1.0);
-        objWrist.softStop();
-        if (objArm.getArmAngle() > -20.0) iState = 14;
-        break;
+      // case 13:          // once the forearm gets over the top (towards stow position) then move wrist to target
+      //   dArmCommand_old = objArm.moveArmToAngle(dArmTarget, dArmAngle_old, dArmCommand_old, 1.0);
+      //   dForearmCommand_old = objForearm.moveForearmToAngle(dForearmTarget, dForearmAngle_old, dForearmCommand_old, 1.0);
+      //   objWrist.softStop();
+      //   if (objArm.getArmAngle() > -20.0) iState = 14;
+      //   break;
       case 14:          // Move everything to "Pickup Verticle Cone" targets
         dArmCommand_old = objArm.moveArmToAngle(dArmTarget, dArmAngle_old, dArmCommand_old, 1.0);
         dForearmCommand_old = objForearm.moveForearmToAngle(dForearmTarget, dForearmAngle_old, dForearmCommand_old, 1.0);

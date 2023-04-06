@@ -42,7 +42,7 @@ import frc.robot.commands.Autonomous.ScoreConeTopMoveLong;
 import frc.robot.commands.Autonomous.ScoreConeTopMoveShort;
 import frc.robot.commands.Autonomous.ScoreConeTopBalance;
 import frc.robot.commands.Autonomous.ScoreConeTopGoOverChargerBalance;
-import frc.robot.commands.Autonomous.ScoreConeTopGrabCubeBalance;
+import frc.robot.commands.Autonomous.BingoBongo;
 import frc.robot.commands.Autonomous.ScoreConeTopGrabHorzConeScore;
 
 import frc.robot.commands.Button_commands.High_Side_Commands.HiSideFloorPickupHorzCone;
@@ -137,7 +137,8 @@ public class RobotContainer {
   private final SequentialCommandGroup m_ScoreConeTopBalance = new ScoreConeTopBalance(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
   private final SequentialCommandGroup m_ScoreConeTopGoOverChargerBalance = new ScoreConeTopGoOverChargerBalance(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
   private final SequentialCommandGroup m_ScoreConeTopGrabHorzConeScore = new ScoreConeTopGrabHorzConeScore(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
-  private final SequentialCommandGroup m_ScoreConeTopGrabCubeBalance = new ScoreConeTopGrabCubeBalance(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
+  private final SequentialCommandGroup m_ScoreConeTopGrabCubeBalance = new BingoBongo(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
+  private final SequentialCommandGroup m_BingoBongo = new BingoBongo(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
   
   private final SequentialCommandGroup m_ppTest = new ppTest(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
 
@@ -183,6 +184,7 @@ public class RobotContainer {
     m_chooser.addOption("ScoreConeTop, GoOverCharger, Balance", m_ScoreConeTopGoOverChargerBalance);
     m_chooser.addOption("ScoreConeTop, GoGrab HorzCone, ScoreConeTop", m_ScoreConeTopGrabHorzConeScore);
     m_chooser.addOption("ScoreConeTop, GoGrab Cube, Balance", m_ScoreConeTopGrabCubeBalance);
+    m_chooser.addOption("BingoBongo", m_BingoBongo);
     m_chooser.addOption("PathPlanner Test", m_ppTest);
 
 

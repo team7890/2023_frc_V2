@@ -113,6 +113,7 @@ public class Arm_subsystem extends SubsystemBase {
     dDeriv = dCurrentAngle - dAngle_old;
     if (Math.abs(dDifference) > 2.0) {
       dCommand = dDifference * Constants.Arm.kP - dDeriv * Constants.Arm.kD;
+      dCommand = dCommand + Math.signum(dCommand) * 0.4;
     }
     else {
       dCommand = dDifference * Constants.Arm.kP;
