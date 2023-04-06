@@ -4,7 +4,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 
 public class CTREModuleState {
-
   /**
    * Minimize the change in heading the desired swerve module state would require by potentially
    * reversing the direction the wheel spins. Customized from WPILib's version to include placing
@@ -20,7 +19,7 @@ public class CTREModuleState {
     if (Math.abs(delta) > 90){
         targetSpeed = -targetSpeed;
         targetAngle = delta > 90 ? (targetAngle -= 180) : (targetAngle += 180);
-    }        
+    }
     return new SwerveModuleState(targetSpeed, Rotation2d.fromDegrees(targetAngle));
   }
 
@@ -53,4 +52,5 @@ public class CTREModuleState {
       }
       return newAngle;
   }
+
 }

@@ -45,8 +45,9 @@ public class SignalLights_subsystem extends SubsystemBase {
       objLEDBufferGreen.setRGB(i, 0, 130, 0);
       objLEDBufferOff.setRGB(i, 0, 0, 0);
     }
-    objLED.setData(objLEDBufferOff);
-    objLED.start();
+    // objLED.setData(objLEDBufferOff);
+    // objLED.start();
+    makeNateHappy();
     iStartPosition = 0;
   }
 
@@ -54,6 +55,7 @@ public class SignalLights_subsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     // SmartDashboard.putString("LED Color", sColor);
+    // makeNateHappy();
   }
 
   public void chaseLights(double dSpeed) {
@@ -114,8 +116,13 @@ public class SignalLights_subsystem extends SubsystemBase {
             objLED.setData(objLEDBufferOff);
             objLED.start();
             break;
-      }
+        }
       }
     );
+  }
+
+  public void makeNateHappy() {
+    objLED.setData(objLEDBufferGreen);
+    objLED.start();
   }
 }

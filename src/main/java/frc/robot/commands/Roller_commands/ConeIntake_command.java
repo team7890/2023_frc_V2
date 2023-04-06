@@ -39,22 +39,22 @@ public class ConeIntake_command extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (Timer.getFPGATimestamp() - dStartTime > 0.35) {
-      bInrushCurrentPeriodDone = true;
-    }
-    else {
-      dMaxCurrent = 0.0;
-    }
-    if (bInrushCurrentPeriodDone && objRollerHand.getMotor1Current() > 15.0) {
-      bCurrentLimitTripped = true;
-    }
-    if (bCurrentLimitTripped) {
-      objRollerHand.stopMotors();
-    }
-    else {
+    // if (Timer.getFPGATimestamp() - dStartTime > 0.35) {
+    //   bInrushCurrentPeriodDone = true;
+    // }
+    // else {
+    //   dMaxCurrent = 0.0;
+    // }
+    // if (bInrushCurrentPeriodDone && objRollerHand.getMotor1Current() > 15.0) {
+    //   bCurrentLimitTripped = true;
+    // }
+    // if (bCurrentLimitTripped) {
+    //   objRollerHand.stopMotors();
+    // }
+    // else {
       objRollerHand.intakeCone();
-    }
-    dMaxCurrent = Math.max(dMaxCurrent, objRollerHand.getMotor1Current());
+    // }
+    // dMaxCurrent = Math.max(dMaxCurrent, objRollerHand.getMotor1Current());
     // SmartDashboard.putNumber("Max Roller Current", dMaxCurrent);
   }
 

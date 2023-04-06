@@ -114,6 +114,7 @@ public class SwerveModule {
         }
     }
     // https://www.chiefdelphi.com/t/5013-the-trobots-2023-charged-up-open-alliance-build-thread/419112/37
+
     public double makePositiveDegrees(double anAngle) {
         double degrees = anAngle;
         degrees = degrees % 360;
@@ -121,7 +122,6 @@ public class SwerveModule {
             degrees = degrees + 360;
         }
         return degrees;
-
     }
 
     public double makePositiveDegrees(Rotation2d anAngle){

@@ -8,6 +8,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
+import java.net.PortUnreachableException;
+
 import com.ctre.phoenix.sensors.Pigeon2;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -27,6 +29,9 @@ public class Swerve_subsystem extends SubsystemBase {
     public SwerveDriveOdometry swerveOdometry;
     public SwerveModule[] mSwerveMods;
     public Pigeon2 gyro;
+
+    // debug
+    public SwerveModuleState sModState;
 
     public Swerve_subsystem() {
         gyro = new Pigeon2(Constants.Swerve.pigeonID, "rio");       // Added "rio" network (bc it's wired on rio/pdh network)
@@ -68,6 +73,13 @@ public class Swerve_subsystem extends SubsystemBase {
 
         for(SwerveModule mod : mSwerveMods){
             mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
+            // // debug swerve angle change
+            // if (mod.moduleNumber == 1) {
+            //     sModState = swerveModuleStates[mod.moduleNumber];
+            //     double dRot = sModState.angle.getDegrees();
+            //     SmartDashboard.putNumber("Mod 1 State Rot", dRot);
+            // }
+            // // end debug
         }
     }    
 
@@ -153,11 +165,20 @@ public class Swerve_subsystem extends SubsystemBase {
     public void periodic(){
         swerveOdometry.update(getYaw(), getModulePositions()); 
         // for(SwerveModule mod : mSwerveMods){
-        //     SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
-        //     SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated", mod.getDistanceMeters());
-        //     SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond); 
+        //     // debug swerve angle change
+        //     if (mod.moduleNumber == 1) {
+        //         Rotation2d r2d = mod.getState().angle;
+        //         SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Angle", r2d.getDegrees());
+        //     }
+        //     // end debug
+
+        //     // SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
+        //     // SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated", mod.getDistanceMeters());
+        //     // SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond); 
         // }
         // SmartDashboard.putNumber("Roll: ", getRoll());
         // SmartDashboard.putNumber("Yaw", getYawDouble());
+
+        // SmartDashboard.putNumber("mod1 angle", mod1.getAngle())
     }
 }
