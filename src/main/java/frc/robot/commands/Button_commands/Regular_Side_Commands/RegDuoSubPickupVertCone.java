@@ -2,14 +2,14 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Button_commands.Regular_Side_Commands.Double_Sub;
+package frc.robot.commands.Button_commands.Regular_Side_Commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arm_subsystem;
 import frc.robot.subsystems.Forearm_subsystem;
 import frc.robot.subsystems.Wrist_subsystem;
 
-public class RegDuoSubPickupCube extends CommandBase {
+public class RegDuoSubPickupVertCone extends CommandBase {
 
   private final Wrist_subsystem objWrist;
   private final Forearm_subsystem objForearm;
@@ -28,12 +28,12 @@ public class RegDuoSubPickupCube extends CommandBase {
 
 
   // Final Target Positions
-  double dArmTarget = 2.8;
-  double dForearmTarget = -75.8;
-  double dWristTarget = 17.5;
+  double dArmTarget = -7.7;
+  double dForearmTarget = -31.9;
+  double dWristTarget = -86.4;
 
   /** Creates a new ScoreCubeTop. */
-  public RegDuoSubPickupCube(Arm_subsystem objArm_in, Forearm_subsystem objForearm_in, Wrist_subsystem objWrist_in) {
+  public RegDuoSubPickupVertCone(Arm_subsystem objArm_in, Forearm_subsystem objForearm_in, Wrist_subsystem objWrist_in) {
     objArm = objArm_in;
     objForearm = objForearm_in;
     objWrist = objWrist_in;

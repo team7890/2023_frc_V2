@@ -55,7 +55,7 @@ public class ConeIntake_ForSingleSub_command extends CommandBase {
       objRollerHand.intakeCone_SingleSubstation();
     }
     dMaxCurrent = Math.max(dMaxCurrent, objRollerHand.getMotor1Current());
-    SmartDashboard.putNumber("Max Roller Current", dMaxCurrent);
+    // SmartDashboard.putNumber("Max Roller Current", dMaxCurrent);
   }
 
   // Called once the command ends or is interrupted.

@@ -35,11 +35,11 @@ public class ScoreConeTopBalance extends SequentialCommandGroup {
     addCommands(
       new HiSideScoreConeTop(objArm, objForearm, objWrist).withTimeout(5.3),
       new ConeOuttake_command(objRollerHand).withTimeout(1.0),
-      new RegStowArm(objArm, objForearm, objWrist).withTimeout(1.0),
+      new RegScoreConeLow(objArm, objForearm, objWrist).withTimeout(1.0),
       new ParallelCommandGroup(
         new Swerve_balance(objSwerve, 0.28, 0.0, 0.0, false),
         new SequentialCommandGroup(
-          new RegStowArm(objArm, objForearm, objWrist).withTimeout(8.0)
+          new RegScoreConeLow(objArm, objForearm, objWrist).withTimeout(8.0)
         )
       ).withTimeout(9.6)
       // new Swerve_balance(objSwerve, 0.0, 0.0, 0.0, false).withTimeout(0.1),

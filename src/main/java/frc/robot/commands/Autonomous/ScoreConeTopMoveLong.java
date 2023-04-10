@@ -37,10 +37,10 @@ public class ScoreConeTopMoveLong extends SequentialCommandGroup {
       new ConeOuttake_command(objRollerHand).withTimeout(0.5),
       new ParallelCommandGroup(
         new Swerve_auto(objSwerve, 0.2, 0.0, 0.0, false),
-        new RegStowArm(objArm, objForearm, objWrist)
+        new RegScoreConeLow(objArm, objForearm, objWrist)
       ).withTimeout(6.0),
       new Swerve_auto(objSwerve, 0.0, 0.0, 0.0, false).withTimeout(0.1),
-      new RegStowArm(objArm, objForearm, objWrist).withTimeout(1.5)
+      new RegScoreConeLow(objArm, objForearm, objWrist).withTimeout(1.5)
     );
   }
 }

@@ -15,12 +15,13 @@ import frc.robot.subsystems.Swerve_subsystem;
 import frc.robot.subsystems.RollerHand_subsystem;
 import frc.robot.commands.Button_commands.Regular_Side_Commands.*;
 import frc.robot.commands.Button_commands.High_Side_Commands.*;
+import frc.robot.commands.General_Movement_Commands.Swerve_AutoTurnToZeroDegrees;
 import frc.robot.commands.General_Movement_Commands.Swerve_auto;
 import frc.robot.commands.Roller_commands.ConeIntake_command;
 // import frc.robot.commands.Roller_commands.ConeIntake_command;
 import frc.robot.commands.Roller_commands.ConeOuttake_command;
 import frc.robot.commands.Roller_commands.CubeIntake_command;
-import frc.robot.commands.General_Movement_Commands.Swerve_balance;
+import frc.robot.commands.General_Movement_Commands.Swerve_BingoBongo_Balance;
 
 
 
@@ -47,28 +48,31 @@ public class BingoBongo extends SequentialCommandGroup {
         new Swerve_auto(objSwerve, 0.4, 0.0, 0.0, false).withTimeout(3.25),
         new RegFloorPickupHorzCone(objArm, objForearm, objWrist).withTimeout(3.25),
         new ConeIntake_command(objRollerHand).withTimeout(3.25)
-      ).withTimeout(2.95),
+      ).withTimeout(3.0),
       new ParallelCommandGroup(
         new Swerve_auto(objSwerve, 0.15, 0.0, 0.0, false).withTimeout(3.0),
         new RegFloorPickupHorzCone(objArm, objForearm, objWrist).withTimeout(3.0),
         new ConeIntake_command(objRollerHand).withTimeout(3.0)
-      ).withTimeout(1.2)//,
-      // new ParallelCommandGroup(
-      //   new Swerve_auto(objSwerve, -0.4, 0.0, 0.0, false).withTimeout(1.6),
-      //   new RegFloorPickupHorzCone(objArm, objForearm, objWrist).withTimeout(1.6),
-      //   new CubeIntake_command(objRollerHand).withTimeout(1.6)
-      // ).withTimeout(0.5)//,cool
-      // new ParallelCommandGroup(
-      //   new Swerve_auto(objSwerve, 0.2, 0.0, 0.0, false).withTimeout(0.2),
-      //   new RegFloorPickupCube(objArm, objForearm, objWrist).withTimeout(0.2),
-      //   new CubeIntake_command(objRollerHand).withTimeout(0.2)
-      // ).withTimeout(0.2),
-      // //below is correct end
-      // new ParallelCommandGroup(
-      //   new Swerve_balance(objSwerve, -0.45, 0.0, 0.0, false),
-      //   new RegStowArm(objArm, objForearm, objWrist).withTimeout(8.0),
-      //   new CubeIntake_command(objRollerHand).withTimeout(2.0)
-      // ).withTimeout(9.6)
+      ).withTimeout(1.2),   // To here works and gets cone
+      new ParallelCommandGroup(
+        new Swerve_auto(objSwerve, -0.4, 0.0, 0.0, false).withTimeout(3.0),
+        new RegScoreConeLow(objArm, objForearm, objWrist).withTimeout(3.0),
+        new ConeIntake_command(objRollerHand).withTimeout(0.25)
+      ).withTimeout(2.9),
+      new ParallelCommandGroup(
+        new Swerve_AutoTurnToZeroDegrees(objSwerve).withTimeout(3.0),
+        new RegStowArm(objArm, objForearm, objWrist).withTimeout(3.0),
+        new ConeIntake_command(objRollerHand).withTimeout(0.2)
+      ).withTimeout(1.0),
+      new ParallelCommandGroup(
+        new Swerve_auto(objSwerve, -0.6, 0.0, 0.0, false).withTimeout(3.0),
+        new RegStowArm(objArm, objForearm, objWrist).withTimeout(3.0),
+        new ConeOuttake_command(objRollerHand).withTimeout(0.25)
+      ).withTimeout(0.25), //below is correct end
+      new ParallelCommandGroup(
+        new Swerve_BingoBongo_Balance(objSwerve, 0.3, 0.0, 0.0, false),
+        new RegStowArm(objArm, objForearm, objWrist).withTimeout(8.0)
+      ).withTimeout(9.6)
     );
   }
 }
