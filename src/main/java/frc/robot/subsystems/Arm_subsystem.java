@@ -25,6 +25,9 @@ public class Arm_subsystem extends SubsystemBase {
   private double dSpeed1;
   private double dSpeed2;
   private boolean bSoftStopActive;
+  private double dCommandSpeed;
+  private double dHoldAngle;
+  private boolean bHoldMode;
 
   /** Creates a new Arm_subsystem. */
   public Arm_subsystem() {
@@ -39,16 +42,44 @@ public class Arm_subsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     getArmAngle();
-    if(bSoftStopActive) {
-      softStop();
-      if(Math.abs(objArmMotor1.get()) < 0.03) setSoftStop(false);
+    // if(bSoftStopActive) {
+    //   softStop();
+    //   if(Math.abs(objArmMotor1.get()) < 0.03) setSoftStop(false);
+    // }
+
+    // --- hold mode stuff starts ---
+    if (bHoldMode) {
+      dCommandSpeed = stopAndHold(bSoftStopActive, dHoldAngle, dCommandSpeed);
     }
-  }
+    if (Math.abs(dCommandSpeed) < 0.06 && bSoftStopActive) {
+      dHoldAngle = getArmAngle();
+      bSoftStopActive = false;
+      bHoldMode = true;
+    }
+    // --- hold mode stuff ends ---
+} 
 
   public void setSoftStop(boolean input) { bSoftStopActive = input; }
 
+  // --- hold mode stuff starts ---
+  public void setHoldAngle(double dAngle_in) {
+    dHoldAngle = dAngle_in;
+  }
+
+  public void setHoldMode(double dTargetAngle_in) {
+    bSoftStopActive = false;
+    bHoldMode = true;
+    dHoldAngle = dTargetAngle_in;
+  }
+
+  public void clearHoldMode() {
+    bHoldMode = false;
+  }
+  // --- hold mode stuff ends ---
+
+
   public double moveArm(double dSpeed, double dSpeed_old) {
-    double dSpeedLimit = Constants.Arm.dArmSpeedControlMax;
+    double dSpeedLimit = Constants.Arm.dSpeedControlMax;
     double dCurrentAngle = getArmAngle();
 
     if (Math.abs(dSpeed) > Math.abs(dSpeed_old)) {      //Checking that speed is increasing
@@ -91,6 +122,26 @@ public class Arm_subsystem extends SubsystemBase {
     return Math.abs(dSpeed1);
   }
 
+  // --- hold mode stuff starts ---
+  public double stopAndHold(boolean bHold, double dTargetAngle, double dCommand_old) {
+    double dSpeedLimit = Constants.Arm.dSpeedControlMax;
+    double dCurrentAngle = getArmAngle();
+    double dDifference = dTargetAngle - dCurrentAngle;
+    double dCommand;
+
+    if (bHold) {
+      dCommand = dDifference * (Constants.Arm.kP * 0.6);
+      dCommand = Utilities.limitVariable(-dSpeedLimit, dCommand, dSpeedLimit);
+      moveArm(dCommand, dCommand_old);
+    }
+    else {
+      dCommand = softStop();
+    }
+
+    return dCommand;
+  }
+  // --- hold mode stuff ends ---
+
   public double getArmAngle() {
     double dArmAngle;
     dArmAngle = Utilities.correctAngle2(objAbsEncoder.get(), Constants.Arm.dOffset, 1.0, false);
@@ -102,7 +153,7 @@ public class Arm_subsystem extends SubsystemBase {
   }
 
   public double moveArmToAngle(double dTargetAngle, double dAngle_old, double dCommand_old, double dSpeedMult) {
-    double dSpeedLimit = Constants.Arm.dArmSpeedControlMax;
+    double dSpeedLimit = Constants.Arm.dSpeedControlMax;
     double dCurrentAngle = getArmAngle();
     double dDifference = dTargetAngle - dCurrentAngle; 
     double dDeriv;
