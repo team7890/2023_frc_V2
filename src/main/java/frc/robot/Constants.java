@@ -53,7 +53,7 @@ public final class Constants {
     public static final double dTolerance = 3.0;                      
     // motion config
     public static final double dArmSpeedManual = 0.4;
-    public static final double dArmSpeedControlMax = 0.8;
+    public static final double dSpeedControlMax = 0.8;
     public static final double kP = 0.5;
     public static final double kD = 0.5;
     public static final double dSpeedUpLimit = 0.005;
