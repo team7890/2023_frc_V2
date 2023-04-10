@@ -12,7 +12,7 @@ import frc.robot.subsystems.Swerve_subsystem;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Swerve_balance extends CommandBase {
+public class Swerve_BingoBongo_Balance extends CommandBase {
   private Swerve_subsystem s_Swerve;
   private double dTrans;
   // private double dTrans_remember;
@@ -24,7 +24,7 @@ public class Swerve_balance extends CommandBase {
   private double dYaw;
 
   /** Creates a new AutoSwerve. */
-  public Swerve_balance(Swerve_subsystem s_Swerve_in, double dTrans_in, double dStrafe_in, double dRotate_in, boolean bRobotCentric_in) {
+  public Swerve_BingoBongo_Balance(Swerve_subsystem s_Swerve_in, double dTrans_in, double dStrafe_in, double dRotate_in, boolean bRobotCentric_in) {
     s_Swerve = s_Swerve_in;
     dTrans = dTrans_in;
     // dTrans_remember = dTrans_in;
@@ -45,12 +45,13 @@ public class Swerve_balance extends CommandBase {
     bOnRamp = false;
     dKp = 0.4 / 24.0; // @max roll is 24, and max speed we want to go is 0.4
     dYaw = s_Swerve.getYawDouble();
+    System.out.println("Swere Balance: "  );
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(Math.abs(s_Swerve.getRoll()) > 18.0) {
+    if(Math.abs(s_Swerve.getRoll()) < -10.0) {
       bOnRamp = true;
       // dTrans = dTrans_remember * 0.8;
     }
@@ -62,7 +63,7 @@ public class Swerve_balance extends CommandBase {
     // }
     if(bOnRamp) {
       dTrans = s_Swerve.getRoll() * dKp * 0.6; // when possible, change to .6
-      if(Math.abs(dTrans) < 0.03) dTrans = 0.0;
+      if(Math.abs(dTrans) < -0.03) dTrans = 0.0;
     }
     
     if(Math.abs(s_Swerve.getYawDouble() - dYaw) > 15.0) dTrans = 0.0;
@@ -75,6 +76,11 @@ public class Swerve_balance extends CommandBase {
         true
     );
     // System.out.println("Swerve_balance");
+    System.out.println("Swere Balance: Trans: " + dTrans);
+    System.out.println("Swere Balance: GetYaw: " + Math.abs(s_Swerve.getYawDouble() - dYaw));
+    System.out.println("Swere Balance: GetRoll: " + s_Swerve.getRoll());
+    System.out.println("Swere Balance: OnRamp: " + bOnRamp);
+
   }
 
   // Called once the command ends or is interrupted.
