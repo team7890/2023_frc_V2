@@ -47,7 +47,8 @@ public final class Constants {
     public static final int iCurrentLimit = 40;
     public static final int iDIOPort = 0;
     // angle config
-    public static final double dOffset = 34.0;                         //Sets 0.0 to Straight up
+    // public static final double dOffset = 34.0; ugly arm offset          //Sets 0.0 to Straight up
+    public static final double dOffset = -86.1;
     public static final double dMaxAngleLimit = 40.0;
     public static final double dMinAngleLimit = -40.0;
     public static final double dTolerance = 3.0;                      
@@ -65,7 +66,8 @@ public final class Constants {
     public static final int iCurrentLimit = 40;
     public static final int iDIOPort = 1;
     // angle config
-    public static final double dOffset = 148.5;                         //Sets 0.0 to Straight up
+    // public static final double dOffset = 148.5;  ugly arm offset               //Sets 0.0 to Straight up
+    public static final double dOffset = 96.2;
     public static final double dMaxAngleLimit = 160.0;
     public static final double dMinAngleLimit = -158.0;
     public static final double dTolerance = 3.0;
@@ -83,7 +85,8 @@ public final class Constants {
     public static final int iCurrentLimit = 40;
     public static final int iDIOPort = 2;
     // angle config
-    public static final double dOffset = 122.25;
+    // public static final double dOffset = 122.25; ugly arm offset
+    public static final double dOffset = -103.6;
     public static final double dMaxAngleLimit = 150.0;
     public static final double dMinAngleLimit = -150.0;
     public static final double dTolerance = 3.0;

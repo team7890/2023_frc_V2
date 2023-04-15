@@ -23,7 +23,7 @@ public class SignalLights_subsystem extends SubsystemBase {
   private AddressableLEDBuffer objLEDBufferOff;
   private AddressableLEDBuffer objLEDBufferChase;
   private String sColor = "OFF";
-  private int iLength = 80;
+  private int iLength = 64;
   private int iStartPosition;   // varying start position for chasing lights
   private double dStartPosition;
   private int iLightPosition;   // position in the string to set light in loop with start position accounted for
@@ -62,7 +62,7 @@ public class SignalLights_subsystem extends SubsystemBase {
     for (var iLoop = 0; iLoop < iLength / 2; iLoop++) {
       final var iGreen = 130; // * iLoop / 10;
       iLightPosition = iStartPosition + iLoop;
-      if (iLightPosition > 49) iLightPosition = iLightPosition - 50;
+      if (iLightPosition > 32) iLightPosition = iLightPosition - 32;
       if (iLoop < 10) {
         objLEDBufferChase.setRGB(iLightPosition, 0, iGreen, 0);
         objLEDBufferChase.setRGB(78 - iLightPosition, 0, iGreen, 0);
@@ -82,8 +82,8 @@ public class SignalLights_subsystem extends SubsystemBase {
     // iStartPosition = iStartPosition + 1;
     // if (iStartPosition > 49) iStartPosition = 0;
     // if (iStartPosition < 0) iStartPosition = 49;
-    if (dStartPosition > 49.4) dStartPosition = 0.0;
-    if (dStartPosition < -0.4) dStartPosition = 49.0;
+    if (dStartPosition > 31.4) dStartPosition = 0.0;
+    if (dStartPosition < -0.4) dStartPosition = 31.0;
     iStartPosition = (int)dStartPosition;
   }
 
