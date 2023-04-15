@@ -42,7 +42,7 @@ public class BingoBongo extends SequentialCommandGroup {
         new Swerve_auto(objSwerve, -0.3, 0.0, 0.0, false).withTimeout(0.1),
         new HiSideScoreConeTop(objArm, objForearm, objWrist).withTimeout(4.0)
       ).withTimeout(4.0),
-      new ConeOuttake_command(objRollerHand).withTimeout(0.5),
+      new ConeOuttake_command(objRollerHand).withTimeout(0.3),
       new RegFloorPickupHorzCone(objArm, objForearm, objWrist).withTimeout(0.5),
       new ParallelCommandGroup(
         new Swerve_auto(objSwerve, 0.4, 0.0, 0.0, false).withTimeout(3.25),
@@ -70,7 +70,7 @@ public class BingoBongo extends SequentialCommandGroup {
         new ConeOuttake_command(objRollerHand).withTimeout(0.25)
       ).withTimeout(0.25), //below is correct end
       new ParallelCommandGroup(
-        new Swerve_BingoBongo_Balance(objSwerve, 0.3, 0.0, 0.0, false),
+        new Swerve_BingoBongo_Balance(objSwerve, 0.5, 0.0, 0.0, false),
         new RegStowArm(objArm, objForearm, objWrist).withTimeout(8.0)
       ).withTimeout(9.6)
     );

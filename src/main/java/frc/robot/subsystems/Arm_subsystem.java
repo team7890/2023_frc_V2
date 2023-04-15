@@ -42,21 +42,23 @@ public class Arm_subsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     getArmAngle();
-    // if(bSoftStopActive) {
-    //   softStop();
-    //   if(Math.abs(objArmMotor1.get()) < 0.03) setSoftStop(false);
-    // }
+    // Start Current Arm Stuff Hedgehogds
+    if(bSoftStopActive) {
+      softStop();
+      if(Math.abs(objArmMotor1.get()) < 0.03) setSoftStop(false);
+    }
+    // End Current Arm Stuff Hedgehogds
 
-    // --- hold mode stuff starts ---
-    if (bHoldMode) {
-      dCommandSpeed = stopAndHold(bSoftStopActive, dHoldAngle, dCommandSpeed);
-    }
-    if (Math.abs(dCommandSpeed) < 0.06 && bSoftStopActive) {
-      dHoldAngle = getArmAngle();
-      bSoftStopActive = false;
-      bHoldMode = true;
-    }
-    // --- hold mode stuff ends ---
+    // // --- hold mode stuff starts ---
+    // if (bHoldMode) {
+    //   dCommandSpeed = stopAndHold(bSoftStopActive, dHoldAngle, dCommandSpeed);
+    // }
+    // if (Math.abs(dCommandSpeed) < 0.06 && bSoftStopActive) {
+    //   dHoldAngle = getArmAngle();
+    //   bSoftStopActive = false;
+    //   bHoldMode = true;
+    // }
+    // // --- hold mode stuff ends ---
 } 
 
   public void setSoftStop(boolean input) { bSoftStopActive = input; }

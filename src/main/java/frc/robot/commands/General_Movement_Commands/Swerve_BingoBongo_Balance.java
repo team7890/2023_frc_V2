@@ -51,7 +51,7 @@ public class Swerve_BingoBongo_Balance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(Math.abs(s_Swerve.getRoll()) < -10.0) {
+    if(Math.abs(s_Swerve.getRoll()) > 16.0) {
       bOnRamp = true;
       // dTrans = dTrans_remember * 0.8;
     }
@@ -62,11 +62,11 @@ public class Swerve_BingoBongo_Balance extends CommandBase {
     //   dTrans = dTrans_remember * 0.5;
     // }
     if(bOnRamp) {
-      dTrans = s_Swerve.getRoll() * dKp * 0.6; // when possible, change to .6
-      if(Math.abs(dTrans) < -0.03) dTrans = 0.0;
+      dTrans = -s_Swerve.getRoll() * dKp; // when possible, change to .6
+      if(Math.abs(dTrans) < 0.03) dTrans = 0.0;
     }
     
-    if(Math.abs(s_Swerve.getYawDouble() - dYaw) > 15.0) dTrans = 0.0;
+    // if(Math.abs(s_Swerve.getYawDouble() - dYaw) > 15.0) dTrans = 0.0;
     
     /* Drive */
     s_Swerve.drive(
@@ -80,7 +80,7 @@ public class Swerve_BingoBongo_Balance extends CommandBase {
     System.out.println("Swere Balance: GetYaw: " + Math.abs(s_Swerve.getYawDouble() - dYaw));
     System.out.println("Swere Balance: GetRoll: " + s_Swerve.getRoll());
     System.out.println("Swere Balance: OnRamp: " + bOnRamp);
-
+    // SmartDashboard.putNumber("SBBRoll", s_Swerve.getRoll());
   }
 
   // Called once the command ends or is interrupted.

@@ -28,8 +28,9 @@ public class RegDuoSubPickupVertCone extends CommandBase {
 
 
   // Final Target Positions
-  double dArmTarget = -7.7;
-  double dForearmTarget = -31.9;
+  double dArmTarget = -6.7;
+  // double dForearmTarget = -31.9;
+  double dForearmTarget = -34.0;
   double dWristTarget = -86.4;
 
   /** Creates a new ScoreCubeTop. */
