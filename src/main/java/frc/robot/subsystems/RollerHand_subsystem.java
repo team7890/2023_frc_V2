@@ -64,6 +64,12 @@ public class RollerHand_subsystem extends SubsystemBase {
     objMotor2.set(-dSpeed);
   }
 
+  public void holdCube() {
+    double dSpeed = 0.03;
+    objMotor1.set(-dSpeed);
+    objMotor2.set(-dSpeed);
+  }
+
   public void outtakeCube(boolean bDirection) {
     // bDirection is true for out the top and false for out the bottom (go out same way it came in when intaking)
     double dSpeed = 0.5;

@@ -28,6 +28,8 @@ public final class CTREConfigs {
         swerveAngleFXConfig.slot0.kI = Constants.Swerve.angleKI;
         swerveAngleFXConfig.slot0.kD = Constants.Swerve.angleKD;
         swerveAngleFXConfig.slot0.kF = Constants.Swerve.angleKF;
+        // --- from Vector !!!
+        // swerveAngleFXConfig.absoluteSensorRange = AbsoluteSensorRange.Unsigned_0_to_360; 
         swerveAngleFXConfig.supplyCurrLimit = angleSupplyLimit;
 
         /* Swerve Drive Motor Configuration */

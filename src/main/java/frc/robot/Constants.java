@@ -57,7 +57,7 @@ public final class Constants {
     public static final double dSpeedControlMax = 0.8;
     public static final double kP = 0.5;
     public static final double kD = 0.5;
-    public static final double dSpeedUpLimit = 0.005;
+    public static final double dSpeedUpLimit = 0.01;
     public static final double dSoftStopLimit = 0.035;
   }
 
@@ -76,7 +76,7 @@ public final class Constants {
     public static final double dSpeedControlMax = 0.8;
     public static final double kP = 0.008;
     public static final double kD = 0.008;
-    public static final double dSpeedUpLimit = 0.02;
+    public static final double dSpeedUpLimit = 0.04;
     public static final double dSoftStopLimit = 0.1;
   }
 

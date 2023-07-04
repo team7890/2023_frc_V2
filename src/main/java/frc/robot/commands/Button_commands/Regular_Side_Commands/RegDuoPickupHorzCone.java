@@ -28,9 +28,9 @@ public class RegDuoPickupHorzCone extends CommandBase {
 
 
   // Final Target Positions
-  double dArmTarget = 3.7;
-  double dForearmTarget = -84.7;
-  double dWristTarget = 1.7;
+  double dArmTarget = 23.0;
+  double dForearmTarget = -100.3;
+  double dWristTarget = -11.0;
 
   /** Creates a new ScoreCubeTop. */
   public RegDuoPickupHorzCone(Arm_subsystem objArm_in, Forearm_subsystem objForearm_in, Wrist_subsystem objWrist_in) {
