@@ -44,7 +44,7 @@ import frc.robot.commands.Autonomous.ScoreConeTopBalance;
 import frc.robot.commands.Autonomous.ScoreConeTopGoOverChargerBalance;
 import frc.robot.commands.Autonomous.ScoreConeTopGrabCubeBalance;
 import frc.robot.commands.Autonomous.BingoBongo;
-import frc.robot.commands.Autonomous.ScoreConeTopGrabHorzConeScore;
+import frc.robot.commands.Autonomous.ScoreConeTopGrabHorzBalance;
 
 import frc.robot.commands.Button_commands.High_Side_Commands.HiSideFloorPickupHorzCone;
 import frc.robot.commands.Button_commands.High_Side_Commands.HiSideFloorPickupVertCone;
@@ -63,6 +63,7 @@ import frc.robot.commands.Button_commands.Regular_Side_Commands.RegSingleSubCube
 import frc.robot.commands.Button_commands.Regular_Side_Commands.RegStowArm;
 import frc.robot.commands.Button_commands.Regular_Side_Commands.RegScoreConeLow;
 import frc.robot.commands.Button_commands.Regular_Side_Commands.RegDuoSubPickupVertCone;
+import frc.robot.commands.Button_commands.Regular_Side_Commands.RegDuoPickupHorzCone;
 import frc.robot.commands.Button_commands.Regular_Side_Commands.RegDuoSubPickupCube;
 import frc.robot.commands.General_Movement_Commands.Arm_command;
 import frc.robot.commands.General_Movement_Commands.Forearm_command;
@@ -139,7 +140,7 @@ public class RobotContainer {
   private final SequentialCommandGroup m_ScoreConeTopMoveLong = new ScoreConeTopMoveLong(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
   private final SequentialCommandGroup m_ScoreConeTopBalance = new ScoreConeTopBalance(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
   private final SequentialCommandGroup m_ScoreConeTopGoOverChargerBalance = new ScoreConeTopGoOverChargerBalance(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
-  private final SequentialCommandGroup m_ScoreConeTopGrabHorzConeScore = new ScoreConeTopGrabHorzConeScore(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
+  private final SequentialCommandGroup m_ScoreConeTopGrabHorzConeScore = new ScoreConeTopGrabHorzBalance(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
   private final SequentialCommandGroup m_ScoreConeTopGrabCubeBalance = new ScoreConeTopGrabCubeBalance(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
   private final SequentialCommandGroup m_BingoBongo = new BingoBongo(objArm_subsystem, objForearm_subsystem, objWrist_subsystem, objRollerHand, objSwerve_subsystem);
   
@@ -172,11 +173,11 @@ public class RobotContainer {
       )
     );
 
-    // objSignalLights_subsystem.setDefaultCommand(
-    //   new MakeLightsGo(objSignalLights_subsystem, 
-    //   () -> m_DriverController.getLeftY()
-    //   )
-    // );
+    objSignalLights_subsystem.setDefaultCommand(
+      new MakeLightsGo(objSignalLights_subsystem, 
+      () -> m_DriverController.getLeftY()
+      )
+    );
     
     // Configure the trigger bindings
     configureBindings();
@@ -257,7 +258,7 @@ public class RobotContainer {
     // V2 Button Box Buttons
     V2ButtonOne.whileTrue(new HiSideFloorPickupHorzCone(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
     // V2ButtonTwo.whileTrue(new HiSideFloorPickupCub(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
-    V2ButtonThree.whileTrue(new RegDuoSubPickupVertCone(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
+    V2ButtonThree.whileTrue(new RegDuoPickupHorzCone(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
     V2ButtonFour.whileTrue(new RegDuoSubPickupCube(objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
     // V2ButtonFive.whileTrue(new (objArm_subsystem, objForearm_subsystem, objWrist_subsystem));
     // V2ButtonSix.whileTrue(new (objArm_subsystem, objForearm_subsystem, objWrist_subsystem));

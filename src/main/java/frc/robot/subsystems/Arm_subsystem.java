@@ -42,43 +42,13 @@ public class Arm_subsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     getArmAngle();
-    // Start Current Arm Stuff Hedgehogds
     if(bSoftStopActive) {
       softStop();
       if(Math.abs(objArmMotor1.get()) < 0.03) setSoftStop(false);
     }
-    // End Current Arm Stuff Hedgehogds
-
-    // // --- hold mode stuff starts ---
-    // if (bHoldMode) {
-    //   dCommandSpeed = stopAndHold(bSoftStopActive, dHoldAngle, dCommandSpeed);
-    // }
-    // if (Math.abs(dCommandSpeed) < 0.06 && bSoftStopActive) {
-    //   dHoldAngle = getArmAngle();
-    //   bSoftStopActive = false;
-    //   bHoldMode = true;
-    // }
-    // // --- hold mode stuff ends ---
 } 
 
   public void setSoftStop(boolean input) { bSoftStopActive = input; }
-
-  // --- hold mode stuff starts ---
-  public void setHoldAngle(double dAngle_in) {
-    dHoldAngle = dAngle_in;
-  }
-
-  public void setHoldMode(double dTargetAngle_in) {
-    bSoftStopActive = false;
-    bHoldMode = true;
-    dHoldAngle = dTargetAngle_in;
-  }
-
-  public void clearHoldMode() {
-    bHoldMode = false;
-  }
-  // --- hold mode stuff ends ---
-
 
   public double moveArm(double dSpeed, double dSpeed_old) {
     double dSpeedLimit = Constants.Arm.dSpeedControlMax;
@@ -123,26 +93,6 @@ public class Arm_subsystem extends SubsystemBase {
     objArmMotor2.set(dSpeed2);
     return Math.abs(dSpeed1);
   }
-
-  // --- hold mode stuff starts ---
-  public double stopAndHold(boolean bHold, double dTargetAngle, double dCommand_old) {
-    double dSpeedLimit = Constants.Arm.dSpeedControlMax;
-    double dCurrentAngle = getArmAngle();
-    double dDifference = dTargetAngle - dCurrentAngle;
-    double dCommand;
-
-    if (bHold) {
-      dCommand = dDifference * (Constants.Arm.kP * 0.6);
-      dCommand = Utilities.limitVariable(-dSpeedLimit, dCommand, dSpeedLimit);
-      moveArm(dCommand, dCommand_old);
-    }
-    else {
-      dCommand = softStop();
-    }
-
-    return dCommand;
-  }
-  // --- hold mode stuff ends ---
 
   public double getArmAngle() {
     double dArmAngle;

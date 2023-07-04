@@ -67,7 +67,7 @@ public final class Constants {
     public static final int iDIOPort = 1;
     // angle config
     // public static final double dOffset = 148.5;  ugly arm offset               //Sets 0.0 to Straight up
-    public static final double dOffset = 96.2;
+    public static final double dOffset = 98.3;
     public static final double dMaxAngleLimit = 160.0;
     public static final double dMinAngleLimit = -158.0;
     public static final double dTolerance = 3.0;

@@ -62,7 +62,7 @@ public class Swerve_BingoBongo_Balance extends CommandBase {
     //   dTrans = dTrans_remember * 0.5;
     // }
     if(bOnRamp) {
-      dTrans = -s_Swerve.getRoll() * dKp; // when possible, change to .6
+      dTrans = -s_Swerve.getRoll() * dKp * 0.7; // when possible, change to .6
       if(Math.abs(dTrans) < 0.03) dTrans = 0.0;
     }
     
@@ -76,10 +76,10 @@ public class Swerve_BingoBongo_Balance extends CommandBase {
         true
     );
     // System.out.println("Swerve_balance");
-    System.out.println("Swere Balance: Trans: " + dTrans);
-    System.out.println("Swere Balance: GetYaw: " + Math.abs(s_Swerve.getYawDouble() - dYaw));
-    System.out.println("Swere Balance: GetRoll: " + s_Swerve.getRoll());
-    System.out.println("Swere Balance: OnRamp: " + bOnRamp);
+    // System.out.println("Swere Balance: Trans: " + dTrans);
+    // System.out.println("Swere Balance: GetYaw: " + Math.abs(s_Swerve.getYawDouble() - dYaw));
+    // System.out.println("Swere Balance: GetRoll: " + s_Swerve.getRoll());
+    // System.out.println("Swere Balance: OnRamp: " + bOnRamp);
     // SmartDashboard.putNumber("SBBRoll", s_Swerve.getRoll());
   }
 

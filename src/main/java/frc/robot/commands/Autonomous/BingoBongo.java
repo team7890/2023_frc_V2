@@ -22,6 +22,7 @@ import frc.robot.commands.Roller_commands.ConeIntake_command;
 import frc.robot.commands.Roller_commands.ConeOuttake_command;
 import frc.robot.commands.Roller_commands.CubeIntake_command;
 import frc.robot.commands.General_Movement_Commands.Swerve_BingoBongo_Balance;
+import frc.robot.commands.Button_commands.AutoOnly.BingoBongoScoreConeTop;
 
 
 
@@ -37,10 +38,10 @@ public class BingoBongo extends SequentialCommandGroup {
   public BingoBongo(Arm_subsystem objArm, Forearm_subsystem objForearm, Wrist_subsystem objWrist, RollerHand_subsystem objRollerHand, Swerve_subsystem objSwerve) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(
+    addCommands(                  //-0.3
       new ParallelCommandGroup(
         new Swerve_auto(objSwerve, -0.3, 0.0, 0.0, false).withTimeout(0.1),
-        new HiSideScoreConeTop(objArm, objForearm, objWrist).withTimeout(4.0)
+        new BingoBongoScoreConeTop(objArm, objForearm, objWrist).withTimeout(2.5) // changed 4/19 10pm
       ).withTimeout(4.0),
       new ConeOuttake_command(objRollerHand).withTimeout(0.3),
       new RegFloorPickupHorzCone(objArm, objForearm, objWrist).withTimeout(0.5),
@@ -70,7 +71,7 @@ public class BingoBongo extends SequentialCommandGroup {
         new ConeOuttake_command(objRollerHand).withTimeout(0.25)
       ).withTimeout(0.25), //below is correct end
       new ParallelCommandGroup(
-        new Swerve_BingoBongo_Balance(objSwerve, 0.5, 0.0, 0.0, false),
+        new Swerve_BingoBongo_Balance(objSwerve, 0.45, 0.0, 0.0, false),
         new RegStowArm(objArm, objForearm, objWrist).withTimeout(8.0)
       ).withTimeout(9.6)
     );
